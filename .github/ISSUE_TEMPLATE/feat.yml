@@ -24,4 +24,4 @@ body:
     attributes:
       label: 🗒️ 메모
       description: 리뷰어나 팀원에게 전달하고 싶은 추가 메모가 있다면 자유롭게 작성해 주세요.
-      placeholder: ex) 이 부분은 논의 후 확정이 필요합니다.
+      placeholder: ex) 이 부분은 논의 후 확정이 필요합니다...
