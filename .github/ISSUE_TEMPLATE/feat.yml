@@ -1,0 +1,29 @@
+name: ✨ feat
+description: 새로운 기능을 구현하거나 기존 기능을 확장합니다.
+title: "[✨ feat] "
+labels: ["✨ feat"]
+body:
+  - type: textarea
+    id: feat-description
+    attributes:
+      label: 📝 설명
+      description: 새로운 기능에 대한 설명을 자세히 작성해 주세요.
+      placeholder: ex) 로그인 실패 시 사용자에게 피드백을 주는 기능입니다.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: feat-details
+    attributes:
+      label: 🔧 작업 상세 내용
+      description: 해당 작업에 포함된 항목을 모두 체크해 주세요.
+      options:
+        - label: (예시) UI 요소 추가/수정
+        - label: (예시) API 수정 또는 추가
+
+  - type: textarea
+    id: memo
+    attributes:
+      label: 🗒️ 메모
+      description: 리뷰어나 팀원에게 전달하고 싶은 추가 메모가 있다면 자유롭게 작성해 주세요.
+      placeholder: ex) 이 부분은 논의 후 확정이 필요합니다.

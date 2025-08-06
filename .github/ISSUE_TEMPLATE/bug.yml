@@ -1,0 +1,32 @@
+name: 🐛 bug
+description: 버그를 제보할 때 사용하는 템플릿입니다.
+title: "[🐛 bug] "
+labels: ["🐛 bug"]
+body:
+  - type: textarea
+    id: bug-summary
+    attributes:
+      label: 🐞 어떤 버그인가요?
+      description: 어떤 버그인지 간결하게 설명해주세요.
+      placeholder: ex) 로그인 시 잘못된 비밀번호를 입력하면 무한 로딩됩니다.
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-context
+    attributes:
+      label: 📌 어떤 상황에서 발생한 버그인가요?
+      description: 가능한 경우, Given-When-Then 형식으로 작성해주세요.
+      placeholder: |
+        Given: 비로그인 상태에서
+        When: 특정 게시글에 접근하면
+        Then: 404 페이지가 아닌 빈 화면이 보입니다.
+    validations:
+      required: true
+
+  - type: textarea
+    id: memo
+    attributes:
+      label: 🗒️ 메모
+      description: 리뷰어나 팀에게 전달하고 싶은 추가 메모가 있다면 자유롭게 작성해주세요.
+      placeholder: ex) 재현 환경 =  Chrome 115.0 / iOS 17.4.1
