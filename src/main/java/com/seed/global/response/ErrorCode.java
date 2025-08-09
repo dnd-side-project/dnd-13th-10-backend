@@ -11,6 +11,7 @@ public enum ErrorCode {
     ERROR("E100", "잘못된 요청입니다.", HttpStatus.BAD_REQUEST),
     MISSING_REQUIRED_FIELD("E101", "필수 입력 항목이 누락되었습니다.", HttpStatus.BAD_REQUEST),
     INVALID_FORMAT("E102", "입력 형식이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
+    INVALID_PARAMETER("E103", "유효성 검증 실패", HttpStatus.BAD_REQUEST),
 
     // 인증 / 인가 오류
     UNAUTHORIZED("E200", "인증이 필요합니다.", HttpStatus.UNAUTHORIZED),
