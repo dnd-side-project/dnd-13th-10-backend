@@ -1,6 +1,6 @@
 package com.seed.domain.user.entity;
 
-import com.seed.global.BaseEntity;
+import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,5 +24,7 @@ public class User extends BaseEntity {
 
     private String imageUrl;
 
+    @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
+    private boolean isUse = true;
 
 }

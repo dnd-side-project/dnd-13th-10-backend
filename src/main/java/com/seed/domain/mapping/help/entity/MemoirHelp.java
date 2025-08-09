@@ -1,11 +1,10 @@
-package com.seed.domain.help.entity;
+package com.seed.domain.mapping.help.entity;
 
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.user.entity.User;
-import com.seed.global.BaseEntity;
+import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.h2.command.dml.Help;
 
 @Entity
 @Getter

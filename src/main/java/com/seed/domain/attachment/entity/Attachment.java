@@ -1,7 +1,7 @@
 package com.seed.domain.attachment.entity;
 
 import com.seed.domain.memoir.entity.Memoir;
-import com.seed.global.BaseEntity;
+import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

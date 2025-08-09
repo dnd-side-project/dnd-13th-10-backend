@@ -1,11 +1,9 @@
 package com.seed.domain.memoir.entity;
 
 import com.seed.domain.memoir.enums.*;
-import com.seed.global.BaseEntity;
+import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -22,16 +20,17 @@ public class Memoir extends BaseEntity {
     private MemoirType type;
 
     @Enumerated(EnumType.STRING)
-    private InterviewFormat format;
+    private InterviewFormat interviewFormat;
 
     @Enumerated(EnumType.STRING)
-    private InterviewMood mood;
+    private InterviewMood interviewMood;
 
-    private int duration;
+    private int interviewDuration;
 
     @Enumerated(EnumType.STRING)
     private SatisfactionNote satisfactionNote;
 
+    @Column(length = 500)
     private String freeNote;
 
     @Enumerated(EnumType.STRING)
@@ -41,18 +40,26 @@ public class Memoir extends BaseEntity {
 
     private String interviewType;
 
+    @Column(length = 500)
     private String reflection;
 
+    @Enumerated(EnumType.STRING)
+    private ResultStatus resultStatus;
+
+    @Lob
     private String memo;
 
+    @Column(length = 500)
     private String url;
 
     private int helpCount;
 
     private int viewCount;
 
-    private boolean isPublic;
+    @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
+    private boolean isPublic = true;
 
-    @Enumerated(EnumType.STRING)
-    private ResultStatus resultStatus;
+    @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
+    private boolean isUse = true;
+
 }

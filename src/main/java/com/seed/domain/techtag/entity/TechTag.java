@@ -1,6 +1,6 @@
 package com.seed.domain.techtag.entity;
 
-import com.seed.global.BaseEntity;
+import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

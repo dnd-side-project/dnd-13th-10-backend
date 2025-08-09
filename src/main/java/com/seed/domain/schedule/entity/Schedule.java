@@ -2,7 +2,7 @@ package com.seed.domain.schedule.entity;
 
 import com.seed.domain.schedule.enums.InterviewStep;
 import com.seed.domain.schedule.enums.Position;
-import com.seed.global.BaseEntity;
+import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

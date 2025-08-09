@@ -2,7 +2,7 @@ package com.seed.domain.comment.entity;
 
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.user.entity.User;
-import com.seed.global.BaseEntity;
+import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +17,9 @@ public class Comment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long parentId;
+
+    @Column(length = 300)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,4 +29,7 @@ public class Comment extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memoir")
     private Memoir memoir;
+
+    @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
+    private boolean isUse = true;
 }
