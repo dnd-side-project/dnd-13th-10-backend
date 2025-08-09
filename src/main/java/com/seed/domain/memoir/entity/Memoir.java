@@ -1,9 +1,12 @@
 package com.seed.domain.memoir.entity;
 
 import com.seed.domain.memoir.enums.*;
+import com.seed.domain.schedule.enums.InterviewStep;
 import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -16,34 +19,42 @@ public class Memoir extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
+    @Column(length = 2)
+    @Convert(converter = MemoirType.Converter.class)
     private MemoirType type;
 
-    @Enumerated(EnumType.STRING)
+    @Column(length = 2)
+    @Convert(converter = InterviewFormat.Converter.class)
     private InterviewFormat interviewFormat;
 
-    @Enumerated(EnumType.STRING)
+    @Column(length = 2)
+    @Convert(converter = InterviewMood.Converter.class)
     private InterviewMood interviewMood;
 
     private int interviewDuration;
 
-    @Enumerated(EnumType.STRING)
+    @Column(length = 2)
+    @Convert(converter = SatisfactionNote.Converter.class)
     private SatisfactionNote satisfactionNote;
 
     @Column(length = 500)
     private String freeNote;
 
-    @Enumerated(EnumType.STRING)
+    @Column(length = 2)
+    @Convert(converter = InterviewLevel.Converter.class)
     private InterviewLevel interviewLevel;
 
     private String interviewMethod;
 
     private String interviewType;
 
+    private String interviewPlace;
+
     @Column(length = 500)
     private String reflection;
 
-    @Enumerated(EnumType.STRING)
+    @Column(length = 2)
+    @Convert(converter = ResultStatus.Converter.class)
     private ResultStatus resultStatus;
 
     @Lob
