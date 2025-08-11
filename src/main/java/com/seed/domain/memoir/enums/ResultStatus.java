@@ -1,8 +1,13 @@
 package com.seed.domain.memoir.enums;
 
 import com.seed.global.code.EnumCode;
-import jakarta.persistence.AttributeConverter;
+import com.seed.global.entity.EnumCodeJpaConverter;
+import jakarta.persistence.Converter;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@Getter
+@RequiredArgsConstructor
 public enum ResultStatus implements EnumCode {
     NOT_STARTED("10", "진행전"),
     IN_PROGRESS("20", "진행중"),
@@ -13,36 +18,8 @@ public enum ResultStatus implements EnumCode {
     private final String code;
     private final String description;
 
-    ResultStatus(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
-
-    @Override
-    public String getCode() { return code; }
-
-    @Override
-    public String getDescription() { return description; }
-
-    public static ResultStatus fromCode(String code) {
-        for (ResultStatus status : values()) {
-            if (status.code.equals(code)) {
-                return status;
-            }
-        }
-        throw new IllegalArgumentException("Unknown code: " + code);
-    }
-
-    // 내부 컨버터
-    public static class Converter implements AttributeConverter<ResultStatus, String> {
-        @Override
-        public String convertToDatabaseColumn(ResultStatus attribute) {
-            return attribute == null ? null : attribute.getCode();
-        }
-
-        @Override
-        public ResultStatus convertToEntityAttribute(String dbData) {
-            return dbData == null ? null : ResultStatus.fromCode(dbData);
-        }
+    @Converter(autoApply = true)
+    public static class JpaConverter extends EnumCodeJpaConverter<ResultStatus> {
+        public JpaConverter() { super(ResultStatus.class); }
     }
 }

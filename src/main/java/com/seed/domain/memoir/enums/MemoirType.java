@@ -1,8 +1,13 @@
 package com.seed.domain.memoir.enums;
 
 import com.seed.global.code.EnumCode;
-import jakarta.persistence.AttributeConverter;
+import com.seed.global.entity.EnumCodeJpaConverter;
+import jakarta.persistence.Converter;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@Getter
+@RequiredArgsConstructor
 public enum MemoirType implements EnumCode {
     QUICK("10", "퀵 회고"),
     GENERAL("20", "일반 회고");
@@ -10,36 +15,8 @@ public enum MemoirType implements EnumCode {
     private final String code;
     private final String description;
 
-    MemoirType(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
-
-    @Override
-    public String getCode() { return code; }
-
-    @Override
-    public String getDescription() { return description; }
-
-    public static MemoirType fromCode(String code) {
-        for (MemoirType mood : values()) {
-            if (mood.code.equals(code)) {
-                return mood;
-            }
-        }
-        throw new IllegalArgumentException("Unknown code: " + code);
-    }
-
-    // 내부 컨버터
-    public static class Converter implements AttributeConverter<MemoirType, String> {
-        @Override
-        public String convertToDatabaseColumn(MemoirType attribute) {
-            return attribute == null ? null : attribute.getCode();
-        }
-
-        @Override
-        public MemoirType convertToEntityAttribute(String dbData) {
-            return dbData == null ? null : MemoirType.fromCode(dbData);
-        }
+    @Converter(autoApply = true)
+    public static class JpaConverter extends EnumCodeJpaConverter<InterviewMood> {
+        public JpaConverter() { super(InterviewMood.class); }
     }
 }

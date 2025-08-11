@@ -1,8 +1,13 @@
 package com.seed.domain.memoir.enums;
 
 import com.seed.global.code.EnumCode;
-import jakarta.persistence.AttributeConverter;
+import com.seed.global.entity.EnumCodeJpaConverter;
+import jakarta.persistence.Converter;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@Getter
+@RequiredArgsConstructor
 public enum InterviewFormat implements EnumCode {
     ONE_ON_ONE("10", "1대1 면접"),
     ONE_ON_MANY("20", "일대다 면접"),
@@ -13,35 +18,8 @@ public enum InterviewFormat implements EnumCode {
     private final String code;
     private final String description;
 
-    InterviewFormat(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
-
-    @Override
-    public String getCode() { return code; }
-
-    @Override
-    public String getDescription() { return description; }
-
-    public static InterviewFormat fromValue(String code) {
-        for (InterviewFormat format : values()) {
-            if (format.code.equals(code)) {
-                return format;
-            }
-        }
-        throw new IllegalArgumentException("Unknown code: " + code);
-    }
-
-    public static class Converter implements AttributeConverter<InterviewFormat, String> {
-        @Override
-        public String convertToDatabaseColumn(InterviewFormat attribute) {
-            return attribute == null ? null : attribute.getCode();
-        }
-
-        @Override
-        public InterviewFormat convertToEntityAttribute(String dbData) {
-            return dbData == null ? null : InterviewFormat.fromValue(dbData);
-        }
+    @Converter(autoApply = true)
+    public static class JpaConverter extends EnumCodeJpaConverter<InterviewFormat> {
+        public JpaConverter() { super(InterviewFormat.class); }
     }
 }

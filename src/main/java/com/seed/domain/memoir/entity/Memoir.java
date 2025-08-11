@@ -20,28 +20,28 @@ public class Memoir extends BaseEntity {
     private Long id;
 
     @Column(length = 2)
-    @Convert(converter = MemoirType.Converter.class)
+    @Convert(converter = MemoirType.JpaConverter.class)
     private MemoirType type;
 
     @Column(length = 2)
-    @Convert(converter = InterviewFormat.Converter.class)
+    @Convert(converter = InterviewFormat.JpaConverter.class)
     private InterviewFormat interviewFormat;
 
     @Column(length = 2)
-    @Convert(converter = InterviewMood.Converter.class)
+    @Convert(converter = InterviewMood.JpaConverter.class)
     private InterviewMood interviewMood;
 
     private int interviewDuration;
 
     @Column(length = 2)
-    @Convert(converter = SatisfactionNote.Converter.class)
+    @Convert(converter = SatisfactionNote.JpaConverter.class)
     private SatisfactionNote satisfactionNote;
 
     @Column(length = 500)
     private String freeNote;
 
     @Column(length = 2)
-    @Convert(converter = InterviewLevel.Converter.class)
+    @Convert(converter = InterviewLevel.JpaConverter.class)
     private InterviewLevel interviewLevel;
 
     private String interviewMethod;
@@ -54,7 +54,7 @@ public class Memoir extends BaseEntity {
     private String reflection;
 
     @Column(length = 2)
-    @Convert(converter = ResultStatus.Converter.class)
+    @Convert(converter = ResultStatus.JpaConverter.class)
     private ResultStatus resultStatus;
 
     @Lob

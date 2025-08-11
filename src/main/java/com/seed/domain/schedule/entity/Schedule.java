@@ -23,7 +23,7 @@ public class Schedule extends BaseEntity {
     private String position;
 
     @Column(length = 2)
-    @Convert(converter = InterviewStep.Converter.class)
+    @Convert(converter = InterviewStep.JpaConverter.class)
     private InterviewStep interviewStep;
 
     private LocalDateTime interviewTime;

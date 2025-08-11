@@ -1,8 +1,14 @@
 package com.seed.domain.memoir.enums;
 
 import com.seed.global.code.EnumCode;
+import com.seed.global.entity.EnumCodeJpaConverter;
 import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@Getter
+@RequiredArgsConstructor
 public enum SatisfactionNote implements EnumCode {
     SATISFIED("10", "만족"),
     NEUTRAL("20", "보통"),
@@ -11,36 +17,8 @@ public enum SatisfactionNote implements EnumCode {
     private final String code;
     private final String description;
 
-    SatisfactionNote(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
-
-    @Override
-    public String getCode() { return code; }
-
-    @Override
-    public String getDescription() { return description; }
-
-    public static SatisfactionNote fromCode(String code) {
-        for (SatisfactionNote note : values()) {
-            if (note.code.equals(code)) {
-                return note;
-            }
-        }
-        throw new IllegalArgumentException("Unknown code: " + code);
-    }
-
-    // 내부 컨버터
-    public static class Converter implements AttributeConverter<SatisfactionNote, String> {
-        @Override
-        public String convertToDatabaseColumn(SatisfactionNote attribute) {
-            return attribute == null ? null : attribute.getCode();
-        }
-
-        @Override
-        public SatisfactionNote convertToEntityAttribute(String dbData) {
-            return dbData == null ? null : SatisfactionNote.fromCode(dbData);
-        }
+    @Converter(autoApply = true)
+    public static class JpaConverter extends EnumCodeJpaConverter<SatisfactionNote> {
+        public JpaConverter() { super(SatisfactionNote.class); }
     }
 }
