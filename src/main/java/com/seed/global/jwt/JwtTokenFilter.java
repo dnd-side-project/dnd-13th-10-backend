@@ -29,7 +29,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private static final AntPathMatcher pathMatcher = new AntPathMatcher();
     private static final String[] excludePaths = {"/healthcheck", "/api/test/login/", "/api/token/reissue",
             "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/css/**", "/images/**", "/js/**",
-            "/h2-console/**"};
+            "/h2-console/**", "auth/**"};
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {

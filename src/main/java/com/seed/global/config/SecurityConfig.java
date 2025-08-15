@@ -57,7 +57,8 @@ public class SecurityConfig {
                                 "/oauth2/**",          // OAuth2 관련
                                 "/h2-console/**",      // H2 데이터베이스 콘솔
                                 "/api/auth/**",   // 인증 관련 API
-                                "/static/**"
+                                "/static/**",
+                                "auth/**"
                         ).permitAll()
 
                         // 나머지 모든 요청은 인증 필요
