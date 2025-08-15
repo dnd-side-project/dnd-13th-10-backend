@@ -38,4 +38,8 @@ public class AuthService {
 
         return Map.of("accessToken", newAccessToken, "refreshToken", newRefreshToken);
     }
+
+    public void logout(String refreshToken) {
+        refreshTokenService.deleteRefreshToken(refreshToken);
+    }
 }

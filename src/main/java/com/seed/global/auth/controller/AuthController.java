@@ -36,6 +36,17 @@ public class AuthController {
                 .build());
     }
 
+    @PostMapping("/logout")
+    public ApiResponse<?> logout(HttpServletRequest request, HttpServletResponse response) {
+        String refreshToken = extractRefreshTokenFromCookie(request);
+
+        authService.logout(refreshToken);
+
+        clearRefreshTokenCookie(response);
+
+        return ApiResponse.success(null);
+    }
+
     // Request Cookie에 담긴 Refresh Token 추출
     private String extractRefreshTokenFromCookie(HttpServletRequest request) {
         if (request.getCookies() != null) {
@@ -54,6 +65,18 @@ public class AuthController {
                 .secure(true) // HTTPS에서만
                 .path("/")
                 .maxAge(Duration.ofDays(7))
+                .sameSite("Strict")
+                .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
+    }
+
+    private void clearRefreshTokenCookie(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", "")
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(Duration.ZERO) // 즉시 만료
                 .sameSite("Strict")
                 .build();
 
