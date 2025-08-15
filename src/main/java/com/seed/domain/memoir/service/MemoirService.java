@@ -9,4 +9,5 @@ import java.util.List;
 public interface MemoirService {
     Long createQuickMemoir(QuickMemoirRequest quickMemoirRequest);
     List<MemoirListResponse> findListMemoir();
+    MemoirResponse findMemoirById(Long id);
 }

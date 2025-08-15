@@ -38,4 +38,15 @@ public class MemoirController {
         List<MemoirListResponse> listMemoir = memoirService.findListMemoir();
         return ApiResponse.success(listMemoir);
     }
+
+    /**
+     * 상세 회고 조회 (퀵 회고, 일반 회고 모두 포함)
+     * @param memoirId
+     * @return
+     */
+    @GetMapping("/{memoirId}")
+    public ApiResponse<MemoirResponse> findMemoirById(@PathVariable Long memoirId) {
+        MemoirResponse memoirResponse = memoirService.findMemoirById(memoirId);
+        return ApiResponse.success(memoirResponse);
+    }
 }

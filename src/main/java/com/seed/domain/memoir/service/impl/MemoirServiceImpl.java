@@ -8,6 +8,8 @@ import com.seed.domain.memoir.repository.MemoirRepository;
 import com.seed.domain.memoir.service.MemoirService;
 import com.seed.domain.question.dto.request.QuestionCreateRequest;
 import com.seed.domain.question.entity.Question;
+import com.seed.global.exception.BusinessException;
+import com.seed.global.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,5 +40,12 @@ public class MemoirServiceImpl implements MemoirService {
     @Override
     public List<MemoirListResponse> findListMemoir() {
         return memoirRepository.findListMemoir();
+    }
+
+    @Override
+    public MemoirResponse findMemoirById(Long id) {
+        return memoirRepository.findById(id)
+                .map(MemoirResponse::fromEntity)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "해당 회고 정보를 찾을 수 없습니다."));
     }
 }
