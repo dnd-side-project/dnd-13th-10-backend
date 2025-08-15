@@ -1,5 +1,7 @@
 package com.seed.domain.user.entity;
 
+import com.seed.domain.company.Company;
+import com.seed.domain.schedule.entity.Schedule;
 import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,6 +17,10 @@ public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_id")
+    private Schedule schedule;
 
     private String phoneNumber;
 

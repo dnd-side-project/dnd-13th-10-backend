@@ -23,11 +23,11 @@ public class Comment extends BaseEntity {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memoir")
+    @JoinColumn(name = "memoir_id")
     private Memoir memoir;
 
     @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
