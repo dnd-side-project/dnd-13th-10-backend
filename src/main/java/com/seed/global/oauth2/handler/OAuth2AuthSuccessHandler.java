@@ -42,7 +42,6 @@ public class OAuth2AuthSuccessHandler implements AuthenticationSuccessHandler {
         refreshTokenService.saveRefreshToken(socialId, refreshToken);
 
         // ResponseCookie를 사용하여 쿠키 설정
-        response.addHeader("Set-Cookie", createCookie("accessToken", accessToken, 60 * 60).toString()); // 1시간
         response.addHeader("Set-Cookie", createCookie("refreshToken", refreshToken, 60 * 60 * 24 * 7).toString()); // 7일
         
         // 프론트엔드 페이지로 리다이렉트
