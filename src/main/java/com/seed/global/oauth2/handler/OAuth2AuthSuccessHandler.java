@@ -1,6 +1,7 @@
 package com.seed.global.oauth2.handler;
 
 import com.seed.global.jwt.JwtUtil;
+import com.seed.global.jwt.service.RefreshTokenService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import java.io.IOException;
 public class OAuth2AuthSuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtUtil jwtUtil;
+    private final RefreshTokenService refreshTokenService;
     
     @Value("${app.frontend-url:http://localhost:3000}")
     private String frontendUrl;
@@ -35,6 +37,8 @@ public class OAuth2AuthSuccessHandler implements AuthenticationSuccessHandler {
         // JWT 토큰 생성
         String accessToken = jwtUtil.generateAccessToken(socialId);
         String refreshToken = jwtUtil.generateRefreshToken(socialId);
+
+        refreshTokenService.saveRefreshToken(socialId, refreshToken);
         
         // 쿠키 생성 및 설정
         Cookie accessTokenCookie = createCookie("accessToken", accessToken, 60 * 60); // 1시간
