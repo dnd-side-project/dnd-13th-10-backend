@@ -28,7 +28,7 @@ public class Question extends BaseEntity {
     private QuestionType questionType;
 
     @Column(length = 500)
-    private String question;
+    private String content;
 
     @Column(length = 500)
     private String answer;

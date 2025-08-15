@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class QuestionCreateRequest {
     private String questionType;
-    private String question;
+    private String content;
     private int order;
 
     public static List<Question> toEntityList(List<QuestionCreateRequest> questionCreateRequestList) {
@@ -23,7 +23,7 @@ public class QuestionCreateRequest {
     public static Question toEntity(QuestionCreateRequest req) {
         return Question.builder()
                 .questionType(EnumCode.valueOfCode(QuestionType.class, req.getQuestionType()))
-                .question(req.getQuestion())
+                .content(req.getContent())
                 .displayOrder(req.getOrder())
                 .build();
     }

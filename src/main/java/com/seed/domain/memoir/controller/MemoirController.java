@@ -1,6 +1,7 @@
 package com.seed.domain.memoir.controller;
 
 import com.seed.domain.memoir.dto.request.QuickMemoirRequest;
+import com.seed.domain.memoir.dto.response.MemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirResponse;
 import com.seed.domain.memoir.service.MemoirService;
 import com.seed.global.response.ApiResponse;
@@ -33,8 +34,8 @@ public class MemoirController {
      * @return
      */
     @GetMapping
-    public ApiResponse<List<MemoirResponse>> listMemoir() {
-        List<MemoirResponse> listMemoir = memoirService.listMemoir();
+    public ApiResponse<List<MemoirListResponse>> findListMemoir() {
+        List<MemoirListResponse> listMemoir = memoirService.findListMemoir();
         return ApiResponse.success(listMemoir);
     }
 }

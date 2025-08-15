@@ -1,6 +1,7 @@
 package com.seed.domain.memoir.service.impl;
 
 import com.seed.domain.memoir.dto.request.QuickMemoirRequest;
+import com.seed.domain.memoir.dto.response.MemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirResponse;
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.memoir.repository.MemoirRepository;
@@ -35,8 +36,7 @@ public class MemoirServiceImpl implements MemoirService {
     }
 
     @Override
-    public List<MemoirResponse> listMemoir() {
-        List<Memoir> listMemoir = memoirRepository.findAllByIsPublicTrueAndIsUseTrueOrderByCreatedAtDesc();
-        return MemoirResponse.fromMemoirList(listMemoir);
+    public List<MemoirListResponse> findListMemoir() {
+        return memoirRepository.findListMemoir();
     }
 }
