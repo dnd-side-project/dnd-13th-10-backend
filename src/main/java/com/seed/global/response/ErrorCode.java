@@ -18,7 +18,7 @@ public enum ErrorCode {
     FORBIDDEN("E201", "접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
     METHOD_NOT_ALLOWED("E202", "허용되지 않은 메서드입니다", HttpStatus.METHOD_NOT_ALLOWED),
     REFRESH_TOKEN_REQUIRED("E203", "토큰 재발급을 위해선 Refresh Token이 필요합니다.", HttpStatus.BAD_REQUEST),
-    REFREST_TOKEN_NOT_VALID("E204", "Refresh Token이 유효하지 않습니다", HttpStatus.BAD_REQUEST),
+    REFRESH_TOKEN_NOT_VALID("E204", "Refresh Token이 유효하지 않습니다", HttpStatus.BAD_REQUEST),
 
     // 데이터 관련
     NOT_FOUND("E300", "요청한 리소스를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),

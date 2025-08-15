@@ -38,9 +38,11 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ApiResponse<?> logout(HttpServletRequest request, HttpServletResponse response) {
-        String refreshToken = extractRefreshTokenFromCookie(request);
 
-        authService.logout(refreshToken);
+
+        String accessToken = extractAccessTokenFromHeader(request);
+
+        authService.logout(accessToken);
 
         clearRefreshTokenCookie(response);
 
@@ -81,5 +83,13 @@ public class AuthController {
                 .build();
 
         response.addHeader("Set-Cookie", cookie.toString());
+    }
+
+    private String extractAccessTokenFromHeader(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 }

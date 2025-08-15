@@ -1,6 +1,5 @@
 package com.seed.global.auth.service;
 
-import com.seed.global.auth.dto.TokenResponseDTO;
 import com.seed.global.exception.BusinessException;
 import com.seed.global.jwt.JwtUtil;
 import com.seed.global.jwt.service.RefreshTokenService;
@@ -27,8 +26,8 @@ public class AuthService {
 
         String socialId = jwtUtil.getSocialIdFromToken(refreshToken);
 
-        if(!refreshTokenService.validateRefreshToken(refreshToken, socialId)) {
-            throw new BusinessException(ErrorCode.REFREST_TOKEN_NOT_VALID);
+        if(!refreshTokenService.validateRefreshToken(socialId, refreshToken)) {
+            throw new BusinessException(ErrorCode.REFRESH_TOKEN_NOT_VALID);
         }
 
         String newAccessToken = jwtUtil.generateAccessToken(socialId);
@@ -39,7 +38,10 @@ public class AuthService {
         return Map.of("accessToken", newAccessToken, "refreshToken", newRefreshToken);
     }
 
-    public void logout(String refreshToken) {
-        refreshTokenService.deleteRefreshToken(refreshToken);
+    public void logout(String accessToken) {
+
+        String socialId = jwtUtil.getSocialIdFromToken(accessToken);
+
+        refreshTokenService.deleteRefreshToken(socialId);
     }
 }
