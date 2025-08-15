@@ -10,9 +10,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum QuestionType implements EnumCode {
     // 10번대: 분석·예측·조직 관련
-    ANALYTICAL_THINKING("11", "분석력"),
-    FORESIGHT("12", "예측능력"),
-    ORGANIZATION("13", "조직화 능력"),
+    ANALYTICAL_THINKING("10", "분석력"),
+    FORESIGHT("11", "예측능력"),
+    ORGANIZATION("12", "조직화 능력"),
 
     // 20번대: 대인관계·협상·발표
     NEGOTIATION("20", "협상 능력"),

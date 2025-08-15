@@ -2,6 +2,7 @@ package com.seed.domain.memoir.entity;
 
 import com.seed.domain.attachment.entity.Attachment;
 import com.seed.domain.memoir.enums.*;
+import com.seed.domain.question.entity.Question;
 import com.seed.domain.schedule.enums.InterviewStep;
 import com.seed.domain.schedule.enums.Position;
 import com.seed.domain.user.entity.User;
@@ -11,6 +12,7 @@ import lombok.*;
 import org.hibernate.annotations.Comment;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,8 +30,12 @@ public class Memoir extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "memoir", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "memoir", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Attachment> attachments;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "memoir", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Question> questions = new ArrayList<>();
 
     @Column(length = 2)
     @Convert(converter = MemoirType.JpaConverter.class)
@@ -91,10 +97,19 @@ public class Memoir extends BaseEntity {
 
     private int viewCount;
 
+    @Builder.Default
     @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
     private boolean isPublic = true;
 
+    @Builder.Default
     @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
     private boolean isUse = true;
 
+    public void addQuestions(List<Question> qs) {
+        if (qs == null) return;
+        for (Question q : qs) {
+            this.questions.add(q);
+            q.assignMemoir(this); // ★ FK(자식 쪽)도 세팅
+        }
+    }
 }

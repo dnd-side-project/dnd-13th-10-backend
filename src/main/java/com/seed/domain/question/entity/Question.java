@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(name = "uk_memoir_order", columnNames = {"memoir_id", "display_order"})})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -32,6 +33,14 @@ public class Question extends BaseEntity {
     @Column(length = 500)
     private String answer;
 
+    private int displayOrder;
+
+    @Builder.Default
     @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
     private boolean isUse = true;
+
+    // 연관관계 편의 메서드
+    public void assignMemoir(Memoir memoir) {
+        this.memoir = memoir;
+    }
 }
