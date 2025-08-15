@@ -8,17 +8,16 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum InterviewFormat implements EnumCode {
-    ONE_ON_ONE("10", "1대1 면접"),
-    ONE_ON_MANY("20", "일대다 면접"),
-    MANY_ON_MANY("30", "다대다 면접"),
-    MANY_ON_ONE("40", "다대일 면접");
+public enum InterviewStatus implements EnumCode {
+    PASS("10", "합격"),
+    FAIL("20", "불합격"),
+    PENDING("30", "결과 대기중");
 
     private final String code;
     private final String description;
 
     @Converter(autoApply = true)
-    public static class JpaConverter extends EnumCodeJpaConverter<InterviewFormat> {
-        public JpaConverter() { super(InterviewFormat.class); }
+    public static class JpaConverter extends EnumCodeJpaConverter<InterviewStatus> {
+        public JpaConverter() { super(InterviewStatus.class); }
     }
 }

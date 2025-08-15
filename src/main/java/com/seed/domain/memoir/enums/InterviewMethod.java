@@ -8,18 +8,15 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum ResultStatus implements EnumCode {
-    NOT_STARTED("10", "진행전"),
-    IN_PROGRESS("20", "진행중"),
-    COMPLETED("30", "완료"),
-    PASSED("40", "합격"),
-    FAILED("50", "불합격");
+public enum InterviewMethod implements EnumCode {
+    FACE_TO_FACE("10", "대면"),
+    NON_FACE_TO_FACE("20", "비대면");
 
     private final String code;
     private final String description;
 
     @Converter(autoApply = true)
-    public static class JpaConverter extends EnumCodeJpaConverter<ResultStatus> {
-        public JpaConverter() { super(ResultStatus.class); }
+    public static class JpaConverter extends EnumCodeJpaConverter<InterviewMethod> {
+        public JpaConverter() { super(InterviewMethod.class); }
     }
 }
