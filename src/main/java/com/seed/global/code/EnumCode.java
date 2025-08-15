@@ -5,9 +5,11 @@ public interface EnumCode {
     String getDescription();
 
     static <E extends Enum<E> & EnumCode> E valueOfCode(Class<E> enumClass, String code) {
-        for(E e : enumClass.getEnumConstants()) {
-            if(e.getCode()
-                    .equals(code)) {
+        if (code == null || code.isBlank()) {
+            return null;
+        }
+        for (E e : enumClass.getEnumConstants()) {
+            if (e.getCode().equals(code)) {
                 return e;
             }
         }
