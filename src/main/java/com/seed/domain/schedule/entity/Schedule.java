@@ -2,6 +2,7 @@ package com.seed.domain.schedule.entity;
 
 import com.seed.domain.company.Company;
 import com.seed.domain.schedule.enums.InterviewStep;
+import com.seed.domain.schedule.enums.Position;
 import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,12 +24,16 @@ public class Schedule extends BaseEntity {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    private String position;
+    @Column(length = 2)
+    @Convert(converter = Position.JpaConverter.class)
+    private Position position;
 
     @Column(length = 2)
     @Convert(converter = InterviewStep.JpaConverter.class)
     private InterviewStep interviewStep;
 
     private LocalDateTime interviewTime;
+
+    private String interviewPlace;
 
 }

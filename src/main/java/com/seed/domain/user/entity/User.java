@@ -33,4 +33,7 @@ public class User extends BaseEntity {
     @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
     private boolean isUse = true;
 
+    public static User ofId(String userId) {
+        return User.builder().id(Long.parseLong(userId)).build();
+    }
 }
