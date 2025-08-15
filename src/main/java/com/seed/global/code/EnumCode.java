@@ -15,4 +15,8 @@ public interface EnumCode {
         }
         throw new IllegalArgumentException("Unknown code: " + code);
     }
+
+    static String getDescriptionOrNull(EnumCode enumValue) {
+        return enumValue == null ? null : enumValue.getDescription();
+    }
 }
