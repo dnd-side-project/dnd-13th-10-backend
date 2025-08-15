@@ -31,7 +31,7 @@ public class Memoir extends BaseEntity {
     private User user;
 
     @OneToMany(mappedBy = "memoir", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<Attachment> attachments;
+    private List<Attachment> attachments = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "memoir", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
