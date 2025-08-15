@@ -1,11 +1,14 @@
 package com.seed.domain.memoir.dto.response;
 
+import com.seed.domain.attachment.response.AttachmentResponse;
 import com.seed.domain.memoir.entity.Memoir;
 
+import com.seed.domain.question.dto.response.QuestionResponse;
+import com.seed.domain.user.dto.response.UserMemoirResponse;
+import com.seed.global.code.EnumCode;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -14,30 +17,54 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemoirResponse {
     private Long id;
+    private UserMemoirResponse user;
+
+    private List<AttachmentResponse> attachments;
+    private List<QuestionResponse> questions;
+
+    // Enum → String (description 전달)
     private String type;
+    private String interviewFormat;
+    private String interviewMood;
+    private String satisfactionNote;
+    private String interviewLevel;
     private String interviewStatus;
     private String interviewMethod;
+
+    private String freeNote;
+    private String url;
     private String companyName;
+
+    // Enum → String (description 전달)
     private String position;
+    private String interviewStep;
+
+    private LocalDateTime interviewTime;
+    private int likeCount;
+    private int viewCount;
     private LocalDateTime createdAt;
-
-    public static List<MemoirResponse> fromMemoirList(List<Memoir> memoirList) {
-        List<MemoirResponse> memoirResponseList = new ArrayList<>();
-        for (Memoir memoir : memoirList) {
-            memoirResponseList.add(fromEntity(memoir));
-        }
-
-        return memoirResponseList;
-    }
 
     public static MemoirResponse fromEntity(Memoir memoir) {
         return MemoirResponse.builder()
                 .id(memoir.getId())
-                .type(memoir.getType() != null ? memoir.getType().getDescription() : null)
-                .interviewStatus(memoir.getInterviewStatus() != null ? memoir.getInterviewStatus().getDescription() : null)
-                .interviewMethod(memoir.getInterviewMethod() != null ? memoir.getInterviewMethod().getDescription() : null)
+                .user(UserMemoirResponse.fromEntity(memoir.getUser()))
+                .attachments(AttachmentResponse.fromEntityList(memoir.getAttachments()))
+                .questions(QuestionResponse.fromEntityList(memoir.getQuestions()))
+                .type(EnumCode.getDescriptionOrNull(memoir.getType()))
+                .interviewFormat(EnumCode.getDescriptionOrNull(memoir.getInterviewFormat()))
+                .interviewMood(EnumCode.getDescriptionOrNull(memoir.getInterviewMood()))
+                .satisfactionNote(EnumCode.getDescriptionOrNull(memoir.getSatisfactionNote()))
+                .interviewLevel(EnumCode.getDescriptionOrNull(memoir.getInterviewLevel()))
+                .interviewStatus(EnumCode.getDescriptionOrNull(memoir.getInterviewStatus()))
+                .interviewMethod(EnumCode.getDescriptionOrNull(memoir.getInterviewMethod()))
+                .freeNote(memoir.getFreeNote())
+                .url(memoir.getUrl())
                 .companyName(memoir.getCompanyName())
-                .position(memoir.getPosition() != null ? memoir.getPosition().getDescription() : null)
+                .position(EnumCode.getDescriptionOrNull(memoir.getPosition()))
+                .interviewStep(EnumCode.getDescriptionOrNull(memoir.getInterviewStep()))
+                .interviewTime(memoir.getInterviewTime())
+                .likeCount(memoir.getLikeCount())
+                .viewCount(memoir.getViewCount())
                 .createdAt(memoir.getCreatedAt())
                 .build();
     }
