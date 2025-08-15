@@ -1,5 +1,6 @@
 package com.seed.domain.schedule.entity;
 
+import com.seed.domain.company.Company;
 import com.seed.domain.schedule.enums.InterviewStep;
 import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -18,7 +19,9 @@ public class Schedule extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String companyName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+    private Company company;
 
     private String position;
 
