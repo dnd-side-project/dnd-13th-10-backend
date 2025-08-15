@@ -2,12 +2,16 @@ package com.seed.domain.memoir.dto.request;
 
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.memoir.enums.*;
+import com.seed.domain.question.dto.request.QuestionCreateRequest;
+import com.seed.domain.question.entity.Question;
 import com.seed.domain.schedule.enums.InterviewStep;
 import com.seed.domain.schedule.enums.Position;
 import com.seed.domain.user.entity.User;
 import com.seed.global.code.EnumCode;
 import com.seed.global.utils.DateUtil;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -29,6 +33,7 @@ public class QuickMemoirRequest {
     private String interviewStep;
     private String interviewDate; // yyyy-MM-dd
     private String interviewTime; // HH:mm
+    private List<QuestionCreateRequest> questions;
 
     public static Memoir toEntity(QuickMemoirRequest req) {
         return Memoir.builder()
@@ -48,5 +53,4 @@ public class QuickMemoirRequest {
                 .interviewTime(DateUtil.combine(req.getInterviewDate(), req.getInterviewTime())) // yyyy-MM-dd + HH:mm → LocalDateTime
                 .build();
     }
-
 }
