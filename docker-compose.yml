@@ -60,8 +60,8 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - certbot_data:/var/www/certbot
-      - ssl_certs:/etc/letsencrypt
+      - ./certbot_data:/var/www/certbot
+      - ./ssl_certs:/etc/letsencrypt
     depends_on:
       - spring-app
     networks:
@@ -72,8 +72,8 @@ services:
     image: certbot/certbot
     container_name: certbot-container
     volumes:
-      - certbot_data:/var/www/certbot
-      - ssl_certs:/etc/letsencrypt
+      - ./certbot_data:/var/www/certbot
+      - ./ssl_certs:/etc/letsencrypt
     command: >
       sh -c "
         while :; do
