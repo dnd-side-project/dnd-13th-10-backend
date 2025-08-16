@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  # Spring Boot Application
+  spring-app:
+    image: ${DOCKER_HUB_USERNAME}/seed-dev:latest
+    container_name: spring-boot-container
+    restart: unless-stopped
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
+      - DATABASE_URL=${RDS_DATABASE_URL}
+      - DATABASE_USERNAME=${RDS_DATABASE_USERNAME}
+      - DATABASE_PASSWORD=${RDS_DATABASE_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET_KEY}
+      - JWT_ACCESS_TOKEN_EXPIRATION=${JWT_ACCESSTOKEN_EXPIRATION:-3600000}
+      - JWT_REFRESH_TOKEN_EXPIRATION=${JWT_REFRESHTOKEN_EXPIRATION:-604800000}
+      - KAKAO_CLIENT_ID=${KAKAO_CLIENT_ID}
+      - KAKAO_CLIENT_SECRET=${KAKAO_CLIENT_SECRET}
+      - KAKAO_REDIRECT_URI=${KAKAO_REDIRECT_URI}
+      - APP_FRONTEND_URL=${APP_FRONTEND_URL:-https://your-domain.com}
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    container_name: redis-container
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-container
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - certbot_data:/var/www/certbot
+      - ssl_certs:/etc/letsencrypt
+    depends_on:
+      - spring-app
+    networks:
+      - app-network
+
+  # Certbot for SSL certificates
+  certbot:
+    image: certbot/certbot
+    container_name: certbot-container
+    volumes:
+      - certbot_data:/var/www/certbot
+      - ssl_certs:/etc/letsencrypt
+    command: >
+      sh -c "
+        while :; do
+          sleep 12h & wait $${!};
+          nginx -s reload;
+        done &
+        certbot renew
+      "
+    depends_on:
+      - nginx
+
+volumes:
+  redis_data:
+    driver: local
+  certbot_data:
+    driver: local
+  ssl_certs:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,132 @@
+name: Deploy to EC2 with Docker Hub
+
+on:
+  push:
+    branches: [ develop ] # develop 브랜치에 push 될 때 실행
+  workflow_dispatch: # 수동으로 실행할 수 있도록 설정
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      #Gradle 빌드 실행 (테스트 제외)
+      - name: Build with Gradle
+        run: ./gradlew build -x test
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and Push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/seed-dev:latest .
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/seed-dev:latest
+
+      - name: Create .env file from GitHub secrets
+        run: |
+          echo "DOCKER_HUB_USERNAME=${{ secrets.DOCKER_HUB_USERNAME }}" >> .env
+          echo "SPRING_PROFILES_ACTIVE=${{ secrets.SPRING_PROFILES_ACTIVE }}" >> .env
+          echo "RDS_DATABASE_URL=${{ secrets.RDS_DATABASE_URL }}" >> .env
+          echo "RDS_DATABASE_USERNAME=${{ secrets.RDS_DATABASE_USERNAME }}" >> .env
+          echo "RDS_DATABASE_PASSWORD=${{ secrets.RDS_DATABASE_PASSWORD }}" >> .env
+          echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> .env
+          echo "JWT_ACCESSTOKEN_EXPIRATION=${{ secrets.JWT_ACCESSTOKEN_EXPIRATION }}" >> .env
+          echo "JWT_REFRESHTOKEN_EXPIRATION=${{ secrets.JWT_REFRESHTOKEN_EXPIRATION }}" >> .env
+          echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> .env
+          echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
+          echo "KAKAO_REDIRECT_URI=${{ secrets.KAKAO_REDIRECT_URI }}" >> .env
+          echo "APP_FRONTEND_URL=${{ secrets.APP_FRONTEND_URL }}" >> .env
+
+      # EC2에 app 디렉토리 생성
+      - name: Create app directory on EC2
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            mkdir -p /home/ubuntu/app
+
+      - name: Copy docker-compose to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          source: "docker-compose.yml,.env,nginx/"
+          target: "/home/ubuntu/app/"
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            cd /home/ubuntu/app/
+            
+            # Pull latest image
+            sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/seed-dev:latest
+            
+            # Stop existing containers
+            sudo docker-compose down || true
+            
+            # 불필요한 볼륨 정리 (Redis 데이터는 유지)
+            sudo docker volume prune -f
+            
+            # Start new containers
+            sudo docker-compose up -d
+
+            # 컨테이너 시작 대기
+            echo "🚀 컨테이너 시작을 기다리는 중..."
+            sleep 30
+            
+            # 컨테이너 상태 확인
+            echo "📊 컨테이너 상태:"
+            sudo docker ps -a
+            
+            # 시스템 리소스 확인
+            echo "💾 시스템 리소스:"
+            free -h
+            df -h
+            
+            # 포트 상태 확인
+            echo "🔌 포트 상태:"
+            sudo netstat -tulpn | grep -E ':(8080|6379|80|443)' || echo "예상 포트에서 서비스를 찾을 수 없습니다"
+            
+            echo "📋 Spring Boot 로그:"
+            sudo docker logs --tail=20 spring-boot-container || echo "Spring Boot 컨테이너를 찾을 수 없습니다"
+            
+            echo "📋 Redis 로그:"
+            sudo docker logs --tail=20 redis-container || echo "Redis 컨테이너를 찾을 수 없습니다"
+            
+            echo "📋 Nginx 로그:"
+            sudo docker logs --tail=20 nginx-container || echo "Nginx 컨테이너를 찾을 수 없습니다"
+            
+            # Clean up unused Docker images
+            sudo docker image prune -f
