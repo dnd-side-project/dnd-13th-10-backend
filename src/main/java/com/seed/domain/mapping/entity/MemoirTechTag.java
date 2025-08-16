@@ -17,10 +17,10 @@ public class MemoirTechTag {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memoir")
+    @JoinColumn(name = "memoir_id")
     private Memoir memoir;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "techTag")
+    @JoinColumn(name = "techTag_id")
     private TechTag techTag;
 }

@@ -16,13 +16,14 @@ public class Attachment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "memoir_id")
+    private Memoir memoir;
+
     private String originalName;
 
     private String savedFileName;
 
     private String filePath;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memoir")
-    private Memoir memoir;
 }
