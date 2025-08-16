@@ -1,5 +1,6 @@
 package com.seed.domain.memoir.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.memoir.enums.*;
 import com.seed.domain.question.dto.request.QuestionProcRequest;
@@ -33,6 +34,8 @@ public class QuickMemoirProcRequest {
     private String interviewStep;
     private String interviewDate; // yyyy-MM-dd
     private String interviewTime; // HH:mm
+    @JsonProperty("isPublic")
+    private boolean isPublic = true;
     private List<QuestionProcRequest> questions;
 
     public static Memoir toEntity(QuickMemoirProcRequest req) {
@@ -51,6 +54,7 @@ public class QuickMemoirProcRequest {
                 .position(EnumCode.valueOfCode(Position.class, req.getPosition()))
                 .interviewStep(EnumCode.valueOfCode(InterviewStep.class, req.getInterviewStep()))
                 .interviewDatetime(DateUtil.combine(req.getInterviewDate(), req.getInterviewTime())) // yyyy-MM-dd + HH:mm → LocalDateTime
+                .isPublic(req.isPublic())
                 .build();
     }
 }

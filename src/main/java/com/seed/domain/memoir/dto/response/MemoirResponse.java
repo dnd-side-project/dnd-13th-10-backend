@@ -1,5 +1,6 @@
 package com.seed.domain.memoir.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.seed.domain.attachment.response.AttachmentResponse;
 import com.seed.domain.memoir.entity.Memoir;
 
@@ -42,7 +43,14 @@ public class MemoirResponse {
     private LocalDateTime interviewDatetime;
     private int likeCount;
     private int viewCount;
+    @Getter(AccessLevel.NONE)        // Lombok이 isPublic() 안 만들게
+    private boolean isPublic;
     private LocalDateTime createdAt;
+
+    @JsonProperty("isPublic")        // JSON 키를 'isPublic'로 고정
+    public boolean getIsPublic() {
+        return isPublic;
+    }
 
     public static MemoirResponse fromEntity(Memoir memoir) {
         return MemoirResponse.builder()
@@ -65,6 +73,7 @@ public class MemoirResponse {
                 .interviewDatetime(memoir.getInterviewDatetime())
                 .likeCount(memoir.getLikeCount())
                 .viewCount(memoir.getViewCount())
+                .isPublic(memoir.isPublic())
                 .createdAt(memoir.getCreatedAt())
                 .build();
     }
