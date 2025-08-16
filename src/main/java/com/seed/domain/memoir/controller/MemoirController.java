@@ -1,6 +1,6 @@
 package com.seed.domain.memoir.controller;
 
-import com.seed.domain.memoir.dto.request.QuickMemoirRequest;
+import com.seed.domain.memoir.dto.request.QuickMemoirProcRequest;
 import com.seed.domain.memoir.dto.response.MemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirResponse;
 import com.seed.domain.memoir.service.MemoirService;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/memoir")
+@RequestMapping("/memoirs")
 @RequiredArgsConstructor
 public class MemoirController {
 
@@ -20,12 +20,12 @@ public class MemoirController {
 
     /**
      * 퀵 회고 등록
-     * @param quickMemoirRequest
+     * @param quickMemoirProcRequest
      * @return
      */
     @PostMapping("/quick")
-    public ApiResponse<Long> createQuickMemoir(@RequestBody QuickMemoirRequest quickMemoirRequest) {
-        Long quickMemoir = memoirService.createQuickMemoir(quickMemoirRequest);
+    public ApiResponse<Long> createQuickMemoir(@RequestBody QuickMemoirProcRequest quickMemoirProcRequest) {
+        Long quickMemoir = memoirService.createQuickMemoir(quickMemoirProcRequest);
         return ApiResponse.success(SuccessCode.RETROSPECT_CREATED ,quickMemoir);
     }
 
@@ -48,5 +48,16 @@ public class MemoirController {
     public ApiResponse<MemoirResponse> findMemoirById(@PathVariable Long memoirId) {
         MemoirResponse memoirResponse = memoirService.findMemoirById(memoirId);
         return ApiResponse.success(memoirResponse);
+    }
+
+    /**
+     * 퀵 회고 수정
+     * @param quickMemoirProcRequest
+     * @return
+     */
+    @PutMapping("/quick")
+    public ApiResponse<Long> modifyQuickMemoir(@RequestBody QuickMemoirProcRequest quickMemoirProcRequest) {
+        Long id = memoirService.modifyQuickMemoir(quickMemoirProcRequest);
+        return ApiResponse.success(SuccessCode.RETROSPECT_UPDATED, id);
     }
 }

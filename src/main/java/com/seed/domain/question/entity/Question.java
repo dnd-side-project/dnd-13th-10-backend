@@ -1,8 +1,9 @@
 package com.seed.domain.question.entity;
 
 import com.seed.domain.memoir.entity.Memoir;
-import com.seed.domain.memoir.enums.InterviewMood;
+import com.seed.domain.question.dto.request.QuestionProcRequest;
 import com.seed.domain.question.enums.QuestionType;
+import com.seed.global.code.EnumCode;
 import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -42,5 +43,11 @@ public class Question extends BaseEntity {
     // 연관관계 편의 메서드
     public void assignMemoir(Memoir memoir) {
         this.memoir = memoir;
+    }
+
+    public void modifyQuestion(QuestionProcRequest req) {
+        this.questionType = EnumCode.valueOfCode(QuestionType.class, req.getQuestionType());
+        this.content = req.getContent();
+        this.answer = req.getAnswer();
     }
 }

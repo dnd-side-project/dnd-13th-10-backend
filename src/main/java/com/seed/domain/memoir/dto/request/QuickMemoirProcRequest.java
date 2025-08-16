@@ -2,8 +2,7 @@ package com.seed.domain.memoir.dto.request;
 
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.memoir.enums.*;
-import com.seed.domain.question.dto.request.QuestionCreateRequest;
-import com.seed.domain.question.entity.Question;
+import com.seed.domain.question.dto.request.QuestionProcRequest;
 import com.seed.domain.schedule.enums.InterviewStep;
 import com.seed.domain.schedule.enums.Position;
 import com.seed.domain.user.entity.User;
@@ -17,7 +16,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class QuickMemoirRequest {
+public class QuickMemoirProcRequest {
+    private Long id;
     private String userId;
     private String type;
     private String interviewFormat;
@@ -33,9 +33,9 @@ public class QuickMemoirRequest {
     private String interviewStep;
     private String interviewDate; // yyyy-MM-dd
     private String interviewTime; // HH:mm
-    private List<QuestionCreateRequest> questions;
+    private List<QuestionProcRequest> questions;
 
-    public static Memoir toEntity(QuickMemoirRequest req) {
+    public static Memoir toEntity(QuickMemoirProcRequest req) {
         return Memoir.builder()
                 .user(User.ofId("1")) // FK 참조만 세팅 TODO : 추후 세션? 에서 UserId 가지고 옴
                 .type(EnumCode.valueOfCode(MemoirType.class, req.getType()))
@@ -50,7 +50,7 @@ public class QuickMemoirRequest {
                 .companyName(req.getCompanyName())
                 .position(EnumCode.valueOfCode(Position.class, req.getPosition()))
                 .interviewStep(EnumCode.valueOfCode(InterviewStep.class, req.getInterviewStep()))
-                .interviewTime(DateUtil.combine(req.getInterviewDate(), req.getInterviewTime())) // yyyy-MM-dd + HH:mm → LocalDateTime
+                .interviewDatetime(DateUtil.combine(req.getInterviewDate(), req.getInterviewTime())) // yyyy-MM-dd + HH:mm → LocalDateTime
                 .build();
     }
 }
