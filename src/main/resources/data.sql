@@ -1,0 +1,2 @@
+INSERT INTO mydb_dev.users (id, phone_number, name, is_use) VALUES (1, "010-1234-5678", "백무식", true);
+INSERT INTO mydb_dev.users (id, phone_number, name, is_use) VALUES (2, "010-3333-6789", "백쿠키", true);

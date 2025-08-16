@@ -4,6 +4,7 @@ import com.seed.domain.company.Company;
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.schedule.dto.request.ScheduleRequest;
 import com.seed.domain.schedule.enums.InterviewStep;
+import com.seed.domain.schedule.enums.Position;
 import com.seed.domain.user.entity.User;
 import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -28,6 +29,10 @@ public class Schedule extends BaseEntity {
     @JoinColumn(name = "company_id")
     private Company company;
 
+    @Column(length = 2)
+    @Convert(converter = Position.JpaConverter.class)
+    private Position position;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -38,7 +43,13 @@ public class Schedule extends BaseEntity {
     @Convert(converter = InterviewStep.JpaConverter.class)
     private InterviewStep interviewStep;
 
-    private LocalDateTime interviewTime;
+    private LocalDateTime interviewDatetime;
+
+    private String interviewPlace;
+
+    public static Schedule ofId(Long scheduleId) {
+        return Schedule.builder().id(scheduleId).build();
+    }
 
     private String location;
 

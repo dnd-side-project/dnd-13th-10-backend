@@ -16,7 +16,7 @@ public enum MemoirType implements EnumCode {
     private final String description;
 
     @Converter(autoApply = true)
-    public static class JpaConverter extends EnumCodeJpaConverter<InterviewMood> {
-        public JpaConverter() { super(InterviewMood.class); }
+    public static class JpaConverter extends EnumCodeJpaConverter<MemoirType> {
+        public JpaConverter() { super(MemoirType.class); }
     }
 }

@@ -1,6 +1,5 @@
 package com.seed.domain.user.entity;
 
-import com.seed.domain.company.Company;
 import com.seed.domain.schedule.entity.Schedule;
 import com.seed.global.entity.BaseEntity;
 import com.seed.domain.user.enums.Role;
@@ -13,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @Entity
 @Getter
@@ -59,5 +57,9 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public String getUsername() {
         return socialId;
+    }
+
+    public static User ofId(Long userId) {
+        return User.builder().id(userId).build();
     }
 }
