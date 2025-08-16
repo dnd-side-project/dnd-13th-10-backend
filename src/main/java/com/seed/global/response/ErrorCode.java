@@ -25,7 +25,11 @@ public enum ErrorCode {
     DUPLICATE_RESOURCE("E301", "이미 존재하는 리소스입니다.", HttpStatus.CONFLICT),
 
     // 서버 오류
-    SERVER_ERROR("E500", "서버 내부 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+    SERVER_ERROR("E500", "서버 내부 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+
+    // 일정 관련
+    SCHEDULE_NOT_FOUND("E401", "해당하는 일정을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
+    ;
 
     private final String code;
     private final String message;
