@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.memoir.enums.*;
 import com.seed.domain.question.dto.request.QuestionProcRequest;
+import com.seed.domain.schedule.entity.Schedule;
 import com.seed.domain.schedule.enums.InterviewStep;
 import com.seed.domain.schedule.enums.Position;
 import com.seed.domain.user.entity.User;
@@ -17,9 +18,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class QuickMemoirProcRequest {
+public class MemoirProcRequest {
     private Long id;
-    private String userId;
+    private Long userId;
+    private Long scheduleId;
     private String type;
     private String interviewFormat;
     private String interviewMood;
@@ -38,9 +40,10 @@ public class QuickMemoirProcRequest {
     private boolean isPublic = true;
     private List<QuestionProcRequest> questions;
 
-    public static Memoir toEntity(QuickMemoirProcRequest req) {
+    public static Memoir toEntity(Long userId, MemoirProcRequest req) {
         return Memoir.builder()
-                .user(User.ofId("1")) // FK 참조만 세팅 TODO : 추후 세션? 에서 UserId 가지고 옴
+                .user(User.ofId(userId)) // FK 참조만 세팅 TODO : 추후 세션? 에서 UserId 가지고 옴
+                .schedule(req.getScheduleId() == null ? null : Schedule.ofId(req.getScheduleId()))
                 .type(EnumCode.valueOfCode(MemoirType.class, req.getType()))
                 .interviewFormat(EnumCode.valueOfCode(InterviewFormat.class, req.getInterviewFormat()))
                 .interviewMood(EnumCode.valueOfCode(InterviewMood.class, req.getInterviewMood()))

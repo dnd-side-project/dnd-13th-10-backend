@@ -26,11 +26,10 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
                 .select(Projections.constructor(
                         MemoirListResponse.class,
                         memoir.id,
-                        memoir.type.stringValue(), // Enum -> String
-                        memoir.interviewStatus.stringValue(),
-                        memoir.interviewMethod.stringValue(),
+                        memoir.type, // Enum -> String
+                        memoir.interviewStatus,
                         memoir.companyName,
-                        memoir.position.stringValue(),
+                        memoir.position,
                         memoir.createdAt,
                         qQuestion.content // displayOrder = 1 인 첫 질문 (없으면 null)
                 ))
@@ -44,5 +43,6 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
                 )
                 .orderBy(memoir.createdAt.desc())
                 .fetch();
+
     }
 }

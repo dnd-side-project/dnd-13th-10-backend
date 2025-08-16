@@ -57,7 +57,8 @@ public class User extends BaseEntity implements UserDetails {
     public String getUsername() {
         return socialId;
     }
-    public static User ofId(String userId) {
-        return User.builder().id(Long.parseLong(userId)).build();
+
+    public static User ofId(Long userId) {
+        return User.builder().id(userId).build();
     }
 }

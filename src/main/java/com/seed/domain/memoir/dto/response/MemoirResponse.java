@@ -19,6 +19,7 @@ import java.util.List;
 public class MemoirResponse {
     private Long id;
     private UserMemoirResponse user;
+    private Long scheduleId; // TODO : 상황보고 DTO 로 바꿔야할지도...
 
     private List<AttachmentResponse> attachments;
     private List<QuestionResponse> questions;
@@ -56,6 +57,7 @@ public class MemoirResponse {
         return MemoirResponse.builder()
                 .id(memoir.getId())
                 .user(UserMemoirResponse.fromEntity(memoir.getUser()))
+                .scheduleId(memoir.getSchedule() == null ? null : memoir.getSchedule().getId())
                 .attachments(AttachmentResponse.fromEntityList(memoir.getAttachments()))
                 .questions(QuestionResponse.fromEntityList(memoir.getQuestions()))
                 .type(EnumCode.getDescriptionOrNull(memoir.getType()))

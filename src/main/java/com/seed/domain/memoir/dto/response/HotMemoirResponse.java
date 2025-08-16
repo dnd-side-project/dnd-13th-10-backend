@@ -1,6 +1,7 @@
 package com.seed.domain.memoir.dto.response;
 
 import com.seed.domain.attachment.entity.Attachment;
+import com.seed.domain.attachment.response.AttachmentResponse;
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.memoir.enums.*;
 import com.seed.domain.schedule.enums.InterviewStep;
@@ -17,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class HotMemoirResponse {
     private Long id;
-    private List<Attachment> attachments;
+    private List<AttachmentResponse> attachments;
     private MemoirType type;
     private InterviewFormat interviewFormat;
     private InterviewMood interviewMood;
@@ -46,7 +47,7 @@ public class HotMemoirResponse {
     public static HotMemoirResponse fromEntity(Memoir memoir) {
         return HotMemoirResponse.builder()
                 .id(memoir.getId())
-                .attachments(memoir.getAttachments())
+                .attachments(AttachmentResponse.fromEntityList(memoir.getAttachments()))
                 .type(memoir.getType())
                 .interviewFormat(memoir.getInterviewFormat())
                 .interviewMood(memoir.getInterviewMood())

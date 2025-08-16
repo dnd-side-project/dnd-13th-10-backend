@@ -1,9 +1,10 @@
 package com.seed.domain.memoir.entity;
 
 import com.seed.domain.attachment.entity.Attachment;
-import com.seed.domain.memoir.dto.request.QuickMemoirProcRequest;
+import com.seed.domain.memoir.dto.request.MemoirProcRequest;
 import com.seed.domain.memoir.enums.*;
 import com.seed.domain.question.entity.Question;
+import com.seed.domain.schedule.entity.Schedule;
 import com.seed.domain.schedule.enums.InterviewStep;
 import com.seed.domain.schedule.enums.Position;
 import com.seed.domain.user.entity.User;
@@ -33,6 +34,10 @@ public class Memoir extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "schedule_id")
+    private Schedule schedule;
 
     @OneToMany(mappedBy = "memoir", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Attachment> attachments = new ArrayList<>();
@@ -127,7 +132,7 @@ public class Memoir extends BaseEntity {
         this.questions.removeIf(q -> ordersToDelete.contains(q.getDisplayOrder()));
     }
 
-    public void modifyMemoirFromQuick(QuickMemoirProcRequest req) {
+    public void modifyMemoirFromQuick(MemoirProcRequest req) {
         this.type = EnumCode.valueOfCode(MemoirType.class, req.getType());
         this.interviewFormat = EnumCode.valueOfCode(InterviewFormat.class, req.getInterviewFormat());
         this.interviewMood = EnumCode.valueOfCode(InterviewMood.class, req.getInterviewMood());

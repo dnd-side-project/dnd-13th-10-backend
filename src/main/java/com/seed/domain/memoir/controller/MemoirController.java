@@ -1,18 +1,20 @@
 package com.seed.domain.memoir.controller;
 
-import com.seed.domain.memoir.dto.request.QuickMemoirProcRequest;
+import com.seed.domain.memoir.dto.request.MemoirProcRequest;
 import com.seed.domain.memoir.dto.response.MemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirResponse;
 import com.seed.domain.memoir.service.MemoirService;
+import com.seed.domain.user.entity.User;
 import com.seed.global.response.ApiResponse;
 import com.seed.global.response.SuccessCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/memoirs")
+@RequestMapping("/api/memoirs")
 @RequiredArgsConstructor
 public class MemoirController {
 
@@ -20,12 +22,12 @@ public class MemoirController {
 
     /**
      * 퀵 회고 등록
-     * @param quickMemoirProcRequest
+     * @param memoirProcRequest
      * @return
      */
-    @PostMapping("/quick")
-    public ApiResponse<Long> createQuickMemoir(@RequestBody QuickMemoirProcRequest quickMemoirProcRequest) {
-        Long quickMemoir = memoirService.createQuickMemoir(quickMemoirProcRequest);
+    @PostMapping
+    public ApiResponse<Long> createMemoir(@AuthenticationPrincipal User user, @RequestBody MemoirProcRequest memoirProcRequest) {
+        Long quickMemoir = memoirService.createMemoir(user.getId(), memoirProcRequest);
         return ApiResponse.success(SuccessCode.RETROSPECT_CREATED ,quickMemoir);
     }
 
@@ -52,12 +54,12 @@ public class MemoirController {
 
     /**
      * 퀵 회고 수정
-     * @param quickMemoirProcRequest
+     * @param memoirProcRequest
      * @return
      */
-    @PutMapping("/quick")
-    public ApiResponse<Long> modifyQuickMemoir(@RequestBody QuickMemoirProcRequest quickMemoirProcRequest) {
-        Long id = memoirService.modifyQuickMemoir(quickMemoirProcRequest);
+    @PutMapping
+    public ApiResponse<Long> modifyMemoir(@RequestBody MemoirProcRequest memoirProcRequest) {
+        Long id = memoirService.modifyMemoir(memoirProcRequest);
         return ApiResponse.success(SuccessCode.RETROSPECT_UPDATED, id);
     }
 

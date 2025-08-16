@@ -1,6 +1,6 @@
 package com.seed.domain.memoir.service.impl;
 
-import com.seed.domain.memoir.dto.request.QuickMemoirProcRequest;
+import com.seed.domain.memoir.dto.request.MemoirProcRequest;
 import com.seed.domain.memoir.dto.response.MemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirResponse;
 import com.seed.domain.memoir.entity.Memoir;
@@ -25,11 +25,11 @@ public class MemoirServiceImpl implements MemoirService {
 
     @Override
     @Transactional
-    public Long createQuickMemoir(QuickMemoirProcRequest quickMemoirProcRequest) {
-        Memoir memoir = QuickMemoirProcRequest.toEntity(quickMemoirProcRequest);
+    public Long createMemoir(Long userId, MemoirProcRequest memoirProcRequest) {
+        Memoir memoir = MemoirProcRequest.toEntity(userId, memoirProcRequest);
 
-        if (quickMemoirProcRequest.getQuestions() != null) {
-            List<QuestionProcRequest> listQuestionDTO = quickMemoirProcRequest.getQuestions();
+        if (memoirProcRequest.getQuestions() != null) {
+            List<QuestionProcRequest> listQuestionDTO = memoirProcRequest.getQuestions();
             List<Question> listQuestion = QuestionProcRequest.toEntityList(listQuestionDTO);
             memoir.addQuestions(listQuestion);
         }
@@ -52,7 +52,7 @@ public class MemoirServiceImpl implements MemoirService {
 
     @Override
     @Transactional
-    public Long modifyQuickMemoir(QuickMemoirProcRequest req) {
+    public Long modifyMemoir(MemoirProcRequest req) {
         Memoir memoir = memoirRepository.findById(req.getId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "해당 회고 정보를 찾을 수 없습니다."));
 

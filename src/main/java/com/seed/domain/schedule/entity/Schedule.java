@@ -36,4 +36,8 @@ public class Schedule extends BaseEntity {
 
     private String interviewPlace;
 
+    public static Schedule ofId(Long scheduleId) {
+        return Schedule.builder().id(scheduleId).build();
+    }
+
 }
