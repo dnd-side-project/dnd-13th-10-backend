@@ -38,15 +38,17 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/{scheduleId}")
-    public ApiResponse<?> deleteSchedule(@PathVariable Long scheduleId) {
-        scheduleCommandService.deleteSchedule(scheduleId);
+    public ApiResponse<?> deleteSchedule(@PathVariable Long scheduleId,
+                                         @AuthenticationPrincipal User user) {
+        scheduleCommandService.deleteSchedule(scheduleId, user.getId());
         return ApiResponse.success("면접 일정이 삭제되었습니다.");
     }
 
     @PutMapping("/{scheduleId}")
     public ApiResponse<?> modifySchedule(@PathVariable Long scheduleId,
-                                         @RequestBody ScheduleRequest.UpdateRequestDTO requestDTO) {
-        scheduleCommandService.modifySchedule(scheduleId, requestDTO);
+                                         @RequestBody ScheduleRequest.UpdateRequestDTO requestDTO,
+                                         @AuthenticationPrincipal User user) {
+        scheduleCommandService.modifySchedule(scheduleId, user.getId(), requestDTO);
         return ApiResponse.success("면접 일정이 수정되었습니다.");
     }
 

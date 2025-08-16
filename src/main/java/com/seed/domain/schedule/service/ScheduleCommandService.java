@@ -32,14 +32,26 @@ public class ScheduleCommandService {
     }
 
     // TODO : 일정과 연결된 회고가 있을때, 회고를 우선적으로 조회 후, 삭제 또는 FK를 null 처리 후 일정 삭제
-    public void deleteSchedule(Long scheduleId) {
+    public void deleteSchedule(Long scheduleId, Long userId) {
+
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND));
+
+        if(!schedule.getUser().getId().equals(userId)) {
+            throw new BusinessException(ErrorCode.DELETE_FORBIDDEN);
+        }
+
         scheduleRepository.deleteById(scheduleId);
     }
 
     // TODO : 회사 데이터 구축 완료 후 마무리 예정
-    public void modifySchedule(Long scheduleId, ScheduleRequest.UpdateRequestDTO requestDTO) {
+    public void modifySchedule(Long scheduleId, Long userId, ScheduleRequest.UpdateRequestDTO requestDTO) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND));
+
+        if(!schedule.getUser().getId().equals(userId)) {
+            throw new BusinessException(ErrorCode.UPDATE_FORBIDDEN);
+        }
 
         schedule.modifySchedule(requestDTO, null);
     }
