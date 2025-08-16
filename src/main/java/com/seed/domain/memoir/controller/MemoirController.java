@@ -60,4 +60,15 @@ public class MemoirController {
         Long id = memoirService.modifyQuickMemoir(quickMemoirProcRequest);
         return ApiResponse.success(SuccessCode.RETROSPECT_UPDATED, id);
     }
+
+    /**
+     * 회고 삭제 (unUse)
+     * @param memoirId
+     * @return
+     */
+    @DeleteMapping("/{memoirId}")
+    public ApiResponse<Long> deleteMemoir(@PathVariable Long memoirId) {
+        memoirService.deleteMemoir(memoirId);
+        return ApiResponse.success(SuccessCode.RETROSPECT_DELETED, null);
+    }
 }

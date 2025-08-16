@@ -11,4 +11,5 @@ public interface MemoirService {
     List<MemoirListResponse> findListMemoir();
     MemoirResponse findMemoirById(Long id);
     Long modifyQuickMemoir(QuickMemoirProcRequest quickMemoirProcRequest);
+    void deleteMemoir(Long id);
 }

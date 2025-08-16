@@ -142,4 +142,9 @@ public class Memoir extends BaseEntity {
         this.interviewStep = EnumCode.valueOfCode(InterviewStep.class, req.getInterviewStep());
         this.interviewDatetime = com.seed.global.utils.DateUtil.combine(req.getInterviewDate(), req.getInterviewTime());
     }
+
+    public void unUse() {
+        if (!this.isUse) return; // 이미 비활성이면 아무 것도 안 함
+        this.isUse = false;
+    }
 }
