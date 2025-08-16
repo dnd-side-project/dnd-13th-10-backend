@@ -1,11 +1,13 @@
 package com.seed.domain.memoir.entity;
 
 import com.seed.domain.attachment.entity.Attachment;
+import com.seed.domain.memoir.dto.request.QuickMemoirProcRequest;
 import com.seed.domain.memoir.enums.*;
 import com.seed.domain.question.entity.Question;
 import com.seed.domain.schedule.enums.InterviewStep;
 import com.seed.domain.schedule.enums.Position;
 import com.seed.domain.user.entity.User;
+import com.seed.global.code.EnumCode;
 import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,6 +16,8 @@ import org.hibernate.annotations.Comment;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -91,7 +95,7 @@ public class Memoir extends BaseEntity {
     private InterviewStep interviewStep;
 
     @Column(columnDefinition = "DATETIME(0)")
-    private LocalDateTime interviewTime;
+    private LocalDateTime interviewDatetime;
 
     private int likeCount;
 
@@ -111,5 +115,31 @@ public class Memoir extends BaseEntity {
             this.questions.add(q);
             q.assignMemoir(this); // ★ FK(자식 쪽)도 세팅
         }
+    }
+
+    public void removeQuestions(List<Question> qs) {
+        // 삭제할 order 값만 뽑아두기
+        Set<Integer> ordersToDelete = qs.stream()
+                .map(Question::getDisplayOrder)
+                .collect(Collectors.toSet());
+
+        // Memoir는 영속 상태여야 함 (findById 등으로 가져온 상태)
+        this.questions.removeIf(q -> ordersToDelete.contains(q.getDisplayOrder()));
+    }
+
+    public void modifyMemoirFromQuick(QuickMemoirProcRequest req) {
+        this.type = EnumCode.valueOfCode(MemoirType.class, req.getType());
+        this.interviewFormat = EnumCode.valueOfCode(InterviewFormat.class, req.getInterviewFormat());
+        this.interviewMood = EnumCode.valueOfCode(InterviewMood.class, req.getInterviewMood());
+        this.satisfactionNote = EnumCode.valueOfCode(SatisfactionNote.class, req.getSatisfactionNote());
+        this.interviewLevel = EnumCode.valueOfCode(InterviewLevel.class, req.getInterviewLevel());
+        this.interviewStatus = EnumCode.valueOfCode(InterviewStatus.class, req.getInterviewStatus());
+        this.interviewMethod = EnumCode.valueOfCode(InterviewMethod.class, req.getInterviewMethod());
+        this.freeNote = req.getFreeNote();
+        this.url = req.getUrl();
+        this.companyName = req.getCompanyName();
+        this.position = EnumCode.valueOfCode(Position.class, req.getPosition());
+        this.interviewStep = EnumCode.valueOfCode(InterviewStep.class, req.getInterviewStep());
+        this.interviewDatetime = com.seed.global.utils.DateUtil.combine(req.getInterviewDate(), req.getInterviewTime());
     }
 }

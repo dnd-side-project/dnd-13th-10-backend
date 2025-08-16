@@ -39,7 +39,7 @@ public class MemoirResponse {
     private String position;
     private String interviewStep;
 
-    private LocalDateTime interviewTime;
+    private LocalDateTime interviewDatetime;
     private int likeCount;
     private int viewCount;
     private LocalDateTime createdAt;
@@ -62,7 +62,7 @@ public class MemoirResponse {
                 .companyName(memoir.getCompanyName())
                 .position(EnumCode.getDescriptionOrNull(memoir.getPosition()))
                 .interviewStep(EnumCode.getDescriptionOrNull(memoir.getInterviewStep()))
-                .interviewTime(memoir.getInterviewTime())
+                .interviewDatetime(memoir.getInterviewDatetime())
                 .likeCount(memoir.getLikeCount())
                 .viewCount(memoir.getViewCount())
                 .createdAt(memoir.getCreatedAt())

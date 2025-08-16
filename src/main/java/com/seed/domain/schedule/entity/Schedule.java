@@ -32,7 +32,7 @@ public class Schedule extends BaseEntity {
     @Convert(converter = InterviewStep.JpaConverter.class)
     private InterviewStep interviewStep;
 
-    private LocalDateTime interviewTime;
+    private LocalDateTime interviewDatetime;
 
     private String interviewPlace;
 
