@@ -100,4 +100,13 @@ public class MemoirServiceImpl implements MemoirService {
 
         return memoir.getId();
     }
+
+    @Override
+    @Transactional
+    public void deleteMemoir(Long id) {
+        Memoir memoir = memoirRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "해당 회고 정보를 찾을 수 없습니다."));
+
+        memoir.unUse();
+    }
 }
