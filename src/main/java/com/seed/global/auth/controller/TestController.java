@@ -14,9 +14,10 @@ public class TestController {
     @GetMapping("/test")
     public ApiResponse<?> test(@AuthenticationPrincipal User user) {
         String socialId = user.getSocialId();
+        Long userId = user.getId();
         String email = user.getEmail();
         String name = user.getName();
         
-        return ApiResponse.success("현재 로그인한 사용자 - socialId: " + socialId + ", email: " + email + ", name: " + name);
+        return ApiResponse.success("현재 로그인한 사용자 - socialId: " + socialId + ", userId: " + userId + ", name: " + name);
     }
 }

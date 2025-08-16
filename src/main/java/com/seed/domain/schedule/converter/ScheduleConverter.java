@@ -4,6 +4,7 @@ import com.seed.domain.memoir.enums.MemoirType;
 import com.seed.domain.schedule.dto.request.ScheduleRequest;
 import com.seed.domain.schedule.dto.response.ScheduleResponse;
 import com.seed.domain.schedule.entity.Schedule;
+import com.seed.domain.user.entity.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,13 +13,16 @@ import java.util.List;
 
 public class ScheduleConverter {
 
-    public static Schedule toSchedule(ScheduleRequest.CreateRequestDTO requestDTO) {
-        return Schedule.builder()
+    public static Schedule toSchedule(ScheduleRequest.CreateRequestDTO requestDTO, User user) {
+        Schedule schedule = Schedule.builder()
                 .position(requestDTO.getPosition())
                 .interviewTime(requestDTO.getInterviewTime())
                 .interviewStep(requestDTO.getInterviewStep())
                 .location(requestDTO.getLocation())
                 .build();
+        schedule.setUser(user);
+
+        return schedule;
     }
 
     public static ScheduleResponse.InfoDTO toInfoDTO(Schedule schedule, List<MemoirType> memoirTypes) {
@@ -28,7 +32,7 @@ public class ScheduleConverter {
         return ScheduleResponse.InfoDTO.builder()
                 .id(schedule.getId())
                 .position(schedule.getPosition())
-                .companyName(schedule.getCompany().getName())
+                .companyName(schedule.getCompany() != null ? schedule.getCompany().getName() : null)
                 .interviewDate(schedule.getInterviewTime())
                 .remainDate(remainDays)
                 .createdAt(schedule.getCreatedAt())
@@ -41,7 +45,7 @@ public class ScheduleConverter {
         return ScheduleResponse.DetailDTO.builder()
                 .id(schedule.getId())
                 .position(schedule.getPosition())
-                .companyName(schedule.getCompany().getName())
+                .companyName(schedule.getCompany() != null ? schedule.getCompany().getName() : null)
                 .interviewDate(schedule.getInterviewTime())
                 .interviewStep(schedule.getInterviewStep().getDescription())
                 .location(schedule.getLocation())
