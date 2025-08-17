@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class TestController {
 
-    @GetMapping("/test")
+    @GetMapping("/api/test")
     public ApiResponse<?> test(@AuthenticationPrincipal User user) {
         String socialId = user.getSocialId();
         Long userId = user.getId();
