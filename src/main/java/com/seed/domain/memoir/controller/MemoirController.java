@@ -1,8 +1,10 @@
 package com.seed.domain.memoir.controller;
 
 import com.seed.domain.memoir.dto.request.MemoirProcRequest;
+import com.seed.domain.memoir.dto.request.SearchMemoirRequest;
 import com.seed.domain.memoir.dto.response.MemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirResponse;
+import com.seed.domain.memoir.dto.response.MineMemoirListResponse;
 import com.seed.domain.memoir.service.MemoirService;
 import com.seed.domain.user.entity.User;
 import com.seed.global.response.ApiResponse;
@@ -22,17 +24,19 @@ public class MemoirController {
 
     /**
      * 퀵 회고 등록
+     *
      * @param memoirProcRequest
      * @return
      */
     @PostMapping
     public ApiResponse<Long> createMemoir(@AuthenticationPrincipal User user, @RequestBody MemoirProcRequest memoirProcRequest) {
         Long quickMemoir = memoirService.createMemoir(user.getId(), memoirProcRequest);
-        return ApiResponse.success(SuccessCode.RETROSPECT_CREATED ,quickMemoir);
+        return ApiResponse.success(SuccessCode.RETROSPECT_CREATED, quickMemoir);
     }
 
     /**
      * 회고 리스트 조회 (퀵 회고, 일반 회고 모두 포함)
+     *
      * @return
      */
     @GetMapping
@@ -43,6 +47,7 @@ public class MemoirController {
 
     /**
      * 상세 회고 조회 (퀵 회고, 일반 회고 모두 포함)
+     *
      * @param memoirId
      * @return
      */
@@ -52,8 +57,18 @@ public class MemoirController {
         return ApiResponse.success(memoirResponse);
     }
 
+    @GetMapping("/mine")
+    public ApiResponse<List<MineMemoirListResponse>> findMineMemoir(
+            @AuthenticationPrincipal User user,
+            SearchMemoirRequest request
+    ) {
+        List<MineMemoirListResponse> listMineMemoir = memoirService.findListMineMemoir(user.getId(), request);
+        return ApiResponse.success(listMineMemoir);
+    }
+
     /**
      * 퀵 회고 수정
+     *
      * @param memoirProcRequest
      * @return
      */
@@ -65,6 +80,7 @@ public class MemoirController {
 
     /**
      * 회고 삭제 (unUse)
+     *
      * @param memoirId
      * @return
      */

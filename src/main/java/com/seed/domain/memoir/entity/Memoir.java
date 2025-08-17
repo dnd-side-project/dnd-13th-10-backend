@@ -107,6 +107,10 @@ public class Memoir extends BaseEntity {
     private int viewCount;
 
     @Builder.Default
+    @Column(columnDefinition = "TINYINT(1) DEFAULT 0")
+    private boolean isTmp = false;
+
+    @Builder.Default
     @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
     private boolean isPublic = true;
 
