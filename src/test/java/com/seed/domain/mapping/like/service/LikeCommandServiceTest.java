@@ -3,7 +3,9 @@ package com.seed.domain.mapping.like.service;
 import com.seed.domain.mapping.like.repository.LikeRepository;
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.memoir.enums.InterviewMood;
+import com.seed.domain.memoir.enums.MemoirType;
 import com.seed.domain.memoir.repository.MemoirRepository;
+import com.seed.domain.schedule.enums.Position;
 import com.seed.domain.user.entity.User;
 import com.seed.domain.user.enums.Role;
 import com.seed.domain.user.repository.UserRepository;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,9 +30,6 @@ class LikeCommandServiceTest {
 
     @Autowired
     private MemoirRepository memoirRepository;
-
-    @Autowired
-    private LikeRepository likeRepository;
 
     User user;
     Memoir memoir;
@@ -76,5 +76,26 @@ class LikeCommandServiceTest {
 
         //then
         Assertions.assertThat(isLiked).isFalse();
+    }
+
+
+    @DisplayName("")
+    @Test
+    @Rollback(false)
+    void insertMemoir(){
+
+        //given
+        Memoir memoir3 = Memoir.builder()
+                .companyName("카카오")
+                .interviewMood(InterviewMood.FRIENDLY)
+                .position(Position.ADMIN_LEGAL)
+                .type(MemoirType.QUICK)
+                .build();
+
+        memoirRepository.save(memoir3);
+
+        //when
+
+        //then
     }
 }
