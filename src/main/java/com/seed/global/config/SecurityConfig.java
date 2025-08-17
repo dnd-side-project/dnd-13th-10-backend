@@ -58,7 +58,10 @@ public class SecurityConfig {
                                 "/h2-console/**",      // H2 데이터베이스 콘솔
                                 "/api/auth/**",   // 인증 관련 API
                                 "/static/**",
-                                "/api/auth/**"
+                                "/api/auth/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-resources/**"
                         ).permitAll()
 
                         // 나머지 모든 요청은 인증 필요
@@ -93,7 +96,8 @@ public class SecurityConfig {
         // 허용할 도메인 설정 (개발환경)
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000",    // React 개발 서버
-                "http://localhost:8080"     // 같은 서버
+                "http://localhost:8080",     // 같은 서버
+                "https://devseed.store"
         ));
 
         // 허용할 HTTP 메서드
