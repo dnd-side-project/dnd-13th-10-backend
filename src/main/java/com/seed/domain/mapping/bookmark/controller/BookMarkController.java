@@ -21,7 +21,7 @@ public class BookMarkController {
     private final BookMarkCommandService bookMarkCommandService;
     private final BookMarkQueryService bookMarkQueryService;
 
-    @PostMapping("/api/memoirs/{memoirId}/bookMark")
+    @PostMapping("/api/memoirs/{memoirId}/bookMarks")
     public ApiResponse<?> bookMark(@PathVariable("memoirId") Long memoirId,
                                    @AuthenticationPrincipal User user) {
         return ApiResponse.success(bookMarkCommandService.toggleBookMark(user.getId(), memoirId));
