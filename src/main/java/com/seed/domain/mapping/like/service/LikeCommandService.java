@@ -35,11 +35,13 @@ public class LikeCommandService {
         // 이미 좋아요를 누른 상태라면 -> 취소
         if (like.isPresent()) {
             likeRepository.delete(like.get());
+            memoirRepository.decrementLikeCount(memoirId);
             isLiked = false;
         }
         // 좋아요를 누르지 않은 상태라면 -> 추가
         else{
             likesUp(userId, memoirId);
+            memoirRepository.incrementLikeCount(memoirId);
             isLiked = true;
         }
 
@@ -47,12 +49,6 @@ public class LikeCommandService {
     }
 
     private void likesUp(Long userId, Long memoirId) {
-
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, "해당 회원 정보를 찾을 수 없습니다."));
-//
-//        Memoir memoir = memoirRepository.findById(memoirId)
-//                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "해당 회고 정보를 찾을 수 없습니다."));
 
         if(!userRepository.existsById(userId)){
             throw new BusinessException(ErrorCode.USER_NOT_FOUND,"해당 회원 정보를 찾을 수 없습니다.");

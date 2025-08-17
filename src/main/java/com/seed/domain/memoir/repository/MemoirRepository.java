@@ -15,5 +15,13 @@ public interface MemoirRepository extends JpaRepository<Memoir, Long>, MemoirQue
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("update Memoir m set m.viewCount = m.viewCount + 1 where m.id = :id")
     int incrementViewCount(@Param("id") Long id);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("update Memoir m set m.likeCount = m.likeCount + 1 where m.id = :memoirId")
+    int incrementLikeCount(@Param("memoirId") Long memoirId);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("update Memoir m set m.likeCount = greatest (m.likeCount - 1, 0) where m.id = :memoirId")
+    int decrementLikeCount(@Param("memoirId") Long memoirId);
 }
 
