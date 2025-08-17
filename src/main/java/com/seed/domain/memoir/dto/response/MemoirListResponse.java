@@ -4,6 +4,7 @@ import com.querydsl.core.annotations.QueryProjection;
 import com.seed.domain.memoir.enums.InterviewStatus;
 import com.seed.domain.memoir.enums.MemoirType;
 import com.seed.domain.schedule.enums.Position;
+import com.seed.global.code.EnumCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,10 +33,10 @@ public class MemoirListResponse {
             String firstQuestion
     ) {
         this.id = id;
-        this.type = type.getDescription();
-        this.interviewStatus = interviewStatus.getDescription();
+        this.type = EnumCode.getDescriptionOrNull(type);
+        this.interviewStatus = EnumCode.getDescriptionOrNull(interviewStatus);
         this.companyName = companyName;
-        this.position = position.getDescription();
+        this.position = EnumCode.getDescriptionOrNull(position);
         this.createdAt = createdAt;
         this.firstQuestion = firstQuestion;
     }

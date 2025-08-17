@@ -2,6 +2,7 @@ package com.seed.domain.memoir.service.impl;
 
 import com.seed.domain.memoir.dto.request.MemoirProcRequest;
 import com.seed.domain.memoir.dto.request.SearchMemoirRequest;
+import com.seed.domain.memoir.dto.response.HotMemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirResponse;
 import com.seed.domain.memoir.dto.response.MineMemoirListResponse;
@@ -12,10 +13,13 @@ import com.seed.domain.question.dto.request.QuestionProcRequest;
 import com.seed.domain.question.entity.Question;
 import com.seed.global.exception.BusinessException;
 import com.seed.global.response.ErrorCode;
+import com.seed.global.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -55,6 +59,13 @@ public class MemoirServiceImpl implements MemoirService {
     @Override
     public List<MineMemoirListResponse> findListMineMemoir(Long userId, SearchMemoirRequest searchType) {
         return memoirRepository.findListMineMemoir(userId, searchType);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<HotMemoirListResponse> findWeeklyTop10() {
+        Pair<LocalDateTime, LocalDateTime> range = DateUtil.weekRangeKst();
+        return memoirRepository.findWeeklyTop10(range.getFirst(), range.getSecond());
     }
 
     @Override

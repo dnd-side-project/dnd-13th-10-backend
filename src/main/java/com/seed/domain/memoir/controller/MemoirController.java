@@ -2,6 +2,7 @@ package com.seed.domain.memoir.controller;
 
 import com.seed.domain.memoir.dto.request.MemoirProcRequest;
 import com.seed.domain.memoir.dto.request.SearchMemoirRequest;
+import com.seed.domain.memoir.dto.response.HotMemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirResponse;
 import com.seed.domain.memoir.dto.response.MineMemoirListResponse;
@@ -72,6 +73,17 @@ public class MemoirController {
     ) {
         List<MineMemoirListResponse> listMineMemoir = memoirService.findListMineMemoir(user.getId(), request);
         return ApiResponse.success(listMineMemoir);
+    }
+
+    /**
+     * 이번주 핫 회고 TOP 10 조회
+     *
+     * @return
+     */
+    @GetMapping("/hot")
+    public ApiResponse<List<HotMemoirListResponse>> findWeeklyTop10() {
+        List<HotMemoirListResponse> listHotMemoir = memoirService.findWeeklyTop10();
+        return ApiResponse.success(listHotMemoir);
     }
 
     /**
