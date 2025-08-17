@@ -18,6 +18,11 @@ spring:
       ddl-auto: create
     show-sql: true
     database-platform: org.hibernate.dialect.MySQLDialect
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true  # SQL 줄바꿈/들여쓰기
+        highlight_sql: true # ANSI 컬러로 하이라이트 (Hibernate 6+)
 
   # OAuth2 소셜로그인 설정
   security:
@@ -37,6 +42,10 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id  # 카카오에서 사용자 식별자로 사용할 속성
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
 
 # JWT 토큰 설정
 jwt:
