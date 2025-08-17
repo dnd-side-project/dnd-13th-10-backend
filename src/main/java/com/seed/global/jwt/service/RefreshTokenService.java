@@ -27,7 +27,13 @@ public class RefreshTokenService {
     public boolean validateRefreshToken(String socialId, String refreshToken) {
         String key = REFRESH_TOKEN_KEY + socialId;
 
+        log.info("Redis Key : {}" , key);
+
+        log.info("Refresh Token : {}" , refreshToken);
+
         String storedRefreshToken = stringRedisTemplate.opsForValue().get(key);
+
+        log.info("Stored Refresh Token  : {}" , storedRefreshToken);
 
         return refreshToken.equals(storedRefreshToken);
     }
