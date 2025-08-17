@@ -1,8 +1,10 @@
 package com.seed.domain.memoir.service.impl;
 
 import com.seed.domain.memoir.dto.request.MemoirProcRequest;
+import com.seed.domain.memoir.dto.request.SearchMemoirRequest;
 import com.seed.domain.memoir.dto.response.MemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirResponse;
+import com.seed.domain.memoir.dto.response.MineMemoirListResponse;
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.memoir.repository.MemoirRepository;
 import com.seed.domain.memoir.service.MemoirService;
@@ -48,6 +50,11 @@ public class MemoirServiceImpl implements MemoirService {
         return memoirRepository.findById(id)
                 .map(MemoirResponse::fromEntity)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "해당 회고 정보를 찾을 수 없습니다."));
+    }
+
+    @Override
+    public List<MineMemoirListResponse> findListMineMemoir(Long userId, SearchMemoirRequest searchType) {
+        return memoirRepository.findListMineMemoir(userId, searchType);
     }
 
     @Override
