@@ -1,8 +1,8 @@
 package com.seed.global.utils;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import org.springframework.data.util.Pair;
+
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -42,5 +42,18 @@ public final class DateUtil {
 
     private static boolean isBlank(String s) {
         return s == null || s.trim().isEmpty() || "null".equalsIgnoreCase(s.trim());
+    }
+
+    /**
+     * 주간 범위 유틸 (KST)
+     * @return
+     */
+    public static Pair<LocalDateTime, LocalDateTime> weekRangeKst() {
+        ZoneId zone = ZoneId.of("Asia/Seoul");
+        LocalDate today = LocalDate.now(zone);
+        LocalDate monday = today.with(DayOfWeek.MONDAY);
+        LocalDateTime start = monday.atStartOfDay();
+        LocalDateTime end = start.plusWeeks(1);
+        return Pair.of(start, end);
     }
 }
