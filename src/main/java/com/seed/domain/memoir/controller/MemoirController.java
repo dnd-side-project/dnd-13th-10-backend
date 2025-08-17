@@ -2,10 +2,12 @@ package com.seed.domain.memoir.controller;
 
 import com.seed.domain.memoir.dto.request.MemoirProcRequest;
 import com.seed.domain.memoir.dto.request.SearchMemoirRequest;
+import com.seed.domain.memoir.dto.response.HotMemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirResponse;
 import com.seed.domain.memoir.dto.response.MineMemoirListResponse;
 import com.seed.domain.memoir.service.MemoirService;
+import com.seed.domain.memoir.service.MemoirViewHistService;
 import com.seed.domain.user.entity.User;
 import com.seed.global.response.ApiResponse;
 import com.seed.global.response.SuccessCode;
@@ -21,6 +23,7 @@ import java.util.List;
 public class MemoirController {
 
     private final MemoirService memoirService;
+    private final MemoirViewHistService memoirViewHistService;
 
     /**
      * 퀵 회고 등록
@@ -52,11 +55,24 @@ public class MemoirController {
      * @return
      */
     @GetMapping("/{memoirId}")
-    public ApiResponse<MemoirResponse> findMemoirById(@PathVariable Long memoirId) {
+    public ApiResponse<MemoirResponse> findMemoirById(
+            @PathVariable Long memoirId,
+            @AuthenticationPrincipal(expression = "id") Long viewerId
+    ) {
+        // 조회 이벤트 기록 + viewCount 증가
+        memoirViewHistService.recordView(memoirId, viewerId);
+
         MemoirResponse memoirResponse = memoirService.findMemoirById(memoirId);
         return ApiResponse.success(memoirResponse);
     }
 
+    /**
+     * 내가 작성한 회고 리스트 조회
+     *
+     * @param user
+     * @param request
+     * @return
+     */
     @GetMapping("/mine")
     public ApiResponse<List<MineMemoirListResponse>> findMineMemoir(
             @AuthenticationPrincipal User user,
@@ -64,6 +80,17 @@ public class MemoirController {
     ) {
         List<MineMemoirListResponse> listMineMemoir = memoirService.findListMineMemoir(user.getId(), request);
         return ApiResponse.success(listMineMemoir);
+    }
+
+    /**
+     * 이번주 핫 회고 TOP 10 조회
+     *
+     * @return
+     */
+    @GetMapping("/hot")
+    public ApiResponse<List<HotMemoirListResponse>> findWeeklyTop10() {
+        List<HotMemoirListResponse> listHotMemoir = memoirService.findWeeklyTop10();
+        return ApiResponse.success(listHotMemoir);
     }
 
     /**

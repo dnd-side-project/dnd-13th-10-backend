@@ -1,20 +1,22 @@
 package com.seed.domain.memoir.repository.impl;
 
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.seed.domain.memoir.dto.request.SearchMemoirRequest;
-import com.seed.domain.memoir.dto.response.MemoirListResponse;
-import com.seed.domain.memoir.dto.response.MineMemoirListResponse;
+import com.seed.domain.memoir.dto.response.*;
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.memoir.entity.QMemoir;
+import com.seed.domain.memoir.entity.QMemoirViewHist;
 import com.seed.domain.memoir.enums.MemoirType;
 import com.seed.domain.memoir.repository.MemoirQueryRepository;
 import com.seed.domain.question.entity.QQuestion;
+import com.seed.domain.user.entity.QUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -26,18 +28,17 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
     @Override
     public List<MemoirListResponse> findListMemoir() {
         QMemoir memoir = QMemoir.memoir;
-        QQuestion qQuestion = QQuestion.question; // 생성된 Q 클래스의 static 필드명 확인!
+        QQuestion qQuestion = QQuestion.question;
 
         return queryFactory
-                .select(Projections.constructor(
-                        MemoirListResponse.class,
+                .select(new QMemoirListResponse(
                         memoir.id,
-                        memoir.type, // Enum -> String
+                        memoir.type,
                         memoir.interviewStatus,
                         memoir.companyName,
                         memoir.position,
                         memoir.createdAt,
-                        qQuestion.content // displayOrder = 1 인 첫 질문 (없으면 null)
+                        qQuestion.content        // displayOrder=1 첫 질문(없으면 null)
                 ))
                 .from(memoir)
                 .leftJoin(qQuestion)
@@ -72,6 +73,56 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
         return listMemoir.stream()
                 .map(MineMemoirListResponse::fromEntity)
                 .toList();
+    }
+
+    @Override
+    public List<HotMemoirListResponse> findWeeklyTop10(LocalDateTime utcStart, LocalDateTime utcEnd) {
+        QMemoir m = QMemoir.memoir;
+        QMemoirViewHist v = QMemoirViewHist.memoirViewHist;
+        QUser u = QUser.user;
+        QQuestion q = QQuestion.question;
+
+        // COALESCE(COUNT(v.id), 0) 표현 (QueryDSL)
+        NumberExpression<Long> weeklyViews =
+                com.querydsl.core.types.dsl.Expressions.numberTemplate(
+                        Long.class,
+                        "coalesce(count({0}), 0)",
+                        v.id
+                );
+
+        return queryFactory
+                .select(new QHotMemoirListResponse(
+                        m.id,
+                        m.type,               // MemoirType enum (DTO에서 description 변환)
+                        u.name,               // String userName
+                        m.companyName,        // String companyName
+                        m.position,           // Position enum (DTO에서 description 변환)
+                        q.content,            // String firstQuestion (displayOrder=1)
+                        u.imageUrl,           // String imageUrl
+                        m.createdAt,          // LocalDateTime createdAt
+                        weeklyViews,          // Long weeklyViewCount (COALESCE 처리)
+                        m.viewCount           // Integer totalViewCount (누적)
+                ))
+                .from(m)
+                .join(m.user, u)
+                .leftJoin(m.questions, q)
+                .on(q.displayOrder.eq(1).and(q.isUse.isTrue()))
+                .leftJoin(v) // ← LEFT JOIN 으로 ‘조회 없으면 0’ 유지
+                .on(v.memoir.eq(m)
+                        .and(v.viewedAt.goe(utcStart))
+                        .and(v.viewedAt.lt(utcEnd)))
+                .where(
+                        m.isUse.isTrue(),
+                        m.isPublic.isTrue(),
+                        m.isTmp.isFalse()
+                )
+                .groupBy(
+                        m.id, m.type, m.position, m.companyName,
+                        u.name, u.imageUrl, m.createdAt, q.content, m.viewCount
+                )
+                .orderBy(weeklyViews.desc(), m.id.desc())
+                .limit(10)
+                .fetch();
     }
 
     private static BooleanExpression getBooleanExpression(

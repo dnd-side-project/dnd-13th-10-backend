@@ -19,11 +19,18 @@ public class MineMemoirListResponse {
     private String position;
     @Getter(AccessLevel.NONE)
     private boolean isTmp;
+    @Getter(AccessLevel.NONE)
+    private boolean isPublic;
     private LocalDateTime createdAt;
 
     @JsonProperty("isTmp")
     public boolean getIsTmp() {
         return isTmp;
+    }
+
+    @JsonProperty("isPublic")
+    public boolean getIsPublic() {
+        return isPublic;
     }
 
     public static MineMemoirListResponse fromEntity(Memoir memoir) {
@@ -33,6 +40,7 @@ public class MineMemoirListResponse {
                 .companyName(memoir.getCompanyName())
                 .position(EnumCode.getDescriptionOrNull(memoir.getPosition()))
                 .isTmp(memoir.isTmp())
+                .isPublic(memoir.isPublic())
                 .createdAt(memoir.getCreatedAt())
                 .build();
     }
