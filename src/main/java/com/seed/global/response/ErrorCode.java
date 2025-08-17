@@ -32,6 +32,9 @@ public enum ErrorCode {
     DELETE_FORBIDDEN("E402", "일정 작성자만 일정을 삭제할 수 있습니다.", HttpStatus.BAD_REQUEST),
     UPDATE_FORBIDDEN("E403", "일정 작성자만 일정을 수정할 수 있습니다.", HttpStatus.BAD_REQUEST),
 
+    // 좋아요 관련
+    ALREADY_LIKED_UP("E405", "이미 좋아요를 누른 회고입니다.", HttpStatus.BAD_REQUEST),
+
     // 사용자 관련
     USER_NOT_FOUND("E402", "해당하는 사용자가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     ;

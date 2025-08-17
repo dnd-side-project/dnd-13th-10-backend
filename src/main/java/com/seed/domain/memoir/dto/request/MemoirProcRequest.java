@@ -58,6 +58,7 @@ public class MemoirProcRequest {
                 .interviewStep(EnumCode.valueOfCode(InterviewStep.class, req.getInterviewStep()))
                 .interviewDatetime(DateUtil.combine(req.getInterviewDate(), req.getInterviewTime())) // yyyy-MM-dd + HH:mm → LocalDateTime
                 .isPublic(req.isPublic())
+                .likeCount(0)
                 .build();
     }
 }

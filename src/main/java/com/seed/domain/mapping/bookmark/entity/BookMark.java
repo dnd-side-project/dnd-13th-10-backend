@@ -1,4 +1,4 @@
-package com.seed.domain.mapping.entity;
+package com.seed.domain.mapping.bookmark.entity;
 
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.user.entity.User;

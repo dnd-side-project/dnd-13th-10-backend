@@ -1,4 +1,4 @@
-package com.seed.domain.mapping.entity;
+package com.seed.domain.mapping.like.entity;
 
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.user.entity.User;
@@ -11,6 +11,8 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+@Table(name = "memoir_like",
+uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "memoir_id"}))
 public class Like extends BaseEntity {
 
     @Id
