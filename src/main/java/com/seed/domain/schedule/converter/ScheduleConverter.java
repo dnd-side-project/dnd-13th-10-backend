@@ -16,7 +16,7 @@ public class ScheduleConverter {
     public static Schedule toSchedule(ScheduleRequest.CreateRequestDTO requestDTO, User user) {
         Schedule schedule = Schedule.builder()
                 .position(requestDTO.getPosition())
-                .interviewTime(requestDTO.getInterviewTime())
+                .interviewDatetime(requestDTO.getInterviewDateTime())
                 .interviewStep(requestDTO.getInterviewStep())
                 .location(requestDTO.getLocation())
                 .build();
@@ -27,13 +27,13 @@ public class ScheduleConverter {
 
     public static ScheduleResponse.InfoDTO toInfoDTO(Schedule schedule, List<MemoirType> memoirTypes) {
         // 현재 날짜부터 면접 날짜까지 남은 일수 계산
-        int remainDays = calculateRemainDays(schedule.getInterviewTime());
+        int remainDays = calculateRemainDays(schedule.getInterviewDatetime());
 
         return ScheduleResponse.InfoDTO.builder()
                 .id(schedule.getId())
                 .position(schedule.getPosition())
                 .companyName(schedule.getCompany() != null ? schedule.getCompany().getName() : null)
-                .interviewDate(schedule.getInterviewTime())
+                .interviewDate(schedule.getInterviewDatetime())
                 .remainDate(remainDays)
                 .createdAt(schedule.getCreatedAt())
                 .interviewStep(schedule.getInterviewStep().getDescription())
@@ -46,7 +46,7 @@ public class ScheduleConverter {
                 .id(schedule.getId())
                 .position(schedule.getPosition())
                 .companyName(schedule.getCompany() != null ? schedule.getCompany().getName() : null)
-                .interviewDate(schedule.getInterviewTime())
+                .interviewDate(schedule.getInterviewDatetime())
                 .interviewStep(schedule.getInterviewStep().getDescription())
                 .location(schedule.getLocation())
                 .build();

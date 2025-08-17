@@ -37,8 +37,6 @@ public class Schedule extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private String position;
-
     @Column(length = 2)
     @Convert(converter = InterviewStep.JpaConverter.class)
     private InterviewStep interviewStep;
@@ -65,7 +63,7 @@ public class Schedule extends BaseEntity {
             this.interviewStep = requestDTO.getInterviewStep();
         }
         if(requestDTO.getInterviewTime() != null) {
-            this.interviewTime = requestDTO.getInterviewTime();
+            this.interviewDatetime = requestDTO.getInterviewTime();
         }
         if(requestDTO.getLocation() != null) {
             this.location = requestDTO.getLocation();

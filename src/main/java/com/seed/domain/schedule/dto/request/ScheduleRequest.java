@@ -1,6 +1,7 @@
 package com.seed.domain.schedule.dto.request;
 
 import com.seed.domain.schedule.enums.InterviewStep;
+import com.seed.domain.schedule.enums.Position;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,8 +17,8 @@ public class ScheduleRequest {
     @Builder
     public static class CreateRequestDTO {
         private String companyName;
-        private String position;
-        private LocalDateTime interviewTime;
+        private Position position;
+        private LocalDateTime interviewDateTime;
         private String location;
         private InterviewStep interviewStep;
     }
@@ -28,7 +29,7 @@ public class ScheduleRequest {
     @Builder
     public static class UpdateRequestDTO {
         private String companyName;
-        private String position;
+        private Position position;
         private LocalDateTime interviewTime;
         private String location;
         private InterviewStep interviewStep;
