@@ -36,7 +36,6 @@ public class OAuth2AuthSuccessHandler implements AuthenticationSuccessHandler {
         String socialId = oauth2User.getAttribute("id").toString();
         
         // JWT 토큰 생성
-        String accessToken = jwtUtil.generateAccessToken(socialId);
         String refreshToken = jwtUtil.generateRefreshToken(socialId);
 
         refreshTokenService.saveRefreshToken(socialId, refreshToken);
@@ -54,7 +53,7 @@ public class OAuth2AuthSuccessHandler implements AuthenticationSuccessHandler {
                .secure(true)
                .path("/")
                .maxAge(maxAge)
-               .sameSite("Lax")
+               .sameSite("None")
                .build();
     }
 }
