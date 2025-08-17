@@ -7,7 +7,7 @@ import com.seed.domain.memoir.dto.request.SearchMemoirRequest;
 import com.seed.domain.memoir.dto.response.*;
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.memoir.entity.QMemoir;
-import com.seed.domain.memoir.entity.QMemoirView;
+import com.seed.domain.memoir.entity.QMemoirViewHist;
 import com.seed.domain.memoir.enums.MemoirType;
 import com.seed.domain.memoir.repository.MemoirQueryRepository;
 import com.seed.domain.question.entity.QQuestion;
@@ -78,7 +78,7 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
     @Override
     public List<HotMemoirListResponse> findWeeklyTop10(LocalDateTime utcStart, LocalDateTime utcEnd) {
         QMemoir m = QMemoir.memoir;
-        QMemoirView v = QMemoirView.memoirView;
+        QMemoirViewHist v = QMemoirViewHist.memoirViewHist;
         QUser u = QUser.user;
         QQuestion q = QQuestion.question;
 
