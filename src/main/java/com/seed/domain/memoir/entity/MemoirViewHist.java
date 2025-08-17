@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(
-        name = "memoir_view",
+        name = "memoir_view_hist",
         indexes = {
                 // 조회 집계용: memoir_id + viewed_at 범위 스캔
                 @Index(name = "idx_mv_memoid_time", columnList = "memoir_id, viewed_at"),
