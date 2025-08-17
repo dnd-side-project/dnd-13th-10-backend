@@ -1,10 +1,10 @@
 package com.seed.domain.memoir.service.impl;
 
 import com.seed.domain.memoir.entity.Memoir;
-import com.seed.domain.memoir.entity.MemoirView;
+import com.seed.domain.memoir.entity.MemoirViewHist;
 import com.seed.domain.memoir.repository.MemoirRepository;
-import com.seed.domain.memoir.repository.MemoirViewRepository;
-import com.seed.domain.memoir.service.MemoirViewService;
+import com.seed.domain.memoir.repository.MemoirViewHistRepository;
+import com.seed.domain.memoir.service.MemoirViewHistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class MemoirViewServiceImpl implements MemoirViewService {
+public class MemoirViewHistServiceImpl implements MemoirViewHistService {
 
     private final MemoirRepository memoirRepository;
-    private final MemoirViewRepository memoirViewRepository;
+    private final MemoirViewHistRepository memoirViewHistRepository;
 
     private final Clock clock = Clock.systemUTC(); // UTC 저장 권장
 
@@ -27,8 +27,8 @@ public class MemoirViewServiceImpl implements MemoirViewService {
         // FK만 필요하니 로드 안 하고 프록시 참조
         Memoir memoirRef = memoirRepository.getReferenceById(memoirId);
 
-        memoirViewRepository.save(
-            MemoirView.builder()
+        memoirViewHistRepository.save(
+            MemoirViewHist.builder()
                 .memoir(memoirRef)
                 .viewerId(viewerId) // 비로그인 null 가능
                 .viewedAt(LocalDateTime.now(clock)) // @CreationTimestamp 써도 됨

@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
                 @Index(name = "idx_mv_viewer",      columnList = "viewer_id, memoir_id, viewed_at")
         }
 )
-public class MemoirView {
+public class MemoirViewHist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
