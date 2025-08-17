@@ -7,7 +7,7 @@ import com.seed.domain.memoir.dto.response.MemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirResponse;
 import com.seed.domain.memoir.dto.response.MineMemoirListResponse;
 import com.seed.domain.memoir.service.MemoirService;
-import com.seed.domain.memoir.service.MemoirViewService;
+import com.seed.domain.memoir.service.MemoirViewHistService;
 import com.seed.domain.user.entity.User;
 import com.seed.global.response.ApiResponse;
 import com.seed.global.response.SuccessCode;
@@ -23,7 +23,7 @@ import java.util.List;
 public class MemoirController {
 
     private final MemoirService memoirService;
-    private final MemoirViewService memoirViewService;
+    private final MemoirViewHistService memoirViewHistService;
 
     /**
      * 퀵 회고 등록
@@ -60,12 +60,19 @@ public class MemoirController {
             @AuthenticationPrincipal(expression = "id") Long viewerId
     ) {
         // 조회 이벤트 기록 + viewCount 증가
-        memoirViewService.recordView(memoirId, viewerId);
+        memoirViewHistService.recordView(memoirId, viewerId);
 
         MemoirResponse memoirResponse = memoirService.findMemoirById(memoirId);
         return ApiResponse.success(memoirResponse);
     }
 
+    /**
+     * 내가 작성한 회고 리스트 조회
+     *
+     * @param user
+     * @param request
+     * @return
+     */
     @GetMapping("/mine")
     public ApiResponse<List<MineMemoirListResponse>> findMineMemoir(
             @AuthenticationPrincipal User user,
