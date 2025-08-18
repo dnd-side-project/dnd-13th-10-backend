@@ -19,7 +19,7 @@ public class CommentConverter {
         return CommentResponse.InfoDTO.builder()
                 .id(comment.getId())
                 .content(comment.getContent())
-                .author(comment.getUser().getUsername())
+                .author(comment.getUser().getName())
                 .profileImageUrl(comment.getUser().getImageUrl())
                 .createdAt(comment.getCreatedAt())
                 .build();
