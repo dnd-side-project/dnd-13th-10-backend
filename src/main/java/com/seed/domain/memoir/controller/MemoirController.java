@@ -26,7 +26,7 @@ public class MemoirController {
     private final MemoirViewHistService memoirViewHistService;
 
     /**
-     * 퀵 회고 등록
+     * 회고 등록 (퀵 회고, 일반 회고, 임시 저장)
      *
      * @param memoirProcRequest
      * @return
@@ -49,7 +49,7 @@ public class MemoirController {
     }
 
     /**
-     * 상세 회고 조회 (퀵 회고, 일반 회고 모두 포함)
+     * 상세 회고 조회 (퀵 회고, 일반 회고, 임시 저장)
      *
      * @param memoirId
      * @return
@@ -62,12 +62,12 @@ public class MemoirController {
         // 조회 이벤트 기록 + viewCount 증가
         memoirViewHistService.recordView(memoirId, viewerId);
 
-        MemoirResponse memoirResponse = memoirService.findMemoirById(memoirId);
+        MemoirResponse memoirResponse = memoirService.findMemoirById(viewerId, memoirId);
         return ApiResponse.success(memoirResponse);
     }
 
     /**
-     * 내가 작성한 회고 리스트 조회
+     * 내가 작성한 회고 리스트 조회 (퀵 회고, 일반 회고, 임시 저장)
      *
      * @param user
      * @param request
@@ -94,7 +94,7 @@ public class MemoirController {
     }
 
     /**
-     * 퀵 회고 수정
+     * 회고 수정 (퀵 회고, 일반 회고)
      *
      * @param memoirProcRequest
      * @return

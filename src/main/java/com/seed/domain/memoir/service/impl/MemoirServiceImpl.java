@@ -50,10 +50,16 @@ public class MemoirServiceImpl implements MemoirService {
     }
 
     @Override
-    public MemoirResponse findMemoirById(Long id) {
-        return memoirRepository.findById(id)
-                .map(MemoirResponse::fromEntity)
+    public MemoirResponse findMemoirById(Long viewerId, Long memoirId) {
+        Memoir memoir = memoirRepository.findById(memoirId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "해당 회고 정보를 찾을 수 없습니다."));
+
+        // 읽으려고 하는 회고가 임시 저장 글인데 읽으려는 사용자가 해당 회고의 작성자가 아니라면 읽을 수 없다고 에러 반환
+        if (memoir.isTmp() && !Objects.equals(viewerId, memoir.getUser().getId())) {
+            throw new BusinessException(ErrorCode.FORBIDDEN);
+        }
+
+        return MemoirResponse.fromEntity(memoir);
     }
 
     @Override

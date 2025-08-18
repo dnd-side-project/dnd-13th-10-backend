@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface MemoirQueryRepository {
     List<MemoirListResponse> findListMemoir();
+
     List<MineMemoirListResponse> findListMineMemoir(Long userId, SearchMemoirRequest searchMemoirRequest);
 
     // 이번 주 HOT TOP 10

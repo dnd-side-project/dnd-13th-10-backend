@@ -36,13 +36,15 @@ public class MemoirProcRequest {
     private String interviewStep;
     private String interviewDate; // yyyy-MM-dd
     private String interviewTime; // HH:mm
+    @JsonProperty("isTmp")
+    private boolean isTmp = false;
     @JsonProperty("isPublic")
     private boolean isPublic = true;
     private List<QuestionProcRequest> questions;
 
     public static Memoir toEntity(Long userId, MemoirProcRequest req) {
         return Memoir.builder()
-                .user(User.ofId(userId)) // FK 참조만 세팅 TODO : 추후 세션? 에서 UserId 가지고 옴
+                .user(User.ofId(userId)) // FK 참조만 세팅
                 .schedule(req.getScheduleId() == null ? null : Schedule.ofId(req.getScheduleId()))
                 .type(EnumCode.valueOfCode(MemoirType.class, req.getType()))
                 .interviewFormat(EnumCode.valueOfCode(InterviewFormat.class, req.getInterviewFormat()))
@@ -57,6 +59,7 @@ public class MemoirProcRequest {
                 .position(EnumCode.valueOfCode(Position.class, req.getPosition()))
                 .interviewStep(EnumCode.valueOfCode(InterviewStep.class, req.getInterviewStep()))
                 .interviewDatetime(DateUtil.combine(req.getInterviewDate(), req.getInterviewTime())) // yyyy-MM-dd + HH:mm → LocalDateTime
+                .isTmp(req.isTmp())
                 .isPublic(req.isPublic())
                 .likeCount(0)
                 .build();
