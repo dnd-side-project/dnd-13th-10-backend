@@ -7,6 +7,7 @@ import com.seed.domain.comment.dto.response.CommentResponse;
 import com.seed.domain.comment.entity.Comment;
 import com.seed.domain.comment.entity.QComment;
 import com.seed.domain.memoir.entity.QMemoir;
+import com.seed.domain.user.entity.QUser;
 import com.seed.global.paging.CursorPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -22,10 +23,12 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository {
     public CursorPage<List<CommentResponse.InfoDTO>> getComments(Long memoirId, Long cursor, int size) {
 
         QComment comment = QComment.comment;
+        QUser user = QUser.user;
 
         JPAQuery<Comment> query;
 
         query = queryFactory.selectFrom(comment)
+                .join(comment.user, user).fetchJoin()
                 .where(comment.memoir.id.eq(memoirId))
                 .orderBy(comment.id.asc())
                 .limit(size + 1);
