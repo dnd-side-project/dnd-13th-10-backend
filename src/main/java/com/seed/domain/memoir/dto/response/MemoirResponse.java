@@ -44,9 +44,16 @@ public class MemoirResponse {
     private LocalDateTime interviewDatetime;
     private int likeCount;
     private int viewCount;
+    @Getter(AccessLevel.NONE)        // Lombok이 isTmp() 안 만들게
+    private boolean isTmp;
     @Getter(AccessLevel.NONE)        // Lombok이 isPublic() 안 만들게
     private boolean isPublic;
     private LocalDateTime createdAt;
+
+    @JsonProperty("isTmp")        // JSON 키를 'isTmp'로 고정
+    public boolean getIsTmp() {
+        return isTmp;
+    }
 
     @JsonProperty("isPublic")        // JSON 키를 'isPublic'로 고정
     public boolean getIsPublic() {
@@ -75,6 +82,7 @@ public class MemoirResponse {
                 .interviewDatetime(memoir.getInterviewDatetime())
                 .likeCount(memoir.getLikeCount())
                 .viewCount(memoir.getViewCount())
+                .isTmp(memoir.isTmp())
                 .isPublic(memoir.isPublic())
                 .createdAt(memoir.getCreatedAt())
                 .build();

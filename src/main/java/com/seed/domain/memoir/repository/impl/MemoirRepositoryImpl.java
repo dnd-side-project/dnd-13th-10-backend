@@ -19,6 +19,8 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.seed.domain.memoir.entity.QMemoir.memoir;
+
 @Repository
 @RequiredArgsConstructor
 public class MemoirRepositoryImpl implements MemoirQueryRepository {
@@ -46,7 +48,8 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
                         .and(qQuestion.displayOrder.eq(1)))
                 .where(
                         memoir.isPublic.isTrue(),
-                        memoir.isUse.isTrue()
+                        memoir.isUse.isTrue(),
+                        memoir.isTmp.isFalse()
                 )
                 .orderBy(memoir.createdAt.desc())
                 .fetch();
@@ -54,7 +57,7 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
 
     @Override
     public List<MineMemoirListResponse> findListMineMemoir(Long userId, SearchMemoirRequest searchReq) {
-        QMemoir m = QMemoir.memoir;
+        QMemoir m = memoir;
 
         // searchType 해석
         BooleanExpression dynamicCondition = getBooleanExpression(searchReq);
@@ -77,7 +80,7 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
 
     @Override
     public List<HotMemoirListResponse> findWeeklyTop10(LocalDateTime utcStart, LocalDateTime utcEnd) {
-        QMemoir m = QMemoir.memoir;
+        QMemoir m = memoir;
         QMemoirViewHist v = QMemoirViewHist.memoirViewHist;
         QUser u = QUser.user;
         QQuestion q = QQuestion.question;
@@ -133,9 +136,9 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
         }
 
         return switch (request.searchType()) {
-            case "quick"   -> QMemoir.memoir.type.eq(MemoirType.QUICK).and(QMemoir.memoir.isTmp.isFalse());
-            case "general" -> QMemoir.memoir.type.eq(MemoirType.GENERAL).and(QMemoir.memoir.isTmp.isFalse());
-            case "tmp" -> QMemoir.memoir.isTmp.isTrue();
+            case "quick"   -> memoir.type.eq(MemoirType.QUICK).and(memoir.isTmp.isFalse());
+            case "general" -> memoir.type.eq(MemoirType.GENERAL).and(memoir.isTmp.isFalse());
+            case "tmp" -> memoir.isTmp.isTrue();
             default -> null;
         };
     }
