@@ -63,7 +63,3 @@ logging:
   level:
     org:
       springframework.security: DEBUG
-      hibernate:
-        SQL: DEBUG
-        tool:
-          schema: DEBUG

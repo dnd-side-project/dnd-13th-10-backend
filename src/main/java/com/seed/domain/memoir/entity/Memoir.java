@@ -156,4 +156,10 @@ public class Memoir extends BaseEntity {
         if (!this.isUse) return; // 이미 비활성이면 아무 것도 안 함
         this.isUse = false;
     }
+
+    public static Memoir ofId(Long id) {
+        return Memoir.builder()
+                .id(id)
+                .build();
+    }
 }
