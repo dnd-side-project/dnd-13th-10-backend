@@ -62,7 +62,7 @@ public class MemoirController {
         // 조회 이벤트 기록 + viewCount 증가
         memoirViewHistService.recordView(memoirId, viewerId);
 
-        MemoirResponse memoirResponse = memoirService.findMemoirById(memoirId);
+        MemoirResponse memoirResponse = memoirService.findMemoirById(viewerId, memoirId);
         return ApiResponse.success(memoirResponse);
     }
 

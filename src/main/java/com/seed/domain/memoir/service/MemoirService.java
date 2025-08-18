@@ -12,7 +12,7 @@ import java.util.List;
 public interface MemoirService {
     Long createMemoir(Long userId, MemoirProcRequest memoirProcRequest);
     List<MemoirListResponse> findListMemoir();
-    MemoirResponse findMemoirById(Long id);
+    MemoirResponse findMemoirById(Long viewerId, Long memoirId);
     List<MineMemoirListResponse> findListMineMemoir(Long userId, SearchMemoirRequest searchMemoirRequest);
     List<HotMemoirListResponse> findWeeklyTop10();
     Long modifyMemoir(MemoirProcRequest memoirProcRequest);
