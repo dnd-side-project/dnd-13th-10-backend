@@ -83,6 +83,19 @@ public class MemoirController {
     }
 
     /**
+     * 내가 작성중인 (임시저장) 회고 조회
+     *
+     * @param user
+     * @return
+     */
+    @GetMapping("/mine/tmp")
+    public ApiResponse<List<MineMemoirListResponse>> findMineTmpMemoir(@AuthenticationPrincipal User user) {
+        List<MineMemoirListResponse> list = memoirService.findListMineTmpMemoir(user.getId());
+        return ApiResponse.success(list);
+    }
+
+
+    /**
      * 이번주 핫 회고 TOP 10 조회
      *
      * @return

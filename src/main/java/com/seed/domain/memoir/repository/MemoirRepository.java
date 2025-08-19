@@ -12,6 +12,8 @@ public interface MemoirRepository extends JpaRepository<Memoir, Long>, MemoirQue
     // isPublic, isUse가 true인 데이터만 createdAt 기준 내림차순
     List<Memoir> findAllByIsPublicTrueAndIsUseTrueOrderByCreatedAtDesc();
 
+    List<Memoir> findAllByUserIdAndIsTmpTrue(Long userId);
+
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("update Memoir m set m.viewCount = m.viewCount + 1 where m.id = :id")
     int incrementViewCount(@Param("id") Long id);

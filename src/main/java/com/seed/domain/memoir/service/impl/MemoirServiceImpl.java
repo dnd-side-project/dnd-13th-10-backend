@@ -68,6 +68,12 @@ public class MemoirServiceImpl implements MemoirService {
     }
 
     @Override
+    public List<MineMemoirListResponse> findListMineTmpMemoir(Long userId) {
+        List<Memoir> listMemoir = memoirRepository.findAllByUserIdAndIsTmpTrue(userId);
+        return listMemoir.stream().map(MineMemoirListResponse::fromEntity).toList();
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<HotMemoirListResponse> findWeeklyTop10() {
         Pair<LocalDateTime, LocalDateTime> range = DateUtil.weekRangeKst();

@@ -14,6 +14,7 @@ public interface MemoirService {
     List<MemoirListResponse> findListMemoir();
     MemoirResponse findMemoirById(Long viewerId, Long memoirId);
     List<MineMemoirListResponse> findListMineMemoir(Long userId, SearchMemoirRequest searchMemoirRequest);
+    List<MineMemoirListResponse> findListMineTmpMemoir(Long userId);
     List<HotMemoirListResponse> findWeeklyTop10();
     Long modifyMemoir(MemoirProcRequest memoirProcRequest);
     void deleteMemoir(Long id);
