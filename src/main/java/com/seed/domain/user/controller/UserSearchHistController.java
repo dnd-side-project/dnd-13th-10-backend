@@ -8,6 +8,7 @@ import com.seed.domain.user.service.UserSearchHistService;
 import com.seed.global.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +29,14 @@ public class UserSearchHistController {
         return ApiResponse.success(listUserSearchHistRes);
     }
 
+    @Transactional
     @DeleteMapping("/{id}")
     public ApiResponse<Void> deleteUserSearchHist(@AuthenticationPrincipal User user, @PathVariable("id") Long histId) {
         userSearchHistService.deleteById(user.getId(), histId);
         return ApiResponse.success();
     }
 
+    @Transactional
     @DeleteMapping("/all")
     public ApiResponse<Void> deleteAllUserSearchHist(@AuthenticationPrincipal User user) {
         userSearchHistService.deleteAllByUserId(user.getId());

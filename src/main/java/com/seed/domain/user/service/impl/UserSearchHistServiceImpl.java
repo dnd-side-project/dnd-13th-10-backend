@@ -1,5 +1,7 @@
 package com.seed.domain.user.service.impl;
 
+import com.seed.domain.user.converter.UserConverter;
+import com.seed.domain.user.dto.request.CreateUserSearchHistRequest;
 import com.seed.domain.user.entity.UserSearchHist;
 import com.seed.domain.user.repository.UserSearchHistRepository;
 import com.seed.domain.user.service.UserSearchHistService;
@@ -22,6 +24,12 @@ public class UserSearchHistServiceImpl implements UserSearchHistService {
     }
 
     @Override
+    public void save(CreateUserSearchHistRequest createUserSearchHistRequest) {
+        UserSearchHist userSearchHist = UserConverter.toUserSearchHist(createUserSearchHistRequest);
+        userSearchHistRepository.save(userSearchHist);
+    }
+
+    @Override
     public void deleteById(Long userId, Long id) {
         UserSearchHist userSearchHist = userSearchHistRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "해당 검색기록은 존재하지 않습니다."));
@@ -35,6 +43,6 @@ public class UserSearchHistServiceImpl implements UserSearchHistService {
 
     @Override
     public void deleteAllByUserId(Long userId) {
-        userSearchHistRepository.findAllByUserId(userId);
+        userSearchHistRepository.deleteAllByUserId(userId);
     }
 }

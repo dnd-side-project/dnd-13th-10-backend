@@ -13,6 +13,6 @@ public interface QuestionService {
      * @param searchReq
      * @return
      */
-    List<QuestionResponse> searchQuestions(QuestionSearchRequest searchReq);
+    List<QuestionResponse> searchQuestions(Long userId, QuestionSearchRequest searchReq);
 
 }

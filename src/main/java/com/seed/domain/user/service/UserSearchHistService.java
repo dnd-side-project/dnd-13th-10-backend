@@ -1,5 +1,6 @@
 package com.seed.domain.user.service;
 
+import com.seed.domain.user.dto.request.CreateUserSearchHistRequest;
 import com.seed.domain.user.entity.UserSearchHist;
 
 import java.util.List;
@@ -12,6 +13,8 @@ public interface UserSearchHistService {
      * @return
      */
     List<UserSearchHist> findAllByUserId(Long userId);
+
+    void save(CreateUserSearchHistRequest createUserSearchHistRequest);
 
     void deleteById(Long userId, Long id);
 
