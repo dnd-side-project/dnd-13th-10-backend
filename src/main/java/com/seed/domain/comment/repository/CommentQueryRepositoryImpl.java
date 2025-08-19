@@ -30,7 +30,7 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository {
         query = queryFactory.selectFrom(comment)
                 .join(comment.user, user).fetchJoin()
                 .where(comment.memoir.id.eq(memoirId))
-                .orderBy(comment.id.asc())
+                .orderBy(comment.id.desc())
                 .limit(size + 1);
 
         if(cursor != null) {

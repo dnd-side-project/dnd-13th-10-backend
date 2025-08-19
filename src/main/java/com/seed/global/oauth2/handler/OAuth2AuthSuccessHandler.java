@@ -60,6 +60,7 @@ public class OAuth2AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
         // JWT 토큰 생성
         String refreshToken = jwtUtil.generateRefreshToken(socialId);
+        String accessToken = jwtUtil.generateAccessToken(socialId);
 
         log.info("Refresh token: {}", refreshToken);
 
@@ -73,7 +74,7 @@ public class OAuth2AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         log.info("Cookie created : {}", createCookie("refreshToken", refreshToken, 60 * 60 * 24 * 7));
 
         // 프론트엔드 페이지로 리다이렉트
-        redirectURL = UriComponentsBuilder.fromUriString(frontendUrl)
+        redirectURL = UriComponentsBuilder.fromUriString(frontendUrl + "?token=" + accessToken)
                 .build()
                 .encode(StandardCharsets.UTF_8)
                 .toUriString();

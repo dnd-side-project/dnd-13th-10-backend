@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class CommentResponse {
 
@@ -19,5 +20,10 @@ public class CommentResponse {
         private String author;
         private String profileImageUrl;
         private LocalDateTime createdAt;
+        private List<CommentResponse.InfoDTO> children;
+
+        public void setChildren(List<CommentResponse.InfoDTO> children) {
+            this.children = children;
+        }
     }
 }
