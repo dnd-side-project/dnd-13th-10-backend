@@ -67,7 +67,7 @@ public class MemoirController {
     }
 
     /**
-     * 내가 작성한 회고 리스트 조회 (퀵 회고, 일반 회고, 임시 저장)
+     * 내가 작성한 회고 리스트 조회 (퀵 회고, 일반 회고)
      *
      * @param user
      * @param request
