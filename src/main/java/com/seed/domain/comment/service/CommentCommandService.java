@@ -23,17 +23,21 @@ public class CommentCommandService {
     private final MemoirRepository memoirRepository;
 
     public void createComment(Long userId, Long memoirId, CommentRequest.CreateRequestDTO request) {
-        validateUserAndMemoir(userId, memoirId);
-        commentRepository.save(CommentConverter.toComment(request.getContent(), userId, memoirId));
+        validateUserAndMemoirAndComment(userId, memoirId, request.getParentCommentId());
+        commentRepository.save(CommentConverter.toComment(request, userId, memoirId));
     }
 
-    private void validateUserAndMemoir(Long userId, Long memoirId) {
+    private void validateUserAndMemoirAndComment(Long userId, Long memoirId, Long commentId) {
         if(!userRepository.existsById(userId)) {
             throw new BusinessException(ErrorCode.USER_NOT_FOUND, "해당하는 유저가 존재하지 않습니다.");
         }
 
         if(!memoirRepository.existsById(memoirId)) {
             throw new BusinessException(ErrorCode.NOT_FOUND, "해당하는 회고 글이 존재하지 않습니다.");
+        }
+
+        if(!commentRepository.existsById(commentId)) {
+            throw new BusinessException(ErrorCode.NOT_FOUND, "대댓글을 작성할 댓글이 존재하지 않습니다.");
         }
     }
 }

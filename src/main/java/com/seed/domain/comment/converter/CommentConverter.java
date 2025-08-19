@@ -1,5 +1,6 @@
 package com.seed.domain.comment.converter;
 
+import com.seed.domain.comment.dto.request.CommentRequest;
 import com.seed.domain.comment.dto.response.CommentResponse;
 import com.seed.domain.comment.entity.Comment;
 import com.seed.domain.memoir.entity.Memoir;
@@ -7,9 +8,10 @@ import com.seed.domain.user.entity.User;
 
 public class CommentConverter {
 
-    public static Comment toComment(String content, Long userId, Long memoirId) {
+    public static Comment toComment(CommentRequest.CreateRequestDTO requestDTO, Long userId, Long memoirId) {
         return Comment.builder()
-                .content(content)
+                .parentId(requestDTO.getParentCommentId())
+                .content(requestDTO.getContent())
                 .user(User.ofId(userId))
                 .memoir(Memoir.ofId(memoirId))
                 .build();
