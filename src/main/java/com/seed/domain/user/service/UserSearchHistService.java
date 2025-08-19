@@ -12,4 +12,8 @@ public interface UserSearchHistService {
      * @return
      */
     List<UserSearchHist> findAllByUserId(Long userId);
+
+    void deleteById(Long userId, Long id);
+
+    void deleteAllByUserId(Long userId);
 }
