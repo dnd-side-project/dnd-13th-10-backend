@@ -4,6 +4,8 @@ import com.seed.global.auth.dto.TokenResponseDTO;
 import com.seed.global.auth.service.AuthService;
 import com.seed.global.jwt.service.RefreshTokenService;
 import com.seed.global.response.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,10 +21,15 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
+@Tag(name = "사용자 인증 API")
 public class AuthController {
 
     private final AuthService authService;
 
+    @Operation(
+            summary = "토큰 재발급 API",
+            description = "쿠키에 담겨 있는 RefreshToken을 통해 토큰을 재발급합니다."
+    )
     @PostMapping("/refresh")
     public ApiResponse<TokenResponseDTO> refresh(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = extractRefreshTokenFromCookie(request);
@@ -36,6 +43,10 @@ public class AuthController {
                 .build());
     }
 
+    @Operation(
+            summary = "로그아웃 API",
+            description = "로그아웃을 위한 API입니다. 쿠키에 담긴 Refresh Token을 삭제합니다."
+    )
     @PostMapping("/logout")
     public ApiResponse<?> logout(HttpServletRequest request, HttpServletResponse response) {
 

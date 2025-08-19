@@ -14,6 +14,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
 
     Optional<Like> findByUserIdAndMemoirId(Long userId, Long memoirId);
 
-    @Query("select l from Like l join fetch l.memoir m where l.user.id = :userId")
+    @Query("select l from Like l join fetch l.memoir m where l.user.id = :userId order by l.id asc")
     List<Like> findAllByUserId(@Param("userId") Long userId);
 }

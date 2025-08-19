@@ -1,6 +1,7 @@
 package com.seed.domain.mapping.like.service;
 
 import com.seed.domain.mapping.like.converter.LikeConverter;
+import com.seed.domain.mapping.like.dto.LikeResponse;
 import com.seed.domain.mapping.like.entity.Like;
 import com.seed.domain.mapping.like.repository.LikeRepository;
 import com.seed.domain.memoir.entity.Memoir;
@@ -27,7 +28,7 @@ public class LikeCommandService {
     private final MemoirRepository memoirRepository;
 
     // TODO : 동시성 이슈 문제.. 어떤 방식으로 해결을 할지 고민
-    public boolean toggleLike(Long userId, Long memoirId) {
+    public LikeResponse toggleLike(Long userId, Long memoirId) {
 
         boolean isLiked;
 
@@ -46,7 +47,7 @@ public class LikeCommandService {
             isLiked = true;
         }
 
-        return isLiked;
+        return LikeConverter.toLikeResponse(isLiked);
     }
 
     private void likesUp(Long userId, Long memoirId) {
