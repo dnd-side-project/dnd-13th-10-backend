@@ -30,6 +30,10 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Schedule> schedules = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "user")
+    private List<UserSearchHist> userSearchHists = new ArrayList<>();
+
     private String phoneNumber;
 
     private String socialId;
