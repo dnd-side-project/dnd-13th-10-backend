@@ -45,11 +45,13 @@ public class MemoirServiceImpl implements MemoirService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MemoirListResponse> findListMemoir() {
         return memoirRepository.findListMemoir();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public MemoirResponse findMemoirById(Long viewerId, Long memoirId) {
         Memoir memoir = memoirRepository.findById(memoirId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "해당 회고 정보를 찾을 수 없습니다."));
@@ -63,8 +65,16 @@ public class MemoirServiceImpl implements MemoirService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MineMemoirListResponse> findListMineMemoir(Long userId, SearchMemoirRequest searchType) {
         return memoirRepository.findListMineMemoir(userId, searchType);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<MineMemoirListResponse> findListMineTmpMemoir(Long userId) {
+        List<Memoir> listMemoir = memoirRepository.findAllByUserIdAndIsTmpTrue(userId);
+        return listMemoir.stream().map(MineMemoirListResponse::fromEntity).toList();
     }
 
     @Override

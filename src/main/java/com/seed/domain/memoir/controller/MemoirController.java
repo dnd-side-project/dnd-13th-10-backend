@@ -67,7 +67,7 @@ public class MemoirController {
     }
 
     /**
-     * 내가 작성한 회고 리스트 조회 (퀵 회고, 일반 회고, 임시 저장)
+     * 내가 작성한 회고 리스트 조회 (퀵 회고, 일반 회고)
      *
      * @param user
      * @param request
@@ -81,6 +81,19 @@ public class MemoirController {
         List<MineMemoirListResponse> listMineMemoir = memoirService.findListMineMemoir(user.getId(), request);
         return ApiResponse.success(listMineMemoir);
     }
+
+    /**
+     * 내가 작성중인 (임시저장) 회고 조회
+     *
+     * @param user
+     * @return
+     */
+    @GetMapping("/mine/tmp")
+    public ApiResponse<List<MineMemoirListResponse>> findMineTmpMemoir(@AuthenticationPrincipal User user) {
+        List<MineMemoirListResponse> list = memoirService.findListMineTmpMemoir(user.getId());
+        return ApiResponse.success(list);
+    }
+
 
     /**
      * 이번주 핫 회고 TOP 10 조회

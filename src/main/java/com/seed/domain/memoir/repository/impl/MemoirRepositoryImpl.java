@@ -132,14 +132,13 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
             SearchMemoirRequest request
     ) {
         if (!StringUtils.hasText(request.searchType())) {
-            return null;
+            return memoir.isTmp.isFalse();
         }
 
         return switch (request.searchType()) {
             case "quick"   -> memoir.type.eq(MemoirType.QUICK).and(memoir.isTmp.isFalse());
             case "general" -> memoir.type.eq(MemoirType.GENERAL).and(memoir.isTmp.isFalse());
-            case "tmp" -> memoir.isTmp.isTrue();
-            default -> null;
+            default -> memoir.isTmp.isFalse();
         };
     }
 }
