@@ -8,7 +8,7 @@ import com.seed.domain.user.entity.User;
 
 public class CommentConverter {
 
-    public static Comment toComment(CommentRequest.CreateRequestDTO requestDTO, Long userId, Long memoirId) {
+    public static Comment toComment(CommentRequest.CommentCreateRequestDTO requestDTO, Long userId, Long memoirId) {
         return Comment.builder()
                 .parentId(requestDTO.getParentCommentId())
                 .content(requestDTO.getContent())
@@ -17,8 +17,8 @@ public class CommentConverter {
                 .build();
     }
 
-    public static CommentResponse.InfoDTO toInfoDTO(Comment comment) {
-        return CommentResponse.InfoDTO.builder()
+    public static CommentResponse.CommentInfoDTO toInfoDTO(Comment comment) {
+        return CommentResponse.CommentInfoDTO.builder()
                 .id(comment.getId())
                 .content(comment.getContent())
                 .author(comment.getUser().getName())

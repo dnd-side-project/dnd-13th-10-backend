@@ -13,7 +13,7 @@ public class CommentRequest {
     @AllArgsConstructor
     @Builder
     @Schema
-    public static class CreateRequestDTO {
+    public static class CommentCreateRequestDTO {
         private Long parentCommentId;
         private String content;
     }

@@ -6,7 +6,6 @@ import com.seed.domain.comment.converter.CommentConverter;
 import com.seed.domain.comment.dto.response.CommentResponse;
 import com.seed.domain.comment.entity.Comment;
 import com.seed.domain.comment.entity.QComment;
-import com.seed.domain.memoir.entity.QMemoir;
 import com.seed.domain.user.entity.QUser;
 import com.seed.global.paging.CursorPage;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public CursorPage<List<CommentResponse.InfoDTO>> getComments(Long memoirId, Long cursor, int size) {
+    public CursorPage<List<CommentResponse.CommentInfoDTO>> getComments(Long memoirId, Long cursor, int size) {
 
         QComment comment = QComment.comment;
         QUser user = QUser.user;
@@ -48,7 +47,7 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository {
             hasNext = true;
         }
 
-        List<CommentResponse.InfoDTO> commentDTOs = comments.stream().map(CommentConverter::toInfoDTO).toList();
+        List<CommentResponse.CommentInfoDTO> commentDTOs = comments.stream().map(CommentConverter::toInfoDTO).toList();
 
         return CursorPage.of(size, nextCursor, hasNext, commentDTOs);
     }

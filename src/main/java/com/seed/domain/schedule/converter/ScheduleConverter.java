@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ScheduleConverter {
 
-    public static Schedule toSchedule(ScheduleRequest.CreateRequestDTO requestDTO, User user) {
+    public static Schedule toSchedule(ScheduleRequest.ScheduleCreateRequestDTO requestDTO, User user) {
         Schedule schedule = Schedule.builder()
                 .position(requestDTO.getPosition())
                 .interviewDatetime(requestDTO.getInterviewDateTime())
@@ -25,11 +25,11 @@ public class ScheduleConverter {
         return schedule;
     }
 
-    public static ScheduleResponse.InfoDTO toInfoDTO(Schedule schedule, List<MemoirType> memoirTypes) {
+    public static ScheduleResponse.ScheduleInfoDTO toInfoDTO(Schedule schedule, List<MemoirType> memoirTypes) {
         // 현재 날짜부터 면접 날짜까지 남은 일수 계산
         int remainDays = calculateRemainDays(schedule.getInterviewDatetime());
 
-        return ScheduleResponse.InfoDTO.builder()
+        return ScheduleResponse.ScheduleInfoDTO.builder()
                 .id(schedule.getId())
                 .position(schedule.getPosition())
                 .companyName(schedule.getCompany() != null ? schedule.getCompany().getName() : null)

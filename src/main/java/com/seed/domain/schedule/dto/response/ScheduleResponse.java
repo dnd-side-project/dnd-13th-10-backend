@@ -16,7 +16,7 @@ public class ScheduleResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class InfoDTO {
+    public static class ScheduleInfoDTO {
         private Long id;
         private String companyName;
         private Position position;

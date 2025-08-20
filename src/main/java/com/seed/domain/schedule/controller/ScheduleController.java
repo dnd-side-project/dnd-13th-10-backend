@@ -28,7 +28,7 @@ public class ScheduleController {
             description = "면접 일정을 생성하는 API입니다. "
     )
     @PostMapping
-    public ApiResponse<?> createSchedule(@RequestBody ScheduleRequest.CreateRequestDTO requestDTO,
+    public ApiResponse<?> createSchedule(@RequestBody ScheduleRequest.ScheduleCreateRequestDTO requestDTO,
                                          @AuthenticationPrincipal User user) {
         scheduleCommandService.createSchedule(user.getId(), requestDTO);
         return ApiResponse.success("면접 일정이 생성되었습니다.");
@@ -39,7 +39,7 @@ public class ScheduleController {
             description = " 사용자가 등록한 모든 면접 일정을 조회합니다."
     )
     @GetMapping("")
-    public ApiResponse<List<ScheduleResponse.InfoDTO>> getAllSchedules(@AuthenticationPrincipal User user) {
+    public ApiResponse<List<ScheduleResponse.ScheduleInfoDTO>> getAllSchedules(@AuthenticationPrincipal User user) {
         return ApiResponse.success(scheduleQueryService.findAll(user.getId()));
     }
 
@@ -69,7 +69,7 @@ public class ScheduleController {
     )
     @PutMapping("/{scheduleId}")
     public ApiResponse<?> modifySchedule(@PathVariable Long scheduleId,
-                                         @RequestBody ScheduleRequest.UpdateRequestDTO requestDTO,
+                                         @RequestBody ScheduleRequest.ScheduleUpdateRequestDTO requestDTO,
                                          @AuthenticationPrincipal User user) {
         scheduleCommandService.modifySchedule(scheduleId, user.getId(), requestDTO);
         return ApiResponse.success("면접 일정이 수정되었습니다.");

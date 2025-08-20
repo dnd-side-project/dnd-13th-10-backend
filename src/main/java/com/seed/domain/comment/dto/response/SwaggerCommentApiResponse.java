@@ -7,5 +7,5 @@ import java.util.List;
 
 @Getter
 public class SwaggerCommentApiResponse {
-    ApiResponse<List<CommentResponse.InfoDTO>> response;
+    ApiResponse<List<CommentResponse.CommentInfoDTO>> response;
 }

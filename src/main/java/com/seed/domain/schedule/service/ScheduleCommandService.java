@@ -23,7 +23,7 @@ public class ScheduleCommandService {
     private final UserRepository userRepository;
 
     // TODO : 회사명으로 Company 조회 후 연결 & 직무 검색 처리 방안 검토
-    public void createSchedule(Long userId, ScheduleRequest.CreateRequestDTO requestDTO) {
+    public void createSchedule(Long userId, ScheduleRequest.ScheduleCreateRequestDTO requestDTO) {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
@@ -45,7 +45,7 @@ public class ScheduleCommandService {
     }
 
     // TODO : 회사 데이터 구축 완료 후 마무리 예정
-    public void modifySchedule(Long scheduleId, Long userId, ScheduleRequest.UpdateRequestDTO requestDTO) {
+    public void modifySchedule(Long scheduleId, Long userId, ScheduleRequest.ScheduleUpdateRequestDTO requestDTO) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND));
 
