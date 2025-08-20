@@ -44,15 +44,6 @@ public class CommentController {
         return ApiResponse.success("댓글이 생성되었습니다.");
     }
 
-//    @GetMapping
-//    public ApiResponse<CursorPage<List<CommentResponse.InfoDTO>>> getComments(
-//            @PathVariable Long memoirId,
-//            @RequestParam(name = "cursor", required = false) Long cursor,
-//            @RequestParam(name = "size", defaultValue = "10", required = false) int size
-//    ) {
-//        return ApiResponse.success(commentQueryService.getComments(memoirId, cursor, size));
-//    }
-
     @GetMapping("")
     @Operation(
             summary = "댓글 목록 조회 API",
