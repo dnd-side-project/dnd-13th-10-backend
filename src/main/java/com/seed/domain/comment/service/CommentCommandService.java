@@ -27,7 +27,7 @@ public class CommentCommandService {
         commentRepository.save(CommentConverter.toComment(request, userId, memoirId));
     }
 
-    private void validateUserAndMemoirAndComment(Long userId, Long memoirId, Long commentId) {
+    private void validateUserAndMemoirAndComment(Long userId, Long memoirId, Long parentCommentId) {
         if(!userRepository.existsById(userId)) {
             throw new BusinessException(ErrorCode.USER_NOT_FOUND, "해당하는 유저가 존재하지 않습니다.");
         }
@@ -36,8 +36,10 @@ public class CommentCommandService {
             throw new BusinessException(ErrorCode.NOT_FOUND, "해당하는 회고 글이 존재하지 않습니다.");
         }
 
-        if(!commentRepository.existsById(commentId)) {
-            throw new BusinessException(ErrorCode.NOT_FOUND, "대댓글을 작성할 댓글이 존재하지 않습니다.");
+        if(parentCommentId != null) {
+            if(!commentRepository.existsById(parentCommentId)) {
+                throw new BusinessException(ErrorCode.NOT_FOUND, "대댓글을 작성할 댓글이 존재하지 않습니다.");
+            }
         }
     }
 }
