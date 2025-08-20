@@ -132,7 +132,7 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
             SearchMemoirRequest request
     ) {
         if (!StringUtils.hasText(request.searchType())) {
-            return null;
+            return memoir.isTmp.isFalse();
         }
 
         return switch (request.searchType()) {
