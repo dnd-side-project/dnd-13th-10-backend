@@ -15,7 +15,7 @@ public class ScheduleRequest {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class CreateRequestDTO {
+    public static class ScheduleCreateRequestDTO {
         private String companyName;
         private Position position;
         private LocalDateTime interviewDateTime;
@@ -27,7 +27,7 @@ public class ScheduleRequest {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class UpdateRequestDTO {
+    public static class ScheduleUpdateRequestDTO {
         private String companyName;
         private Position position;
         private LocalDateTime interviewTime;

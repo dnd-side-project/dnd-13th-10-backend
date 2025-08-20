@@ -1,6 +1,7 @@
 package com.seed.domain.mapping.bookmark.service;
 
 import com.seed.domain.mapping.bookmark.converter.BookMarkConverter;
+import com.seed.domain.mapping.bookmark.dto.BookMarkResponse;
 import com.seed.domain.mapping.bookmark.entity.BookMark;
 import com.seed.domain.mapping.bookmark.repository.BookMarkRepository;
 import com.seed.domain.mapping.like.converter.LikeConverter;
@@ -26,7 +27,7 @@ public class BookMarkCommandService {
     private final UserRepository userRepository;
     private final MemoirRepository memoirRepository;
 
-    public boolean toggleBookMark(Long userId, Long memoirId) {
+    public BookMarkResponse toggleBookMark(Long userId, Long memoirId) {
 
         boolean isBookMarked;
 
@@ -43,7 +44,7 @@ public class BookMarkCommandService {
             isBookMarked = true;
         }
 
-        return isBookMarked;
+        return BookMarkConverter.toBookMarkResponse(isBookMarked);
     }
 
     private void bookMarkUp(Long userId, Long memoirId) {

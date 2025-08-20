@@ -26,12 +26,12 @@ public class ScheduleQueryService {
     private final ScheduleRepository scheduleRepository;
 
     // TODO : 페이지네이션 구현, 회고 작성 여부에 따른 응답구조 변경 (퀵, 일반 혹은 둘 다)
-    public List<ScheduleResponse.InfoDTO> findAll(Long userId) {
+    public List<ScheduleResponse.ScheduleInfoDTO> findAll(Long userId) {
 
         List<Schedule> schedules = scheduleRepository.findAllOrderByIdDesc(userId);
 
         Set<MemoirType> memoirTypes = new HashSet<>();
-        List<ScheduleResponse.InfoDTO> scheduleResponses = new ArrayList<>();
+        List<ScheduleResponse.ScheduleInfoDTO> scheduleResponses = new ArrayList<>();
 
         schedules.forEach(schedule -> {
             schedule.getMemoirs().forEach(memoir -> memoirTypes.add(memoir.getType()));

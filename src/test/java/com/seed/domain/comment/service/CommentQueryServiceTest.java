@@ -11,19 +11,16 @@ import com.seed.domain.schedule.enums.Position;
 import com.seed.domain.user.entity.User;
 import com.seed.domain.user.repository.UserRepository;
 import com.seed.global.paging.CursorPage;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class CommentQueryServiceTest {
@@ -84,7 +81,7 @@ class CommentQueryServiceTest {
     void getComments(){
 
         //given when
-        CursorPage<List<CommentResponse.InfoDTO>> comments = commentQueryService.getComments(memoir.getId(), null, 10);
+        CursorPage<List<CommentResponse.CommentInfoDTO>> comments = commentQueryService.getComments(memoir.getId(), null, 10);
 
         //then
         assertThat(comments).isNotNull();
@@ -100,7 +97,7 @@ class CommentQueryServiceTest {
     void getCommentsWithSize(){
 
         //given when
-        CursorPage<List<CommentResponse.InfoDTO>> comments = commentQueryService.getComments(memoir.getId(), null, 5);
+        CursorPage<List<CommentResponse.CommentInfoDTO>> comments = commentQueryService.getComments(memoir.getId(), null, 5);
 
         //then
         assertThat(comments).isNotNull();
@@ -116,12 +113,12 @@ class CommentQueryServiceTest {
     void getCommentsWithSizeAndCursor(){
 
         //given
-        CursorPage<List<CommentResponse.InfoDTO>> comments1 = commentQueryService.getComments(memoir.getId(), null, 5);
+        CursorPage<List<CommentResponse.CommentInfoDTO>> comments1 = commentQueryService.getComments(memoir.getId(), null, 5);
 
         Long nextCursor = comments1.getNextCursor();
 
         //when
-        CursorPage<List<CommentResponse.InfoDTO>> comments = commentQueryService.getComments(memoir.getId(), nextCursor, 5);
+        CursorPage<List<CommentResponse.CommentInfoDTO>> comments = commentQueryService.getComments(memoir.getId(), nextCursor, 5);
 
         //then
         assertThat(comments).isNotNull();

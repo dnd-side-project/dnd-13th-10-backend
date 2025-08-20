@@ -55,7 +55,7 @@ public class Schedule extends BaseEntity {
     @OneToMany(mappedBy = "schedule")
     List<Memoir> memoirs = new ArrayList<>();
 
-    public void modifySchedule(ScheduleRequest.UpdateRequestDTO requestDTO, Company company) {
+    public void modifySchedule(ScheduleRequest.ScheduleUpdateRequestDTO requestDTO, Company company) {
         if(requestDTO.getPosition() != null) {
             this.position = requestDTO.getPosition();
         }

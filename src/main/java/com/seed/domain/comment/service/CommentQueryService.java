@@ -21,24 +21,24 @@ public class CommentQueryService {
 
     private final CommentRepository commentRepository;
 
-    public CursorPage<List<CommentResponse.InfoDTO>> getComments(Long memoirId, Long nextCursor, int size) {
+    public CursorPage<List<CommentResponse.CommentInfoDTO>> getComments(Long memoirId, Long nextCursor, int size) {
         return commentRepository.getComments(memoirId, nextCursor, size);
     }
 
-    public List<CommentResponse.InfoDTO> getComments(Long memoirId) {
+    public List<CommentResponse.CommentInfoDTO> getComments(Long memoirId) {
         List<Comment> comments = commentRepository.findAllByMemoirIdOrderById(memoirId);
 
-        List<CommentResponse.InfoDTO> parentComments = new ArrayList<>();
+        List<CommentResponse.CommentInfoDTO> parentComments = new ArrayList<>();
 
         comments.stream()
                 .filter(comment -> comment.getParentId() == null)
                 .forEach(comment -> {
-                    CommentResponse.InfoDTO infoDTO = CommentConverter.toInfoDTO(comment);
-                    parentComments.add(infoDTO);
+                    CommentResponse.CommentInfoDTO commentInfoDTO = CommentConverter.toInfoDTO(comment);
+                    parentComments.add(commentInfoDTO);
                 });
 
-        for (CommentResponse.InfoDTO parentComment : parentComments) {
-            List<CommentResponse.InfoDTO> childComments = comments.stream()
+        for (CommentResponse.CommentInfoDTO parentComment : parentComments) {
+            List<CommentResponse.CommentInfoDTO> childComments = comments.stream()
                     .filter(comment -> comment.getParentId() != null && comment.getParentId().equals(parentComment.getId()))
                     .map(CommentConverter::toInfoDTO)
                     .toList();

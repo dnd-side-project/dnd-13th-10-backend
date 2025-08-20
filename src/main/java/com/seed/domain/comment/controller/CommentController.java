@@ -36,34 +36,18 @@ public class CommentController {
     public ApiResponse<?> addComment(
             @PathVariable Long memoirId,
             @AuthenticationPrincipal User user,
-            @RequestBody @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    content = @Content(schema = @Schema(implementation = CommentRequest.CreateRequestDTO.class))
-            ) CommentRequest.CreateRequestDTO requestDTO
+            @RequestBody CommentRequest.CommentCreateRequestDTO requestDTO
     ) {
         commentCommandService.createComment(user.getId(), memoirId, requestDTO);
         return ApiResponse.success("댓글이 생성되었습니다.");
     }
-
-//    @GetMapping
-//    public ApiResponse<CursorPage<List<CommentResponse.InfoDTO>>> getComments(
-//            @PathVariable Long memoirId,
-//            @RequestParam(name = "cursor", required = false) Long cursor,
-//            @RequestParam(name = "size", defaultValue = "10", required = false) int size
-//    ) {
-//        return ApiResponse.success(commentQueryService.getComments(memoirId, cursor, size));
-//    }
 
     @GetMapping("")
     @Operation(
             summary = "댓글 목록 조회 API",
             description = "특정 회고의 달린 모든 댓글 목록을 조회합니다. 최신 댓글이 항상 마지막에 위치합니다."
     )
-    @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(
-                    content = @Content(schema = @Schema(implementation = SwaggerCommentApiResponse.class))
-            )
-    })
-    public ApiResponse<List<CommentResponse.InfoDTO>> getComments(
+    public ApiResponse<List<CommentResponse.CommentInfoDTO>> getComments(
             @PathVariable Long memoirId
     ) {
         return ApiResponse.success(commentQueryService.getComments(memoirId));

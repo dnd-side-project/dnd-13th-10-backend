@@ -12,6 +12,6 @@ public interface BookMarkRepository extends JpaRepository<BookMark, Long> {
 
     Optional<BookMark> findByUserIdAndMemoirId(Long userId, Long memoirId);
 
-    @Query("select b from BookMark b join fetch b.memoir m where b.user.id = :userId")
+    @Query("select b from BookMark b join fetch b.memoir m where b.user.id = :userId order by b.id asc ")
     List<BookMark> findAllByUserId(@Param("userId") Long userId);
 }

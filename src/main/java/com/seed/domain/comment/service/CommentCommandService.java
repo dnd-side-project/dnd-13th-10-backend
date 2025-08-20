@@ -22,7 +22,7 @@ public class CommentCommandService {
     private final UserRepository userRepository;
     private final MemoirRepository memoirRepository;
 
-    public void createComment(Long userId, Long memoirId, CommentRequest.CreateRequestDTO request) {
+    public void createComment(Long userId, Long memoirId, CommentRequest.CommentCreateRequestDTO request) {
         validateUserAndMemoirAndComment(userId, memoirId, request.getParentCommentId());
         commentRepository.save(CommentConverter.toComment(request, userId, memoirId));
     }

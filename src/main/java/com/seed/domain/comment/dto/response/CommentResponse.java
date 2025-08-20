@@ -14,15 +14,15 @@ public class CommentResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class InfoDTO {
+    public static class CommentInfoDTO {
         private Long id;
         private String content;
         private String author;
         private String profileImageUrl;
         private LocalDateTime createdAt;
-        private List<CommentResponse.InfoDTO> children;
+        private List<CommentInfoDTO> children;
 
-        public void setChildren(List<CommentResponse.InfoDTO> children) {
+        public void setChildren(List<CommentInfoDTO> children) {
             this.children = children;
         }
     }
