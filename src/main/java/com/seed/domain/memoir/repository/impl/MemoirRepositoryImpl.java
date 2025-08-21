@@ -273,9 +273,9 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
 
         if (memoirId != null && commentId != null) {
             havingCursor.and(
-                    comment.id.max().lt(memoirId)
+                    comment.id.max().lt(commentId)
                             .or(
-                                    comment.memoir.id.max().eq(commentId)
+                                    comment.id.max().eq(commentId)
                                             .and(comment.memoir.id.lt(memoirId))
                             )
             );
