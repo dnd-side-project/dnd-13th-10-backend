@@ -52,12 +52,15 @@ public class KakaoOAuth2Service extends DefaultOAuth2UserService {
         // 이미 존재하는 유저라면 -> 기존 정보 업데이트 & 로그인
         if (existingUser.isPresent()) {
             User user = existingUser.get();
+            user.updateName(kakaoUserInfoDTO.getNickname());
+            user.updateImageUrl(kakaoUserInfoDTO.getProfileImageUrl());
             return userRepository.save(user);
         } else {
             User newUser = User.builder()
                     .socialId(kakaoUserInfoDTO.getId())
                     .name(kakaoUserInfoDTO.getNickname())
                     .role(Role.USER)
+                    .imageUrl(kakaoUserInfoDTO.getProfileImageUrl())
                     .build();
 
             return userRepository.save(newUser);

@@ -35,6 +35,12 @@ public enum ErrorCode {
     // 좋아요 관련
     ALREADY_LIKED_UP("E405", "이미 좋아요를 누른 회고입니다.", HttpStatus.BAD_REQUEST),
 
+    // 파일 관련
+    INVALID_FILE_NAME("E406", "올바른 파일 이름이 아닙니다.", HttpStatus.BAD_REQUEST),
+    FILE_READ_FAILED("E407", "파일을 읽어오는데 실패했습니다.", HttpStatus.BAD_REQUEST),
+    S3_UPLOAD_FAILED("E408", "파일 업로드에 실패하였습니다.", HttpStatus.BAD_REQUEST),
+    FILE_UPLOAD_FAILED("E409", "예상치 못한 오류가 발생했습니다..", HttpStatus.BAD_REQUEST),
+
     // 사용자 관련
     USER_NOT_FOUND("E402", "해당하는 사용자가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     ;
