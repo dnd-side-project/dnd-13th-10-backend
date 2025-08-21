@@ -40,6 +40,14 @@ public class ApiResponse<T> {
                 .build();
     }
 
+    public static <T> ApiResponse<T> error(ErrorCode ec, T data) {
+        return ApiResponse.<T>builder()
+                .code(ec.getCode())
+                .message(ec.getMessage())
+                .data(data)
+                .build();
+    }
+
     /** 에러에 추가 payload(예: errors 배열) 실을 때 사용 */
     public static <T> ApiResponse<T> error(ErrorCode ec, String overrideMessage, T data) {
         return ApiResponse.<T>builder()
