@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class QuestionProcRequest {
     private Long id;
     private String questionType;
-    private String content;
+    private String title;
     private String answer;
     private int order;
 
@@ -26,7 +26,7 @@ public class QuestionProcRequest {
         return Question.builder()
                 .id(req.getId())
                 .questionType(EnumCode.valueOfCode(QuestionType.class, req.getQuestionType()))
-                .content(req.getContent())
+                .title(req.getTitle())
                 .answer(req.getAnswer())
                 .displayOrder(req.getOrder())
                 .build();

@@ -8,11 +8,17 @@ import com.seed.domain.memoir.dto.response.MemoirResponse;
 import com.seed.domain.memoir.dto.response.MineMemoirListResponse;
 import com.seed.domain.memoir.service.MemoirService;
 import com.seed.domain.memoir.service.MemoirViewHistService;
+import com.seed.domain.memoir.validator.MemoirProcRequestValidator;
 import com.seed.domain.user.entity.User;
 import com.seed.global.response.ApiResponse;
+import com.seed.global.response.ErrorCode;
 import com.seed.global.response.SuccessCode;
+import com.seed.global.utils.ValidationUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +30,12 @@ public class MemoirController {
 
     private final MemoirService memoirService;
     private final MemoirViewHistService memoirViewHistService;
+    private final MemoirProcRequestValidator memoirValidator;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.addValidators(memoirValidator);
+    }
 
     /**
      * 회고 등록 (퀵 회고, 일반 회고, 임시 저장)
@@ -32,7 +44,15 @@ public class MemoirController {
      * @return
      */
     @PostMapping
-    public ApiResponse<Long> createMemoir(@AuthenticationPrincipal User user, @RequestBody MemoirProcRequest memoirProcRequest) {
+    public ApiResponse<?> createMemoir(
+            @AuthenticationPrincipal User user,
+            @RequestBody @Valid MemoirProcRequest memoirProcRequest,
+            BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            return ApiResponse.error(ErrorCode.INVALID_PARAMETER, ValidationUtil.toErrorList(bindingResult));
+        }
+
         Long quickMemoir = memoirService.createMemoir(user.getId(), memoirProcRequest);
         return ApiResponse.success(SuccessCode.RETROSPECT_CREATED, quickMemoir);
     }
