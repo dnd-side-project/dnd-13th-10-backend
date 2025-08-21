@@ -5,6 +5,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(
+    uniqueConstraints = @UniqueConstraint(
+        name = "uk_user_search_content",
+        columnNames = {"user_id", "content"}
+    )
+)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

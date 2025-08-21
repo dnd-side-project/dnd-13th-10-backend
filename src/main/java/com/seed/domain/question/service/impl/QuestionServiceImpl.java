@@ -22,7 +22,7 @@ public class QuestionServiceImpl implements QuestionService {
     public List<QuestionResponse> searchQuestions(Long userId, QuestionSearchRequest searchReq) {
 
         if (StringUtils.hasText(searchReq.condition())) {
-            userSearchHistService.save(CreateUserSearchHistRequest.builder()
+            userSearchHistService.upsert(CreateUserSearchHistRequest.builder()
                     .userId(userId).content(searchReq.condition()).build());
         }
 

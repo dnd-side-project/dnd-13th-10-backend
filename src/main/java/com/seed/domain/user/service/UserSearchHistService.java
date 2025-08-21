@@ -14,7 +14,7 @@ public interface UserSearchHistService {
      */
     List<UserSearchHist> findAllByUserId(Long userId);
 
-    void save(CreateUserSearchHistRequest createUserSearchHistRequest);
+    void upsert(CreateUserSearchHistRequest createUserSearchHistRequest);
 
     void deleteById(Long userId, Long id);
 
