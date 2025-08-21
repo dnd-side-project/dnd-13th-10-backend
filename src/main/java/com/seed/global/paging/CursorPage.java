@@ -11,17 +11,17 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CursorPage<T> {
 
-    private int pageNum;
-    private Long nextCursor;
+    private int pageSize;
+    private String nextCursor;
     private boolean hasNext;
-    private T data;
+    private T result;
 
-    public static <T> CursorPage<T> of(int pageNum, Long nextCursor, boolean hasNext, T data) {
+    public static <T> CursorPage<T> of(int pageNum, String nextCursor, boolean hasNext, T data) {
         return CursorPage.<T>builder()
-                .pageNum(pageNum)
+                .pageSize(pageNum)
                 .nextCursor(nextCursor)
                 .hasNext(hasNext)
-                .data(data)
+                .result(data)
                 .build();
     }
 }

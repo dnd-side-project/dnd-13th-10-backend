@@ -6,5 +6,5 @@ import com.seed.global.paging.CursorPage;
 import java.util.List;
 
 public interface CommentQueryRepository {
-    CursorPage<List<CommentResponse.CommentInfoDTO>> getComments(Long memoirId, Long cursor, int size);
+    CursorPage<List<CommentResponse.CommentInfoDTO>> getComments(Long memoirId, String cursor, int size);
 }

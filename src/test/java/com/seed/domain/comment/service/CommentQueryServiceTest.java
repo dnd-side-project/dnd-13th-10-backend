@@ -86,7 +86,7 @@ class CommentQueryServiceTest {
         //then
         assertThat(comments).isNotNull();
         assertThat(comments.getNextCursor()).isNull();
-        assertThat(comments.getPageNum()).isEqualTo(10);
+        assertThat(comments.getPageSize()).isEqualTo(10);
         assertThat(comments.isHasNext()).isFalse();
 
     }
@@ -102,9 +102,9 @@ class CommentQueryServiceTest {
         //then
         assertThat(comments).isNotNull();
         assertThat(comments.getNextCursor()).isNotNull();
-        assertThat(comments.getPageNum()).isEqualTo(5);
+        assertThat(comments.getPageSize()).isEqualTo(5);
         assertThat(comments.isHasNext()).isTrue();
-        assertThat(comments.getData().size()).isEqualTo(5);
+        assertThat(comments.getResult().size()).isEqualTo(5);
     }
 
 
@@ -115,7 +115,7 @@ class CommentQueryServiceTest {
         //given
         CursorPage<List<CommentResponse.CommentInfoDTO>> comments1 = commentQueryService.getComments(memoir.getId(), null, 5);
 
-        Long nextCursor = comments1.getNextCursor();
+        String nextCursor = comments1.getNextCursor();
 
         //when
         CursorPage<List<CommentResponse.CommentInfoDTO>> comments = commentQueryService.getComments(memoir.getId(), nextCursor, 5);
@@ -123,9 +123,9 @@ class CommentQueryServiceTest {
         //then
         assertThat(comments).isNotNull();
         assertThat(comments.getNextCursor()).isNull();
-        assertThat(comments.getPageNum()).isEqualTo(5);
+        assertThat(comments.getPageSize()).isEqualTo(5);
         assertThat(comments.isHasNext()).isFalse();
-        assertThat(comments.getData().size()).isEqualTo(5);
+        assertThat(comments.getResult().size()).isEqualTo(5);
     }
 
     private Comment createComment(String content) {

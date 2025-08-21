@@ -1,5 +1,6 @@
 package com.seed.domain.mapping.like.service;
 
+import com.seed.domain.mapping.like.dto.LikeResponse;
 import com.seed.domain.mapping.like.repository.LikeRepository;
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.memoir.enums.InterviewMood;
@@ -57,10 +58,10 @@ class LikeCommandServiceTest {
     void likesUp(){
 
         //given when
-        boolean isLiked = likeCommandService.toggleLike(user.getId(), memoir.getId());
+        LikeResponse likeResponse = likeCommandService.toggleLike(user.getId(), memoir.getId());
 
         //then
-        Assertions.assertThat(isLiked).isTrue();
+        Assertions.assertThat(likeResponse.getIsLiked()).isTrue();
     }
 
 
@@ -72,10 +73,10 @@ class LikeCommandServiceTest {
         likeCommandService.toggleLike(user.getId(), memoir.getId());
 
         //when
-        boolean isLiked = likeCommandService.toggleLike(user.getId(), memoir.getId());
+        LikeResponse likeResponse = likeCommandService.toggleLike(user.getId(), memoir.getId());
 
         //then
-        Assertions.assertThat(isLiked).isFalse();
+        Assertions.assertThat(likeResponse.getIsLiked()).isFalse();
     }
 
 

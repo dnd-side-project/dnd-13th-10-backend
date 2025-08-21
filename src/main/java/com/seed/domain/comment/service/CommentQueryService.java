@@ -21,7 +21,7 @@ public class CommentQueryService {
 
     private final CommentRepository commentRepository;
 
-    public CursorPage<List<CommentResponse.CommentInfoDTO>> getComments(Long memoirId, Long nextCursor, int size) {
+    public CursorPage<List<CommentResponse.CommentInfoDTO>> getComments(Long memoirId, String nextCursor, int size) {
         return commentRepository.getComments(memoirId, nextCursor, size);
     }
 
