@@ -40,7 +40,7 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
                         memoir.companyName,
                         memoir.position,
                         memoir.createdAt,
-                        qQuestion.content        // displayOrder=1 첫 질문(없으면 null)
+                        qQuestion.title        // displayOrder=1 첫 질문(없으면 null)
                 ))
                 .from(memoir)
                 .leftJoin(qQuestion)
@@ -100,7 +100,7 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
                         u.name,               // String userName
                         m.companyName,        // String companyName
                         m.position,           // Position enum (DTO에서 description 변환)
-                        q.content,            // String firstQuestion (displayOrder=1)
+                        q.title,              // String firstQuestion (displayOrder=1)
                         u.imageUrl,           // String imageUrl
                         m.createdAt,          // LocalDateTime createdAt
                         weeklyViews,          // Long weeklyViewCount (COALESCE 처리)
@@ -121,7 +121,7 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
                 )
                 .groupBy(
                         m.id, m.type, m.position, m.companyName,
-                        u.name, u.imageUrl, m.createdAt, q.content, m.viewCount
+                        u.name, u.imageUrl, m.createdAt, q.title, m.viewCount
                 )
                 .orderBy(weeklyViews.desc(), m.id.desc())
                 .limit(10)

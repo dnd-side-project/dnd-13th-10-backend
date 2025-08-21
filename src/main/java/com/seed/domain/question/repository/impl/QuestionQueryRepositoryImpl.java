@@ -42,7 +42,7 @@ public class QuestionQueryRepositoryImpl implements QuestionQueryRepository {
 
         if (searchReq.condition() != null) {
             builder.and(
-                    question.content.containsIgnoreCase(searchReq.condition())
+                    question.title.containsIgnoreCase(searchReq.condition())
                             .or(question.answer.containsIgnoreCase(searchReq.condition()))
             );
         }

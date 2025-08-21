@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class QuestionResponse {
     private Long id;
     private String questionType;
-    private String content;
+    private String title;
     private String answer;
     private int displayOrder;
 
@@ -27,7 +27,7 @@ public class QuestionResponse {
         return QuestionResponse.builder()
                 .id(question.getId())
                 .questionType(EnumCode.getDescriptionOrNull(question.getQuestionType()))
-                .content(question.getContent())
+                .title(question.getTitle())
                 .answer(question.getAnswer())
                 .displayOrder(question.getDisplayOrder())
                 .build();

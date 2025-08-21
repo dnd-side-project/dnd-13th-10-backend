@@ -29,7 +29,7 @@ public class Question extends BaseEntity {
     private QuestionType questionType;
 
     @Column(length = 500)
-    private String content;
+    private String title;
 
     @Column(length = 500)
     private String answer;
@@ -47,7 +47,7 @@ public class Question extends BaseEntity {
 
     public void modifyQuestion(QuestionProcRequest req) {
         this.questionType = EnumCode.valueOfCode(QuestionType.class, req.getQuestionType());
-        this.content = req.getContent();
+        this.title = req.getTitle();
         this.answer = req.getAnswer();
     }
 }
