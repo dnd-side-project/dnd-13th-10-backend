@@ -19,7 +19,7 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public CursorPage<List<CommentResponse.CommentInfoDTO>> getComments(Long memoirId, Long cursor, int size) {
+    public CursorPage<List<CommentResponse.CommentInfoDTO>> getComments(Long memoirId, String cursor, int size) {
 
         QComment comment = QComment.comment;
         QUser user = QUser.user;
@@ -33,17 +33,17 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository {
                 .limit(size + 1);
 
         if(cursor != null) {
-            query.where(comment.id.gt(cursor));
+            query.where(comment.id.gt(Long.parseLong(cursor)));
         }
 
         List<Comment> comments = query.fetch();
 
         boolean hasNext = false;
-        Long nextCursor = null;
+        String nextCursor = null;
 
         if (comments.size() > size) {
             comments = comments.subList(0, comments.size() - 1);
-            nextCursor = comments.get(comments.size() - 1).getId();
+            nextCursor = comments.get(comments.size() - 1).getId().toString();
             hasNext = true;
         }
 

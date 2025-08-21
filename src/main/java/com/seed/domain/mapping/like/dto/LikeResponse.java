@@ -9,6 +9,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class LikeResponse {
-    private boolean isLiked;
+    private Boolean isLiked;
     private LocalDateTime toggledAt;
 }

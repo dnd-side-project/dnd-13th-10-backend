@@ -6,6 +6,7 @@ import com.seed.domain.mapping.bookmark.service.BookMarkQueryService;
 import com.seed.domain.mapping.dto.response.CommonMemoirResponse;
 import com.seed.domain.user.entity.User;
 import com.seed.global.response.ApiResponse;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,6 +39,7 @@ public class BookMarkController {
         return ApiResponse.success(bookMarkCommandService.toggleBookMark(user.getId(), memoirId));
     }
 
+    @Hidden
     @Operation(
             summary = "내가 북마크한 모든 회고 글 조회 API",
             description = "사용자가 북마크한 모든 회고 글을 조회합니다."

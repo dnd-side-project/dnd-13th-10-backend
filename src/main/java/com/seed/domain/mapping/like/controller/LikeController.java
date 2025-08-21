@@ -7,6 +7,7 @@ import com.seed.domain.mapping.like.service.LikeCommandService;
 import com.seed.domain.mapping.like.service.LikeQueryService;
 import com.seed.domain.user.entity.User;
 import com.seed.global.response.ApiResponse;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,6 +38,7 @@ public class LikeController {
         return ApiResponse.success(likeCommandService.toggleLike(user.getId(), memoirId));
     }
 
+    @Hidden
     @Operation(
             summary = "내가 좋아요한 모든 회고 글 조회 API",
             description = "사용자가 좋아요를 누른 모든 회고 글을 조회합니다."

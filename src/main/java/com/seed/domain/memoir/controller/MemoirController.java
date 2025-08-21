@@ -1,18 +1,23 @@
 package com.seed.domain.memoir.controller;
 
+import com.seed.domain.mapping.dto.response.CommonMemoirResponse;
 import com.seed.domain.memoir.dto.request.MemoirProcRequest;
 import com.seed.domain.memoir.dto.request.SearchMemoirRequest;
 import com.seed.domain.memoir.dto.response.HotMemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirResponse;
 import com.seed.domain.memoir.dto.response.MineMemoirListResponse;
+import com.seed.domain.memoir.service.MemoirQueryService;
 import com.seed.domain.memoir.service.MemoirService;
 import com.seed.domain.memoir.service.MemoirViewHistService;
 import com.seed.domain.memoir.validator.MemoirProcRequestValidator;
 import com.seed.domain.user.entity.User;
+import com.seed.global.paging.CursorPage;
 import com.seed.global.response.ApiResponse;
 import com.seed.global.response.ErrorCode;
 import com.seed.global.response.SuccessCode;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import com.seed.global.utils.ValidationUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +31,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/memoirs")
 @RequiredArgsConstructor
+@Tag(name = "회고 API")
 public class MemoirController {
 
     private final MemoirService memoirService;
     private final MemoirViewHistService memoirViewHistService;
+    private final MemoirQueryService memoirQueryService;
     private final MemoirProcRequestValidator memoirValidator;
 
     @InitBinder
@@ -126,6 +133,45 @@ public class MemoirController {
         return ApiResponse.success(listHotMemoir);
     }
 
+    @Operation(
+            summary = "내가 좋아요를 한 회고 글 조회 API",
+            description = "내가 좋아요를 한 회고 글을 조회합니다. 커서 기반 페이지네이션이 적용되어 있습니다. 다음커서와 조회할 개수를 넘겨주시면 됩니다."
+    )
+    @GetMapping("/liked")
+    public ApiResponse<CursorPage<List<CommonMemoirResponse>>> getLikedMemoirs(
+            @AuthenticationPrincipal User user,
+            @RequestParam(required = false) String cursor,
+            @RequestParam(required = false, defaultValue = "10") int size
+    ) {
+        return ApiResponse.success(memoirQueryService.getLikedMemoirs(user.getId(), cursor, size));
+    }
+
+    @Operation(
+            summary = "내가 북마크를 한 회고 글 조회 API",
+            description = "내가 북마크를 한 회고 글을 조회합니다. 커서 기반 페이지네이션이 적용되어 있습니다. 다음커서와 조회할 개수를 넘겨주시면 됩니다."
+    )
+    @GetMapping("/bookMarked")
+    public ApiResponse<CursorPage<List<CommonMemoirResponse>>> getBookMarkedMemoirs(
+            @AuthenticationPrincipal User user,
+            @RequestParam(required = false) String cursor,
+            @RequestParam(required = false, defaultValue = "10") int size
+    ) {
+        return ApiResponse.success(memoirQueryService.getBookMarkedMemoirs(user.getId(), cursor, size));
+    }
+
+    @Operation(
+            summary = "내가 댓글을 작성한 회고 글 조회 API",
+            description = "내가 댓글을 작성한 회고 글을 조회합니다. 커서 기반 페이지네이션이 적용되어 있습니다. 다음커서와 조회할 개수를 넘겨주시면 됩니다."
+    )
+    @GetMapping("/commented")
+    public ApiResponse<CursorPage<List<CommonMemoirResponse>>> getCommentedMemoirs(
+            @AuthenticationPrincipal User user,
+            @RequestParam(required = false) String cursor,
+            @RequestParam(required = false, defaultValue = "10") int size
+    ) {
+        return ApiResponse.success(memoirQueryService.getCommentedMemoirs(user.getId(), cursor, size));
+    }
+
     /**
      * 회고 수정 (퀵 회고, 일반 회고)
      *
@@ -134,6 +180,7 @@ public class MemoirController {
      */
     @PutMapping
     public ApiResponse<Long> modifyMemoir(@RequestBody MemoirProcRequest memoirProcRequest) {
+
         Long id = memoirService.modifyMemoir(memoirProcRequest);
         return ApiResponse.success(SuccessCode.RETROSPECT_UPDATED, id);
     }
