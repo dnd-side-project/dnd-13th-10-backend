@@ -22,7 +22,7 @@ public class NotificationScheduler {
     private final NotificationService notificationService;
     private final ScheduleRepository scheduleRepository;
 
-    @Scheduled(cron = "0 0 7 * * *")
+    @Scheduled(cron = "0 0 6 * * *")
     public void notifyMemoirNotWrittenJob() {
         notifyMemoirNotWritten();
     }
