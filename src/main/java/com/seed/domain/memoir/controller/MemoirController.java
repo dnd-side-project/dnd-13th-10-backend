@@ -83,8 +83,8 @@ public class MemoirController {
                     + "- 퀵/일반 회고 모두 조회합니다. (임시저장은 제외)"
     )
     @GetMapping
-    public ApiResponse<List<MemoirListResponse>> findListMemoir() {
-        List<MemoirListResponse> listMemoir = memoirService.findListMemoir();
+    public ApiResponse<List<MemoirListResponse>> findListMemoir(@RequestParam(required = false) String position) {
+        List<MemoirListResponse> listMemoir = memoirService.findListMemoir(position);
         return ApiResponse.success(listMemoir);
     }
 
