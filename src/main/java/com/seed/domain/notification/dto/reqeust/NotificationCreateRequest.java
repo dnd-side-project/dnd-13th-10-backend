@@ -16,12 +16,17 @@ public class NotificationCreateRequest {
     private String notificationCategory;
     private String content;
 
-    private Notification toEntity() {
+    public Notification toEntity() {
         return Notification.builder()
                 .user(User.ofId(userId))
                 .notificationCategory(EnumCode.valueOfCode(NotificationCategory.class, notificationCategory))
                 .content(content)
                 .build();
+    }
+
+    // 테스트용 메서드
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
 }

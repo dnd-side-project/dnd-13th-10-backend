@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum NotificationCategory implements EnumCode {
 
-    MEMOIR_NOTIFICATION("10", "회고알림"),
+    SYSTEM("10", "회고알림"),
     COMMUNITY("20", "커뮤니티");
 
     private final String code;
