@@ -1,6 +1,6 @@
 package com.seed.domain.schedule.entity;
 
-import com.seed.domain.company.Company;
+import com.seed.domain.company.entity.Company;
 import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.schedule.dto.request.ScheduleRequest;
 import com.seed.domain.schedule.enums.InterviewStep;
