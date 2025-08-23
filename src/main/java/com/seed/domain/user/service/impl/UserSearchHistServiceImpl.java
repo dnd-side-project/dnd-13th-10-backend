@@ -2,7 +2,6 @@ package com.seed.domain.user.service.impl;
 
 import com.seed.domain.user.converter.UserConverter;
 import com.seed.domain.user.dto.request.CreateUserSearchHistRequest;
-import com.seed.domain.user.entity.User;
 import com.seed.domain.user.entity.UserSearchHist;
 import com.seed.domain.user.repository.UserSearchHistRepository;
 import com.seed.domain.user.service.UserSearchHistService;
