@@ -2,7 +2,6 @@ package com.seed.domain.memoir.enums;
 
 import com.seed.global.code.EnumCode;
 import com.seed.global.entity.EnumCodeJpaConverter;
-import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

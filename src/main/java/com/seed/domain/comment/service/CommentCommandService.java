@@ -3,7 +3,9 @@ package com.seed.domain.comment.service;
 import com.seed.domain.comment.converter.CommentConverter;
 import com.seed.domain.comment.dto.request.CommentRequest;
 import com.seed.domain.comment.repository.CommentRepository;
+import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.memoir.repository.MemoirRepository;
+import com.seed.domain.notification.service.NotificationService;
 import com.seed.domain.user.repository.UserRepository;
 import com.seed.global.exception.BusinessException;
 import com.seed.global.response.ErrorCode;
@@ -21,10 +23,17 @@ public class CommentCommandService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final MemoirRepository memoirRepository;
+    private final NotificationService notificationService;
 
     public void createComment(Long userId, Long memoirId, CommentRequest.CommentCreateRequestDTO request) {
         validateUserAndMemoirAndComment(userId, memoirId, request.getParentCommentId());
         commentRepository.save(CommentConverter.toComment(request, userId, memoirId));
+
+        Memoir memoir = memoirRepository.findById(memoirId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "해당하는 회고 글이 존재하지 않습니다."));
+
+        // 댓글 알림 생성
+        notificationService.notifyMemoirComment(memoir.getUser().getId(), userId, memoir.getCompanyName());
     }
 
     private void validateUserAndMemoirAndComment(Long userId, Long memoirId, Long parentCommentId) {
