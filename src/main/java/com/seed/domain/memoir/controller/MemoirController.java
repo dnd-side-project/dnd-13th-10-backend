@@ -17,6 +17,7 @@ import com.seed.global.response.ApiResponse;
 import com.seed.global.response.ErrorCode;
 import com.seed.global.response.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import com.seed.global.utils.ValidationUtil;
 import jakarta.validation.Valid;
@@ -50,6 +51,13 @@ public class MemoirController {
      * @param memoirProcRequest
      * @return
      */
+    @Operation(
+            summary = "면접 회고를 등록하는 API",
+            description = "면접 회고를 등록하는 API 입니다.<br>"
+                    + "- 넘어오는 type 필드 데이터를 동해 퀵/일반 회고를 구분합니다.<br>"
+                    + "- 만약 imTmp 필드 값이 true 로 전달될 경우 임시저장으로 구분하여 저장합니다. <br>"
+                    + "- 회고 타입에 따라 필수값 검증 로직이 실행 됩니다. 임시저장은 검증하지 않습니다."
+    )
     @PostMapping
     public ApiResponse<?> createMemoir(
             @AuthenticationPrincipal User user,
@@ -69,6 +77,11 @@ public class MemoirController {
      *
      * @return
      */
+    @Operation(
+            summary = "면접 회고 리스트 조회 API",
+            description = "면접 회고 리스트를 조회하는 API 입니다.<br>"
+                    + "- 퀵/일반 회고 모두 조회합니다. (임시저장은 제외)"
+    )
     @GetMapping
     public ApiResponse<List<MemoirListResponse>> findListMemoir() {
         List<MemoirListResponse> listMemoir = memoirService.findListMemoir();
@@ -81,6 +94,14 @@ public class MemoirController {
      * @param memoirId
      * @return
      */
+    @Operation(
+            summary = "면접 회고 상세 조회 API",
+            description = "면접 회고 상세 조회 API 입니다. <br>"
+                    + "- 해당 API 호출시 해당 회고의 조회수가 증가합니다",
+            parameters = {
+                    @Parameter(name = "memoirId", description = "회고 아이디", required = true)
+            }
+    )
     @GetMapping("/{memoirId}")
     public ApiResponse<MemoirResponse> findMemoirById(
             @PathVariable Long memoirId,
@@ -100,6 +121,11 @@ public class MemoirController {
      * @param request
      * @return
      */
+    @Operation(
+            summary = "내가 작성한 회고 리스트 조회 API",
+            description = "내가 작성한 회고 리스트 조회 API 입니다. <br>"
+                    + "- 해당 API 호출시 내가 작성한 퀵/일반 회고 리스트를 조회하지만, 임시저장된 건에 대해서는 가져오지 않습니다."
+    )
     @GetMapping("/mine")
     public ApiResponse<List<MineMemoirListResponse>> findMineMemoir(
             @AuthenticationPrincipal User user,
@@ -115,6 +141,10 @@ public class MemoirController {
      * @param user
      * @return
      */
+    @Operation(
+            summary = "내가 임시저장한 회고 리스트 조회 API",
+            description = "내가 임시저장한 회고 리스트 조회 API 입니다."
+    )
     @GetMapping("/mine/tmp")
     public ApiResponse<List<MineMemoirListResponse>> findMineTmpMemoir(@AuthenticationPrincipal User user) {
         List<MineMemoirListResponse> list = memoirService.findListMineTmpMemoir(user.getId());
@@ -178,6 +208,10 @@ public class MemoirController {
      * @param memoirProcRequest
      * @return
      */
+    @Operation(
+            summary = "회고 수정 API",
+            description = "퀵/일반 회고 수정 API 입니다."
+    )
     @PutMapping
     public ApiResponse<Long> modifyMemoir(@RequestBody MemoirProcRequest memoirProcRequest) {
 
@@ -191,6 +225,14 @@ public class MemoirController {
      * @param memoirId
      * @return
      */
+    @Operation(
+            summary = "회고 삭제 API",
+            description = "퀵/일반 회고 삭제 API 입니다. <br>"
+                    + "- 실제 delete 하는 것이 아닌 비활성화(isUse=false) 하는 API 입니다.",
+            parameters = {
+                    @Parameter(name = "memoirId", description = "회고 아이디", required = true)
+            }
+    )
     @DeleteMapping("/{memoirId}")
     public ApiResponse<Long> deleteMemoir(@PathVariable Long memoirId) {
         memoirService.deleteMemoir(memoirId);
