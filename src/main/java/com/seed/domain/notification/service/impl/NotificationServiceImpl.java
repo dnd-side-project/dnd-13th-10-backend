@@ -46,4 +46,15 @@ public class NotificationServiceImpl implements NotificationService {
 
         return notificationRepository.save(notification);
     }
+
+    @Override
+    public Notification createNotification(Long userId, String content) {
+        Notification notification = Notification.builder()
+                .user(User.ofId(userId)) // FK 프록시 참조
+                .notificationCategory(NotificationCategory.SYSTEM)
+                .content(content)
+                .build();
+
+        return notificationRepository.save(notification);
+    }
 }
