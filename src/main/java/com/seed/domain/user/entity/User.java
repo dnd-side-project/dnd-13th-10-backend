@@ -67,4 +67,16 @@ public class User extends BaseEntity implements UserDetails {
     public static User ofId(Long userId) {
         return User.builder().id(userId).build();
     }
+
+    public void updateImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void deleteAccount() {
+        this.isUse = false;
+    }
 }

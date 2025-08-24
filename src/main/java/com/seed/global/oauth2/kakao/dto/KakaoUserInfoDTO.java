@@ -9,10 +9,12 @@ public class KakaoUserInfoDTO {
 
     private String id;
     private String nickname;
+    private String profileImageUrl;
 
     public KakaoUserInfoDTO(Map<String, Object> attributes) {
         this.id = String.valueOf(attributes.get("id"));
         Map<String, Object> properties = (Map<String, Object>) attributes.get("properties");
         this.nickname = (String) properties.get("nickname");
+        this.profileImageUrl = (String) properties.get("profile_image");
     }
 }

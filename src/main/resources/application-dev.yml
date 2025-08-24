@@ -15,7 +15,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     show-sql: true
     database-platform: org.hibernate.dialect.MySQLDialect
     defer-datasource-initialization: true
@@ -63,6 +63,26 @@ cors:
     http://localhost:5173,
     http://localhost:8080,
     https://devseed.store
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY_ID}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}
+    s3:
+      bucket: devseedstorage
+      region: ap-northeast-2
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+file:
+  upload:
+    s3:
+      bucket: devseedstorage
+      folder: profiles/
+      region: ap-northeast-2
 
 
 logging:

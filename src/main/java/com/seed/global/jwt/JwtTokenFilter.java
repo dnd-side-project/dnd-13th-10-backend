@@ -44,12 +44,17 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         if (token != null && jwtUtil.validateToken(token)) {
             String socialId = jwtUtil.getSocialIdFromToken(token);
+
+            log.info("socialId: {}", socialId);
             
             if (socialId != null) {
                 User user = userRepository.findBySocialId(socialId)
                         .orElse(null);
-                        
+
                 if (user != null) {
+
+                    log.info("유저 이름 : {}", user.getName());
+
                     UsernamePasswordAuthenticationToken authentication = 
                             new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
