@@ -5,8 +5,15 @@ import com.seed.domain.user.entity.User;
 import com.seed.domain.user.service.UserCommandService;
 import com.seed.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.SchemaProperty;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,12 +28,31 @@ public class UserInfoController {
 
     @Operation(
             summary = "프로필 정보 수정 API",
-            description = "회원의 닉네임과 프로필 이미지를 수정합니다. 수정하지 않을 정보는 비워주시면 됩니다."
+            description = "회원의 닉네임과 프로필 이미지를 수정합니다. 수정하지 않을 정보는 비워주시면 됩니다.",
+            requestBody = @RequestBody(
+                    description = "프로필 수정 요청 정보",
+                    content = @Content(
+                            mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
+                            schema = @Schema(implementation = Object.class),
+                            schemaProperties = {
+                                    @SchemaProperty(
+                                            name = "request",
+                                            schema = @Schema(implementation = UserInfoUpdateRequest.class)
+                                    ),
+                                    @SchemaProperty(
+                                            name = "profileImage",
+                                            schema = @Schema(type = "string", format = "binary", description = "프로필 이미지 파일")
+                                    )
+                            }
+                    )
+            )
     )
-    @PatchMapping("/update-profile")
+    @PatchMapping(value = "/update-profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<?> updateProfile(
-            @AuthenticationPrincipal User user,
+            @Parameter(hidden = true) @AuthenticationPrincipal User user,
+            @Parameter(description = "회원 정보 수정 요청", required = true)
             @RequestPart(value = "request") UserInfoUpdateRequest request,
+            @Parameter(description = "프로필 이미지 파일", required = true)
             @RequestPart(value = "profileImage") MultipartFile profileImage
     ) {
 
