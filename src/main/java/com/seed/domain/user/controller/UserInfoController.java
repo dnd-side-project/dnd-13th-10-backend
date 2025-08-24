@@ -56,9 +56,9 @@ public class UserInfoController {
             HttpServletRequest httpRequest,
             @Parameter(hidden = true) @AuthenticationPrincipal User user,
             @Parameter(description = "회원 정보 수정 요청")
-            @RequestPart(value = "request") UserInfoUpdateRequest request,
+            @RequestPart(value = "request", required = false) UserInfoUpdateRequest request,
             @Parameter(description = "프로필 이미지 파일")
-            @RequestPart(value = "profileImage") MultipartFile profileImage
+            @RequestPart(value = "profileImage", required = false) MultipartFile profileImage
     ) {
 
         log.info("Content-Type: {}", httpRequest.getContentType());
