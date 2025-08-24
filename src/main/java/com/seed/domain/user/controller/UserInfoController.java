@@ -6,13 +6,12 @@ import com.seed.domain.user.service.UserCommandService;
 import com.seed.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.SchemaProperty;
+import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
+@Slf4j
 @Tag(name = "회원 정보 API")
 public class UserInfoController {
 
@@ -43,18 +43,27 @@ public class UserInfoController {
                                             name = "profileImage",
                                             schema = @Schema(type = "string", format = "binary", description = "프로필 이미지 파일")
                                     )
-                            }
+                            },
+                            encoding = @Encoding(
+                                    name = "request",
+                                    contentType = "application/json"
+                            )
                     )
             )
     )
     @PatchMapping(value = "/update-profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<?> updateProfile(
+            HttpServletRequest httpRequest,
             @Parameter(hidden = true) @AuthenticationPrincipal User user,
-            @Parameter(description = "회원 정보 수정 요청", required = true)
+            @Parameter(description = "회원 정보 수정 요청")
             @RequestPart(value = "request") UserInfoUpdateRequest request,
-            @Parameter(description = "프로필 이미지 파일", required = true)
+            @Parameter(description = "프로필 이미지 파일")
             @RequestPart(value = "profileImage") MultipartFile profileImage
     ) {
+
+        log.info("Content-Type: {}", httpRequest.getContentType());
+        log.info("Request: {}", request);
+        log.info("ProfileImage: {}", profileImage != null ? profileImage.getOriginalFilename() : "null");
 
         // 닉네임을 변경하지 않는 경우
         if (request == null) {

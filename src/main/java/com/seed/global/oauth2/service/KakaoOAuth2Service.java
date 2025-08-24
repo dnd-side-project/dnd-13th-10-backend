@@ -61,6 +61,7 @@ public class KakaoOAuth2Service extends DefaultOAuth2UserService {
                     .name(kakaoUserInfoDTO.getNickname())
                     .role(Role.USER)
                     .imageUrl(kakaoUserInfoDTO.getProfileImageUrl())
+                    .isUse(true)
                     .build();
 
             return userRepository.save(newUser);
