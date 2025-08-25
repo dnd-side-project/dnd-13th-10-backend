@@ -42,6 +42,7 @@ public class MemoirProcRequest {
     private boolean isPublic = true;
     private List<QuestionProcRequest> questions;
 
+    // TODO : 일정을 통해 면접 회고 등록 시 양방향 연관관계 매핑!
     public static Memoir toEntity(Long userId, MemoirProcRequest req) {
         return Memoir.builder()
                 .user(User.ofId(userId)) // FK 참조만 세팅
