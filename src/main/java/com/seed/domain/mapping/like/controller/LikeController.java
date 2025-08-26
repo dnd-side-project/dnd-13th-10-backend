@@ -32,7 +32,7 @@ public class LikeController {
                     "좋아요가 되어있지 않다면 좋아요를 추가하고, liked를 true로 전달합니다."
     )
     @PostMapping("/api/memoirs/{memoirId}/likes")
-    public ApiResponse<LikeResponse> toggleLike(@Parameter(name = "좋아요를 토글처리 할 회고 ID") @PathVariable Long memoirId,
+    public ApiResponse<LikeResponse> toggleLike(@PathVariable Long memoirId,
                                                 @AuthenticationPrincipal User user) {
 
         return ApiResponse.success(likeCommandService.toggleLike(user.getId(), memoirId));

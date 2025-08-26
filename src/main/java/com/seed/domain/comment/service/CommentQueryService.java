@@ -25,28 +25,28 @@ public class CommentQueryService {
         return commentRepository.getComments(memoirId, nextCursor, size);
     }
 
-    public List<CommentResponse.CommentInfoDTO> getComments(Long memoirId) {
-        List<Comment> comments = commentRepository.findAllByMemoirIdOrderById(memoirId);
-
-        List<CommentResponse.CommentInfoDTO> parentComments = new ArrayList<>();
-
-        comments.stream()
-                .filter(comment -> comment.getParentId() == null)
-                .forEach(comment -> {
-                    CommentResponse.CommentInfoDTO commentInfoDTO = CommentConverter.toInfoDTO(comment);
-                    parentComments.add(commentInfoDTO);
-                });
-
-        for (CommentResponse.CommentInfoDTO parentComment : parentComments) {
-            List<CommentResponse.CommentInfoDTO> childComments = comments.stream()
-                    .filter(comment -> comment.getParentId() != null && comment.getParentId().equals(parentComment.getId()))
-                    .map(CommentConverter::toInfoDTO)
-                    .toList();
-
-            parentComment.setChildren(childComments);
-        }
-
-        return parentComments;
-    }
+//    public List<CommentResponse.CommentInfoDTO> getComments(Long memoirId) {
+//        List<Comment> comments = commentRepository.findAllByMemoirIdOrderById(memoirId);
+//
+//        List<CommentResponse.CommentInfoDTO> parentComments = new ArrayList<>();
+//
+//        comments.stream()
+//                .filter(comment -> comment.getParentId() == null)
+//                .forEach(comment -> {
+//                    CommentResponse.CommentInfoDTO commentInfoDTO = CommentConverter.toInfoDTO(comment);
+//                    parentComments.add(commentInfoDTO);
+//                });
+//
+//        for (CommentResponse.CommentInfoDTO parentComment : parentComments) {
+//            List<CommentResponse.CommentInfoDTO> childComments = comments.stream()
+//                    .filter(comment -> comment.getParentId() != null && comment.getParentId().equals(parentComment.getId()))
+//                    .map(CommentConverter::toInfoDTO)
+//                    .toList();
+//
+//            parentComment.setChildren(childComments);
+//        }
+//
+//        return parentComments;
+//    }
 
 }

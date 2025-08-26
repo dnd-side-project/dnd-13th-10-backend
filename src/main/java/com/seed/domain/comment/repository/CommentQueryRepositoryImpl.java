@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -26,10 +28,14 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository {
 
         JPAQuery<Comment> query;
 
+        // 부모 댓글에 대해서만 페이지네이션을 적용
         query = queryFactory.selectFrom(comment)
                 .join(comment.user, user).fetchJoin()
-                .where(comment.memoir.id.eq(memoirId))
-                .orderBy(comment.id.desc())
+                .where(
+                        comment.memoir.id.eq(memoirId),
+                        comment.parentId.isNull()
+                )
+                .orderBy(comment.id.asc())
                 .limit(size + 1);
 
         if(cursor != null) {
@@ -47,8 +53,26 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository {
             hasNext = true;
         }
 
-        List<CommentResponse.CommentInfoDTO> commentDTOs = comments.stream().map(CommentConverter::toInfoDTO).toList();
+        List<Long> parentIds = comments.stream().map(Comment::getId).toList();
 
-        return CursorPage.of(size, nextCursor, hasNext, commentDTOs);
+        Map<Long, List<Comment>> replies = findByParentIds(parentIds).stream()
+                .collect(Collectors.groupingBy(Comment::getParentId));
+
+        return CursorPage.of(size, nextCursor, hasNext, CommentConverter.toCommentListDTO(comments, replies));
+    }
+
+    private List<Comment> findByParentIds(List<Long> parentIds) {
+
+        QComment comment = QComment.comment;
+        QUser user = QUser.user;
+
+        return queryFactory.selectFrom(comment)
+                .join(comment.user, user).fetchJoin()
+                .where(
+                        comment.parentId.in(parentIds),
+                        comment.user.isUse.isTrue()
+                )
+                .orderBy(comment.parentId.asc(), comment.id.desc())
+                .fetch();
     }
 }
