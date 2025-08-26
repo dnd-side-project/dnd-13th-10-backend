@@ -20,7 +20,6 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemoirProcRequest {
     private Long id;
-    private Long userId;
     private Long scheduleId;
     private String type;
     private String interviewFormat;
@@ -36,11 +35,19 @@ public class MemoirProcRequest {
     private String interviewStep;
     private String interviewDate; // yyyy-MM-dd
     private String interviewTime; // HH:mm
-    @JsonProperty("isTmp")
     private boolean isTmp = false;
-    @JsonProperty("isPublic")
     private boolean isPublic = true;
     private List<QuestionProcRequest> questions;
+
+    @JsonProperty("isTmp")
+    public boolean isTmp() {
+        return isTmp;
+    }
+
+    @JsonProperty("isPublic")
+    public boolean isPublic() {
+        return isPublic;
+    }
 
     // TODO : 일정을 통해 면접 회고 등록 시 양방향 연관관계 매핑!
     public static Memoir toEntity(Long userId, MemoirProcRequest req) {

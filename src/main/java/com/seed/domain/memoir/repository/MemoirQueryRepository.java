@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MemoirQueryRepository {
-    List<MemoirListResponse> findListMemoir(String position);
+    CursorPage<List<MemoirListResponse>> findListMemoir(String position, String cursor, int size);
 
     List<MineMemoirListResponse> findListMineMemoir(Long userId, SearchMemoirRequest searchMemoirRequest);
 

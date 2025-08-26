@@ -12,6 +12,7 @@ import com.seed.domain.memoir.service.MemoirService;
 import com.seed.domain.question.dto.request.QuestionProcRequest;
 import com.seed.domain.question.entity.Question;
 import com.seed.global.exception.BusinessException;
+import com.seed.global.paging.CursorPage;
 import com.seed.global.response.ErrorCode;
 import com.seed.global.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
@@ -46,8 +47,8 @@ public class MemoirServiceImpl implements MemoirService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<MemoirListResponse> findListMemoir(String position) {
-        return memoirRepository.findListMemoir(position);
+    public CursorPage<List<MemoirListResponse>> findListMemoir(String position, String cursor, int size) {
+        return memoirRepository.findListMemoir(position, cursor, size);
     }
 
     @Override

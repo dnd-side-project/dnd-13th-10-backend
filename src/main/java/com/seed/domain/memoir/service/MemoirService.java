@@ -6,12 +6,13 @@ import com.seed.domain.memoir.dto.response.HotMemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirListResponse;
 import com.seed.domain.memoir.dto.response.MemoirResponse;
 import com.seed.domain.memoir.dto.response.MineMemoirListResponse;
+import com.seed.global.paging.CursorPage;
 
 import java.util.List;
 
 public interface MemoirService {
     Long createMemoir(Long userId, MemoirProcRequest memoirProcRequest);
-    List<MemoirListResponse> findListMemoir(String position);
+    CursorPage<List<MemoirListResponse>> findListMemoir(String position, String cursor, int size);
     MemoirResponse findMemoirById(Long viewerId, Long memoirId);
     List<MineMemoirListResponse> findListMineMemoir(Long userId, SearchMemoirRequest searchMemoirRequest);
     List<MineMemoirListResponse> findListMineTmpMemoir(Long userId);

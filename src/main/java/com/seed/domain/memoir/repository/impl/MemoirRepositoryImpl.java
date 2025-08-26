@@ -48,11 +48,24 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<MemoirListResponse> findListMemoir(String position) {
+    public CursorPage<List<MemoirListResponse>> findListMemoir(String position, String cursor, int size) {
         QMemoir memoir = QMemoir.memoir;
         QQuestion qQuestion = QQuestion.question;
 
-        return queryFactory
+        BooleanExpression condition = memoir.isPublic.isTrue()
+                .and(memoir.isTmp.isFalse())
+                .and(memoir.isUse.isTrue());
+
+        if (position != null && !position.isEmpty()) {
+            condition = condition.and(memoir.position.eq(EnumCode.valueOfCode(Position.class, position)));
+        }
+
+        if(cursor != null) {
+            Long cursorCondition = Long.parseLong(cursor);
+            condition = condition.and(memoir.id.lt(cursorCondition));
+        }
+
+        List<MemoirListResponse> listMemoirRes = queryFactory
                 .select(new QMemoirListResponse(
                         memoir.id,
                         memoir.type,
@@ -66,16 +79,20 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
                 .leftJoin(qQuestion)
                 .on(qQuestion.memoir.eq(memoir)
                         .and(qQuestion.displayOrder.eq(1)))
-                .where(
-                        memoir.isPublic.isTrue(),
-                        memoir.isUse.isTrue(),
-                        memoir.isTmp.isFalse(),
-                        (position != null && !position.isEmpty())
-                                ? memoir.position.eq(EnumCode.valueOfCode(Position.class, position))
-                                : null
-                )
+                .where(condition)
                 .orderBy(memoir.createdAt.desc())
+                .limit(size + 1)
                 .fetch();
+
+        boolean hasNext = listMemoirRes.size() > size;
+        if (hasNext) listMemoirRes = listMemoirRes.subList(0, size);
+
+        String nextCursor = null;
+        if (hasNext && !listMemoirRes.isEmpty()) {
+            nextCursor = String.valueOf(listMemoirRes.get(listMemoirRes.size() - 1).getId()); // ✅ getActionId() 제거
+        }
+
+        return CursorPage.of(size, nextCursor, hasNext, listMemoirRes);
     }
 
     @Override
