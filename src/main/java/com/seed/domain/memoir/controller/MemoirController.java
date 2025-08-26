@@ -113,8 +113,8 @@ public class MemoirController {
                       "interviewStep" : "30",
                       "freeNote": "전체 회고 작성",
                       "questions": [
-                        { "questionType": "TECH", "title": "JPA N+1 해결법?", "answer": "페치 조인/EntityGraph", "order": 1 },
-                        { "questionType": "CS", "title": "TCP 3-way handshake", "answer": "SYN/SYN-ACK/ACK", "order": 2 }
+                        { "questionType": "10", "title": "JPA N+1 해결법?", "answer": "페치 조인/EntityGraph", "order": 1 },
+                        { "questionType": "20", "title": "TCP 3-way handshake", "answer": "SYN/SYN-ACK/ACK", "order": 2 }
                       ],
                       "url": "https://example.com/detail",
                       "isTmp": false,
