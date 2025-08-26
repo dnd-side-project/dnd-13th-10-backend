@@ -33,7 +33,8 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository {
                 .join(comment.user, user).fetchJoin()
                 .where(
                         comment.memoir.id.eq(memoirId),
-                        comment.parentId.isNull()
+                        comment.parentId.isNull(),
+                        user.isUse.isTrue()
                 )
                 .orderBy(comment.id.asc())
                 .limit(size + 1);
