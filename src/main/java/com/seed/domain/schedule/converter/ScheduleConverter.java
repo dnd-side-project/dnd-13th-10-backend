@@ -37,7 +37,7 @@ public class ScheduleConverter {
                 .id(schedule.getId())
                 .position(EnumCode.getDescriptionOrNull(schedule.getPosition()))
                 .companyName(schedule.getCompanyName())
-                .interviewDate(schedule.getInterviewDatetime())
+                .interviewDateTime(schedule.getInterviewDatetime())
                 .remainDate(remainDays)
                 .createdAt(schedule.getCreatedAt())
                 .interviewStep(schedule.getInterviewStep().getDescription())
@@ -50,7 +50,7 @@ public class ScheduleConverter {
                 .id(schedule.getId())
                 .position(EnumCode.getDescriptionOrNull(schedule.getPosition()))
                 .companyName(schedule.getCompanyName())
-                .interviewDate(schedule.getInterviewDatetime())
+                .interviewDateTime(schedule.getInterviewDatetime())
                 .interviewStep(schedule.getInterviewStep().getDescription())
                 .location(schedule.getLocation())
                 .build();
