@@ -2,6 +2,7 @@ package com.seed.domain.question.service;
 
 import com.seed.domain.question.dto.request.QuestionSearchRequest;
 import com.seed.domain.question.dto.response.QuestionResponse;
+import com.seed.global.paging.CursorPage;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ public interface QuestionService {
      * @param searchReq
      * @return
      */
-    List<QuestionResponse> searchQuestions(Long userId, QuestionSearchRequest searchReq);
+    CursorPage<List<QuestionResponse>> searchQuestions(
+            Long userId, QuestionSearchRequest searchReq, String cursor, int size
+    );
 
 }

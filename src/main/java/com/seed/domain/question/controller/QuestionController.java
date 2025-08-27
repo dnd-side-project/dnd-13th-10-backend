@@ -4,6 +4,7 @@ import com.seed.domain.question.dto.request.QuestionSearchRequest;
 import com.seed.domain.question.dto.response.QuestionResponse;
 import com.seed.domain.question.service.QuestionService;
 import com.seed.domain.user.entity.User;
+import com.seed.global.paging.CursorPage;
 import com.seed.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -38,11 +40,14 @@ public class QuestionController {
             }
     )
     @GetMapping
-    public ApiResponse<List<QuestionResponse>> getAllQuestions(
+    public ApiResponse<CursorPage<List<QuestionResponse>>> getAllQuestions(
             QuestionSearchRequest searchReq,
-            @AuthenticationPrincipal User user
+            @AuthenticationPrincipal User user,
+            @RequestParam(required = false) String cursor,
+            @RequestParam(required = false, defaultValue = "10") int size
     ) {
-        List<QuestionResponse> listQuestionResponse = questionService.searchQuestions(user.getId(), searchReq);
+        CursorPage<List<QuestionResponse>> listQuestionResponse
+                = questionService.searchQuestions(user.getId(), searchReq, cursor, size);
         return ApiResponse.success(listQuestionResponse);
     }
 
