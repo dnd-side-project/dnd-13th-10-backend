@@ -5,6 +5,7 @@ import com.seed.domain.schedule.dto.response.ScheduleResponse;
 import com.seed.domain.schedule.service.ScheduleCommandService;
 import com.seed.domain.schedule.service.ScheduleQueryService;
 import com.seed.domain.user.entity.User;
+import com.seed.global.paging.CursorPage;
 import com.seed.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,8 +40,12 @@ public class ScheduleController {
             description = " 사용자가 등록한 모든 면접 일정을 조회합니다."
     )
     @GetMapping("")
-    public ApiResponse<List<ScheduleResponse.ScheduleInfoDTO>> getAllSchedules(@AuthenticationPrincipal User user) {
-        return ApiResponse.success(scheduleQueryService.findAll(user.getId()));
+    public ApiResponse<CursorPage<List<ScheduleResponse.ScheduleInfoDTO>>> getAllSchedules(
+            @AuthenticationPrincipal User user,
+            @RequestParam(value = "cursor", required = false) String cursor,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size
+    ) {
+        return ApiResponse.success(scheduleQueryService.findAll(cursor, user.getId(), size));
     }
 
     @Operation(

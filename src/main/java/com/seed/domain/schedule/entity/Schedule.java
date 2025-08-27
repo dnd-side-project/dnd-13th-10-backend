@@ -10,6 +10,7 @@ import com.seed.global.code.EnumCode;
 import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class Schedule extends BaseEntity {
 
     private String location;
 
+    @BatchSize(size = 20)
     @Builder.Default
     @OneToMany(mappedBy = "schedule")
     List<Memoir> memoirs = new ArrayList<>();

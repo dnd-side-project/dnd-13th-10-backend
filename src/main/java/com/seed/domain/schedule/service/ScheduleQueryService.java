@@ -6,6 +6,7 @@ import com.seed.domain.schedule.dto.response.ScheduleResponse;
 import com.seed.domain.schedule.entity.Schedule;
 import com.seed.domain.schedule.repository.ScheduleRepository;
 import com.seed.global.exception.BusinessException;
+import com.seed.global.paging.CursorPage;
 import com.seed.global.response.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,10 @@ public class ScheduleQueryService {
         });
 
         return scheduleResponses;
+    }
+
+    public CursorPage<List<ScheduleResponse.ScheduleInfoDTO>> findAll(String cursor, Long userId, int size) {
+        return scheduleRepository.findAllSchedules(cursor, userId, size);
     }
 
     public ScheduleResponse.DetailDTO getSchedule(Long scheduleId) {

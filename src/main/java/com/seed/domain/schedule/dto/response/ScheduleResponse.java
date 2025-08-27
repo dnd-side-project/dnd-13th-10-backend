@@ -1,7 +1,6 @@
 package com.seed.domain.schedule.dto.response;
 
 import com.seed.domain.memoir.enums.MemoirType;
-import com.seed.domain.schedule.enums.Position;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +19,7 @@ public class ScheduleResponse {
         private Long id;
         private String companyName;
         private String position;
-        private LocalDateTime interviewDate;
+        private LocalDateTime interviewDateTime;
         private String interviewStep;
         private int remainDate;
         private List<MemoirType> memoirTypes;
@@ -35,7 +34,7 @@ public class ScheduleResponse {
         private Long id;
         private String companyName;
         private String position;
-        private LocalDateTime interviewDate;
+        private LocalDateTime interviewDateTime;
         private String interviewStep;
         private String location;
     }
