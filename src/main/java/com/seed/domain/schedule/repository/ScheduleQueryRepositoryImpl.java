@@ -2,6 +2,7 @@ package com.seed.domain.schedule.repository;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.seed.domain.memoir.entity.Memoir;
 import com.seed.domain.memoir.entity.QMemoir;
 import com.seed.domain.memoir.enums.MemoirType;
 import com.seed.domain.schedule.converter.ScheduleConverter;
@@ -50,14 +51,14 @@ public class ScheduleQueryRepositoryImpl implements ScheduleQueryRepository {
             nextCursor = schedules.get(schedules.size() - 1).getId().toString();
         }
 
-        Set<MemoirType> memoirTypes = new HashSet<>();
-        List<ScheduleResponse.ScheduleInfoDTO> scheduleResponses = new ArrayList<>();
-
-        schedules.forEach(schedule -> {
-            schedule.getMemoirs().forEach(memoir -> memoirTypes.add(memoir.getType()));
-
-            scheduleResponses.add(ScheduleConverter.toInfoDTO(schedule, new ArrayList<>(memoirTypes)));
-        });
+        List<ScheduleResponse.ScheduleInfoDTO> scheduleResponses = schedules.stream()
+                .map(schedule -> {
+                    List<MemoirType> memoirTypes = schedule.getMemoirs().stream()
+                            .map(Memoir::getType)
+                            .distinct()
+                            .toList();
+                    return ScheduleConverter.toInfoDTO(schedule, memoirTypes);
+                }).toList();
 
         return CursorPage.of(size, nextCursor, hasNext, scheduleResponses);
     }
