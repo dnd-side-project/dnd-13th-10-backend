@@ -18,6 +18,9 @@ import com.seed.global.response.ErrorCode;
 import com.seed.global.response.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import com.seed.global.utils.ValidationUtil;
 import jakarta.validation.Valid;
@@ -55,8 +58,72 @@ public class MemoirController {
             summary = "면접 회고를 등록하는 API",
             description = "면접 회고를 등록하는 API 입니다.<br>"
                     + "- 넘어오는 type 필드 데이터를 동해 퀵/일반 회고를 구분합니다.<br>"
-                    + "- 만약 imTmp 필드 값이 true 로 전달될 경우 임시저장으로 구분하여 저장합니다. <br>"
-                    + "- 회고 타입에 따라 필수값 검증 로직이 실행 됩니다. 임시저장은 검증하지 않습니다."
+                    + "- 만약 isTmp 필드 값이 true 로 전달될 경우 임시저장으로 구분하여 저장합니다. <br>"
+                    + "- 회고 타입에 따라 필수값 검증 로직이 실행 됩니다. 임시저장은 검증하지 않습니다. <br>"
+                    + "- '일정 불러오기' 를 통해 회고를 작성하면 scheduleId 값을 전달해주고, 불러오지 않고 작성 시 scheduleId 값을 전달하지 않습니다."
+    )
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            required = true,
+            description = "요청 바디 예시(퀵/일반). 실제 바인딩은 MemoirProcRequest 단일 DTO를 사용합니다.",
+            content = @Content(
+                    schema = @Schema(implementation = MemoirProcRequest.class),
+                    examples = {
+                            @ExampleObject(
+                                    name = "QUICK 예시",
+                                    summary = "퀵 회고 전송 예시",
+                                    value = """
+                    {
+                      "scheduleId" : 1,
+                      "type": "10",
+                      "companyName": "토스",
+                      "position": "20",
+                      "interviewDate" : "2025-08-23",
+                      "interviewTime" : "17:55",
+                      "interviewFormat" : "30",
+                      "interviewMood" : "10",
+                      "satisfactionNote" : "30",
+                      "interviewStatus" : "10",
+                      "freeNote": "면접 끝나고 바로 적은 간단 메모",
+                      "questions": [
+                        { "questionType": "10", "title": "JPA N+1 해결법?", "order": 1 },
+                        { "questionType": "20", "title": "TCP 3-way handshake", "order": 2 }
+                      ],
+                      "isTmp": false,
+                      "isPublic": true
+                    }
+                    """
+                            ),
+                            @ExampleObject(
+                                    name = "GENERAL 예시",
+                                    summary = "일반 회고 전송 예시",
+                                    value = """
+                    {
+                      "scheduleId" : 1,
+                      "type": "10",
+                      "companyName": "토스",
+                      "position": "20",
+                      "interviewDate" : "2025-08-23",
+                      "interviewTime" : "11:22",
+                      "interviewFormat" : "30",
+                      "interviewMood" : "10",
+                      "satisfactionNote" : "30",
+                      "interviewStatus" : "10",
+                      "interviewLevel" : "10",
+                      "interviewMethod" : "20",
+                      "interviewStep" : "30",
+                      "freeNote": "전체 회고 작성",
+                      "questions": [
+                        { "questionType": "10", "title": "JPA N+1 해결법?", "answer": "페치 조인/EntityGraph", "order": 1 },
+                        { "questionType": "20", "title": "TCP 3-way handshake", "answer": "SYN/SYN-ACK/ACK", "order": 2 }
+                      ],
+                      "url": "https://example.com/detail",
+                      "isTmp": false,
+                      "isPublic": true
+                    }
+                    """
+                            )
+                    }
+            )
     )
     @PostMapping
     public ApiResponse<?> createMemoir(
@@ -83,8 +150,12 @@ public class MemoirController {
                     + "- 퀵/일반 회고 모두 조회합니다. (임시저장은 제외)"
     )
     @GetMapping
-    public ApiResponse<List<MemoirListResponse>> findListMemoir() {
-        List<MemoirListResponse> listMemoir = memoirService.findListMemoir();
+    public ApiResponse<CursorPage<List<MemoirListResponse>>> findListMemoir(
+            @RequestParam(required = false) String position,
+            @RequestParam(required = false) String cursor,
+            @RequestParam(required = false, defaultValue = "10") int size
+    ) {
+        CursorPage<List<MemoirListResponse>> listMemoir = memoirService.findListMemoir(position, cursor, size);
         return ApiResponse.success(listMemoir);
     }
 

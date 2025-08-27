@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface MemoirService {
     Long createMemoir(Long userId, MemoirProcRequest memoirProcRequest);
-    List<MemoirListResponse> findListMemoir();
+    List<MemoirListResponse> findListMemoir(String position);
     MemoirResponse findMemoirById(Long viewerId, Long memoirId);
     List<MineMemoirListResponse> findListMineMemoir(Long userId, SearchMemoirRequest searchMemoirRequest);
     List<MineMemoirListResponse> findListMineTmpMemoir(Long userId);

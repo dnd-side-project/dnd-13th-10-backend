@@ -46,8 +46,8 @@ public class MemoirServiceImpl implements MemoirService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<MemoirListResponse> findListMemoir() {
-        return memoirRepository.findListMemoir();
+    public List<MemoirListResponse> findListMemoir(String position) {
+        return memoirRepository.findListMemoir(position);
     }
 
     @Override

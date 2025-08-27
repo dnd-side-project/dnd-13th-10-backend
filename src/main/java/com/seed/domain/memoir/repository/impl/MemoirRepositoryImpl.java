@@ -21,7 +21,9 @@ import com.seed.domain.memoir.repository.dto.MemoirCursor;
 import com.seed.domain.memoir.repository.dto.MemoirDTO;
 import com.seed.domain.memoir.repository.dto.QMemoirDTO;
 import com.seed.domain.question.entity.QQuestion;
+import com.seed.domain.schedule.enums.Position;
 import com.seed.domain.user.entity.QUser;
+import com.seed.global.code.EnumCode;
 import com.seed.global.paging.CursorPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -46,7 +48,7 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<MemoirListResponse> findListMemoir() {
+    public List<MemoirListResponse> findListMemoir(String position) {
         QMemoir memoir = QMemoir.memoir;
         QQuestion qQuestion = QQuestion.question;
 
@@ -67,7 +69,10 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
                 .where(
                         memoir.isPublic.isTrue(),
                         memoir.isUse.isTrue(),
-                        memoir.isTmp.isFalse()
+                        memoir.isTmp.isFalse(),
+                        (position != null && !position.isEmpty())
+                                ? memoir.position.eq(EnumCode.valueOfCode(Position.class, position))
+                                : null
                 )
                 .orderBy(memoir.createdAt.desc())
                 .fetch();
