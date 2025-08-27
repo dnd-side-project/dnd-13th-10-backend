@@ -6,6 +6,7 @@ import com.seed.domain.comment.dto.response.SwaggerCommentApiResponse;
 import com.seed.domain.comment.service.CommentCommandService;
 import com.seed.domain.comment.service.CommentQueryService;
 import com.seed.domain.user.entity.User;
+import com.seed.global.paging.CursorPage;
 import com.seed.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -45,11 +46,14 @@ public class CommentController {
     @GetMapping("")
     @Operation(
             summary = "댓글 목록 조회 API",
-            description = "특정 회고의 달린 모든 댓글 목록을 조회합니다. 최신 댓글이 항상 마지막에 위치합니다."
+            description = "특정 회고의 달린 모든 댓글 목록을 조회합니다. 최신 댓글이 항상 마지막에 위치합니다. " +
+                    "부모 댓글에 대해서 커서 기반 페이지네이션이 적용되어 있습니다. 데이터 크기를 지정하지 않으면 기본적으로 10으로 설정합니다."
     )
-    public ApiResponse<List<CommentResponse.CommentInfoDTO>> getComments(
-            @PathVariable Long memoirId
+    public ApiResponse<CursorPage<List<CommentResponse.CommentInfoDTO>>> getComments(
+            @PathVariable Long memoirId,
+            @RequestParam(value = "cursor", required = false) String cursor,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size
     ) {
-        return ApiResponse.success(commentQueryService.getComments(memoirId));
+        return ApiResponse.success(commentQueryService.getComments(memoirId, cursor, size));
     }
 }

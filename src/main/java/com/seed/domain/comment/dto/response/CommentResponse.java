@@ -20,6 +20,7 @@ public class CommentResponse {
         private String author;
         private String profileImageUrl;
         private LocalDateTime createdAt;
+        private Boolean isParent;
         private List<CommentInfoDTO> children;
 
         public void setChildren(List<CommentInfoDTO> children) {

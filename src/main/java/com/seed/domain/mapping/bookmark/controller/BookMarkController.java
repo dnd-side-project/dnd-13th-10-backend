@@ -34,7 +34,7 @@ public class BookMarkController {
                     "북마크가 되어있지 않다면 북마크를 추가하고, bookMarked를 true로 전달합니다."
     )
     @PostMapping("/api/memoirs/{memoirId}/bookMarks")
-    public ApiResponse<BookMarkResponse> bookMark(@Parameter(name = "북마크 대상 회고 ID") @PathVariable("memoirId") Long memoirId,
+    public ApiResponse<BookMarkResponse> bookMark(@PathVariable("memoirId") Long memoirId,
                                                   @AuthenticationPrincipal User user) {
         return ApiResponse.success(bookMarkCommandService.toggleBookMark(user.getId(), memoirId));
     }

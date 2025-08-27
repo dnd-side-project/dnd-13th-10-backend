@@ -157,6 +157,11 @@ public class MemoirController {
      *
      * @return
      */
+    @Operation(
+            summary = "이번주 핫 회고 10 조회 API",
+            description = "1주일 기간 내 가장 많은 조회 수를 기록한 회고 상위 10개를 조회합니다. 조회수가 누적되어 계산되는 것이 아닌 " +
+                    "주어진 기간 내에서 가장 많은 조회 수를 기록한 회고를 조회하기에 매주마다 결과가 달라집니다."
+    )
     @GetMapping("/hot")
     public ApiResponse<List<HotMemoirListResponse>> findWeeklyTop10() {
         List<HotMemoirListResponse> listHotMemoir = memoirService.findWeeklyTop10();

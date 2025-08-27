@@ -45,17 +45,22 @@ class CommentQueryServiceTest {
 
         commentRepository.deleteAllInBatch();
 
-        user = User.builder()
-                .name("test")
-                .imageUrl("imageUrl")
-                .build();
-        userRepository.save(user);
+//        user = User.builder()
+//                .name("test")
+//                .imageUrl("imageUrl")
+//                .build();
+
+
+
+//        userRepository.save(user);
+        user = userRepository.findById(8L).get();
 
         memoir = Memoir.builder()
                 .companyName("카카오")
                 .interviewMood(InterviewMood.FRIENDLY)
                 .position(Position.ADMIN_LEGAL)
                 .type(MemoirType.QUICK)
+                .user(user)
                 .build();
         memoirRepository.save(memoir);
 
