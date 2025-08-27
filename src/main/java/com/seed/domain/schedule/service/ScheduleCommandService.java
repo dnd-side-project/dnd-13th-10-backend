@@ -53,6 +53,6 @@ public class ScheduleCommandService {
             throw new BusinessException(ErrorCode.UPDATE_FORBIDDEN);
         }
 
-        schedule.modifySchedule(requestDTO, null);
+        schedule.modifySchedule(requestDTO);
     }
 }

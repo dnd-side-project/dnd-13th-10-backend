@@ -6,6 +6,7 @@ import com.seed.domain.schedule.dto.request.ScheduleRequest;
 import com.seed.domain.schedule.enums.InterviewStep;
 import com.seed.domain.schedule.enums.Position;
 import com.seed.domain.user.entity.User;
+import com.seed.global.code.EnumCode;
 import com.seed.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,9 +26,11 @@ public class Schedule extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
-    private Company company;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "company_id")
+//    private Company company;
+
+    private String companyName;
 
     @Column(length = 2)
     @Convert(converter = Position.JpaConverter.class)
@@ -43,8 +46,6 @@ public class Schedule extends BaseEntity {
 
     private LocalDateTime interviewDatetime;
 
-    private String interviewPlace;
-
     public static Schedule ofId(Long scheduleId) {
         return Schedule.builder().id(scheduleId).build();
     }
@@ -55,21 +56,21 @@ public class Schedule extends BaseEntity {
     @OneToMany(mappedBy = "schedule")
     List<Memoir> memoirs = new ArrayList<>();
 
-    public void modifySchedule(ScheduleRequest.ScheduleUpdateRequestDTO requestDTO, Company company) {
+    public void modifySchedule(ScheduleRequest.ScheduleUpdateRequestDTO requestDTO) {
         if(requestDTO.getPosition() != null) {
-            this.position = requestDTO.getPosition();
+            this.position = EnumCode.valueOfCode(Position.class, requestDTO.getPosition());
         }
         if(requestDTO.getInterviewStep() != null) {
-            this.interviewStep = requestDTO.getInterviewStep();
+            this.interviewStep = EnumCode.valueOfCode(InterviewStep.class, requestDTO.getInterviewStep());
         }
-        if(requestDTO.getInterviewTime() != null) {
-            this.interviewDatetime = requestDTO.getInterviewTime();
+        if(requestDTO.getInterviewDateTime() != null) {
+            this.interviewDatetime = requestDTO.getInterviewDateTime();
         }
         if(requestDTO.getLocation() != null) {
             this.location = requestDTO.getLocation();
         }
-        if (company != null) {
-            this.company = company;
+        if (requestDTO.getCompanyName() != null) {
+            this.companyName = requestDTO.getCompanyName();
         }
     }
 

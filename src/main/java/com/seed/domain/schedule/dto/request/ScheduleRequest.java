@@ -17,10 +17,10 @@ public class ScheduleRequest {
     @Builder
     public static class ScheduleCreateRequestDTO {
         private String companyName;
-        private Position position;
+        private String position;
         private LocalDateTime interviewDateTime;
         private String location;
-        private InterviewStep interviewStep;
+        private String interviewStep;
     }
 
     @Getter
@@ -29,9 +29,9 @@ public class ScheduleRequest {
     @Builder
     public static class ScheduleUpdateRequestDTO {
         private String companyName;
-        private Position position;
-        private LocalDateTime interviewTime;
+        private String position;
+        private LocalDateTime interviewDateTime;
         private String location;
-        private InterviewStep interviewStep;
+        private String interviewStep;
     }
 }
