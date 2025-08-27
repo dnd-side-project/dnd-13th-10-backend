@@ -18,7 +18,8 @@ public class ScheduleRequest {
     public static class ScheduleCreateRequestDTO {
         private String companyName;
         private String position;
-        private LocalDateTime interviewDateTime;
+        private String interviewDate; // yyyy-MM-dd
+        private String interviewTime; // HH:mm
         private String location;
         private String interviewStep;
     }
@@ -30,7 +31,8 @@ public class ScheduleRequest {
     public static class ScheduleUpdateRequestDTO {
         private String companyName;
         private String position;
-        private LocalDateTime interviewDateTime;
+        private String interviewDate; // yyyy-MM-dd
+        private String interviewTime; // HH:mm
         private String location;
         private String interviewStep;
     }

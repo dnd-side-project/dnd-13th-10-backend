@@ -8,6 +8,7 @@ import com.seed.domain.schedule.enums.InterviewStep;
 import com.seed.domain.schedule.enums.Position;
 import com.seed.domain.user.entity.User;
 import com.seed.global.code.EnumCode;
+import com.seed.global.utils.DateUtil;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ public class ScheduleConverter {
     public static Schedule toSchedule(ScheduleRequest.ScheduleCreateRequestDTO requestDTO, User user) {
         Schedule schedule = Schedule.builder()
                 .position(EnumCode.valueOfCode(Position.class, requestDTO.getPosition()))
-                .interviewDatetime(requestDTO.getInterviewDateTime())
+                .interviewDatetime(DateUtil.combine(requestDTO.getInterviewDate(), requestDTO.getInterviewTime()))
                 .interviewStep(EnumCode.valueOfCode(InterviewStep.class, requestDTO.getInterviewStep()))
                 .location(requestDTO.getLocation())
                 .companyName(requestDTO.getCompanyName())
