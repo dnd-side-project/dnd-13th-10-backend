@@ -19,7 +19,7 @@ public class ScheduleResponse {
     public static class ScheduleInfoDTO {
         private Long id;
         private String companyName;
-        private Position position;
+        private String position;
         private LocalDateTime interviewDate;
         private String interviewStep;
         private int remainDate;
@@ -34,7 +34,7 @@ public class ScheduleResponse {
     public static class DetailDTO {
         private Long id;
         private String companyName;
-        private Position position;
+        private String position;
         private LocalDateTime interviewDate;
         private String interviewStep;
         private String location;

@@ -4,7 +4,10 @@ import com.seed.domain.memoir.enums.MemoirType;
 import com.seed.domain.schedule.dto.request.ScheduleRequest;
 import com.seed.domain.schedule.dto.response.ScheduleResponse;
 import com.seed.domain.schedule.entity.Schedule;
+import com.seed.domain.schedule.enums.InterviewStep;
+import com.seed.domain.schedule.enums.Position;
 import com.seed.domain.user.entity.User;
+import com.seed.global.code.EnumCode;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,10 +18,11 @@ public class ScheduleConverter {
 
     public static Schedule toSchedule(ScheduleRequest.ScheduleCreateRequestDTO requestDTO, User user) {
         Schedule schedule = Schedule.builder()
-                .position(requestDTO.getPosition())
+                .position(EnumCode.valueOfCode(Position.class, requestDTO.getPosition()))
                 .interviewDatetime(requestDTO.getInterviewDateTime())
-                .interviewStep(requestDTO.getInterviewStep())
+                .interviewStep(EnumCode.valueOfCode(InterviewStep.class, requestDTO.getInterviewStep()))
                 .location(requestDTO.getLocation())
+                .companyName(requestDTO.getCompanyName())
                 .build();
         schedule.setUser(user);
 
@@ -31,8 +35,8 @@ public class ScheduleConverter {
 
         return ScheduleResponse.ScheduleInfoDTO.builder()
                 .id(schedule.getId())
-                .position(schedule.getPosition())
-                .companyName(schedule.getCompany() != null ? schedule.getCompany().getName() : null)
+                .position(EnumCode.getDescriptionOrNull(schedule.getPosition()))
+                .companyName(schedule.getCompanyName())
                 .interviewDate(schedule.getInterviewDatetime())
                 .remainDate(remainDays)
                 .createdAt(schedule.getCreatedAt())
@@ -44,8 +48,8 @@ public class ScheduleConverter {
     public static ScheduleResponse.DetailDTO toDetailDTO(Schedule schedule) {
         return ScheduleResponse.DetailDTO.builder()
                 .id(schedule.getId())
-                .position(schedule.getPosition())
-                .companyName(schedule.getCompany() != null ? schedule.getCompany().getName() : null)
+                .position(EnumCode.getDescriptionOrNull(schedule.getPosition()))
+                .companyName(schedule.getCompanyName())
                 .interviewDate(schedule.getInterviewDatetime())
                 .interviewStep(schedule.getInterviewStep().getDescription())
                 .location(schedule.getLocation())

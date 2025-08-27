@@ -35,7 +35,7 @@ public class NotificationScheduler {
 
         for (Schedule schedule : schedules) {
             Long userId = schedule.getUser().getId();
-            String companyName = schedule.getCompany().getName();
+            String companyName = schedule.getCompanyName();
 
             // 며칠 지났는지 계산
             long daysElapsed = ChronoUnit.DAYS.between(schedule.getInterviewDatetime().toLocalDate(), LocalDate.now());
