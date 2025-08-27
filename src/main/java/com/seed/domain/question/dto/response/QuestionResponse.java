@@ -4,6 +4,7 @@ import com.seed.domain.question.entity.Question;
 import com.seed.global.code.EnumCode;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,7 @@ public class QuestionResponse {
     private int displayOrder;
 
     public static List<QuestionResponse> fromEntityList(List<Question> questions) {
-        if (questions == null || questions.isEmpty()) return null;
+        if (questions == null || questions.isEmpty()) return new ArrayList<>();
         return questions.stream().map(QuestionResponse::fromEntity).collect(Collectors.toList());
     }
 
