@@ -11,6 +11,7 @@ import com.seed.domain.question.entity.Question;
 import com.seed.domain.question.enums.QuestionType;
 import com.seed.domain.question.repository.QuestionQueryRepository;
 import com.seed.global.code.EnumCode;
+import com.seed.global.paging.CursorPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +24,7 @@ public class QuestionQueryRepositoryImpl implements QuestionQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<QuestionResponse> searchQuestions(QuestionSearchRequest searchReq) {
+    public CursorPage<List<QuestionResponse>> searchQuestions(QuestionSearchRequest searchReq, String cursor, int size) {
         QQuestion question = QQuestion.question;
         QMemoir memoir = QMemoir.memoir;
 
@@ -47,13 +48,29 @@ public class QuestionQueryRepositoryImpl implements QuestionQueryRepository {
             );
         }
 
+        if(cursor != null) {
+            Long cursorCondition = Long.parseLong(cursor);
+            builder.and(question.id.lt(cursorCondition));
+        }
+
         List<Question> listQuestion = queryFactory.selectFrom(question)
                 .join(memoir)
                 .on(question.id.eq(memoir.id))
                 .where(builder)
                 .orderBy(question.createdAt.desc())
+                .limit(size + 1)
                 .fetch();
 
-        return QuestionResponse.fromEntityList(listQuestion);
+        List<QuestionResponse> listQuestionRes = QuestionResponse.fromEntityList(listQuestion);
+
+        boolean hasNext = listQuestionRes.size() > size;
+        if (hasNext) listQuestionRes = listQuestionRes.subList(0, size);
+
+        String nextCursor = null;
+        if (hasNext && !listQuestionRes.isEmpty()) {
+            nextCursor = String.valueOf(listQuestionRes.get(listQuestionRes.size() - 1).getId());
+        }
+
+        return CursorPage.of(size, nextCursor, hasNext, listQuestionRes);
     }
 }

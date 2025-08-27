@@ -6,6 +6,7 @@ import com.seed.domain.question.repository.QuestionRepository;
 import com.seed.domain.question.service.QuestionService;
 import com.seed.domain.user.dto.request.CreateUserSearchHistRequest;
 import com.seed.domain.user.service.UserSearchHistService;
+import com.seed.global.paging.CursorPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -19,14 +20,16 @@ public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepository questionRepository;
     private final UserSearchHistService userSearchHistService;
 
-    public List<QuestionResponse> searchQuestions(Long userId, QuestionSearchRequest searchReq) {
+    public CursorPage<List<QuestionResponse>> searchQuestions(
+            Long userId, QuestionSearchRequest searchReq, String cursor, int size
+    ) {
 
         if (StringUtils.hasText(searchReq.condition())) {
             userSearchHistService.upsert(CreateUserSearchHistRequest.builder()
                     .userId(userId).content(searchReq.condition()).build());
         }
 
-        return questionRepository.searchQuestions(searchReq);
+        return questionRepository.searchQuestions(searchReq, cursor, size);
     }
 
 }
