@@ -44,9 +44,9 @@ public class MemoirProcRequest {
 
     // TODO : 일정을 통해 면접 회고 등록 시 양방향 연관관계 매핑!
     public static Memoir toEntity(Long userId, MemoirProcRequest req) {
-        return Memoir.builder()
+        Memoir memoir = Memoir.builder()
                 .user(User.ofId(userId)) // FK 참조만 세팅
-                .schedule(req.getScheduleId() == null ? null : Schedule.ofId(req.getScheduleId()))
+//                .schedule(req.getScheduleId() == null ? null : Schedule.ofId(req.getScheduleId()))
                 .type(EnumCode.valueOfCode(MemoirType.class, req.getType()))
                 .interviewFormat(EnumCode.valueOfCode(InterviewFormat.class, req.getInterviewFormat()))
                 .interviewMood(EnumCode.valueOfCode(InterviewMood.class, req.getInterviewMood()))
@@ -64,5 +64,11 @@ public class MemoirProcRequest {
                 .isPublic(req.isPublic())
                 .likeCount(0)
                 .build();
+
+        if(req.getScheduleId() != null) {
+            memoir.setSchedule(Schedule.ofId(req.getScheduleId()));
+        }
+
+        return memoir;
     }
 }

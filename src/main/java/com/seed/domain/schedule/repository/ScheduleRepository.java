@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
+public interface ScheduleRepository extends JpaRepository<Schedule, Long>, ScheduleQueryRepository {
     @Query("select s from Schedule s where s.user.id = :userId order by s.id desc ")
     List<Schedule> findAllOrderByIdDesc(@Param("userId") Long userId);
     List<Schedule> findByInterviewDatetimeBeforeAndMemoirsIsEmpty(LocalDateTime dateTime);

@@ -162,4 +162,9 @@ public class Memoir extends BaseEntity {
                 .id(id)
                 .build();
     }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+        schedule.getMemoirs().add(this);
+    }
 }
