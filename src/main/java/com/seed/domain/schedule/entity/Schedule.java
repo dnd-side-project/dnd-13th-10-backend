@@ -8,6 +8,7 @@ import com.seed.domain.schedule.enums.Position;
 import com.seed.domain.user.entity.User;
 import com.seed.global.code.EnumCode;
 import com.seed.global.entity.BaseEntity;
+import com.seed.global.utils.DateUtil;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
@@ -65,8 +66,8 @@ public class Schedule extends BaseEntity {
         if(requestDTO.getInterviewStep() != null) {
             this.interviewStep = EnumCode.valueOfCode(InterviewStep.class, requestDTO.getInterviewStep());
         }
-        if(requestDTO.getInterviewDateTime() != null) {
-            this.interviewDatetime = requestDTO.getInterviewDateTime();
+        if(requestDTO.getInterviewDate() != null && requestDTO.getInterviewTime() != null) {
+            this.interviewDatetime = DateUtil.combine(requestDTO.getInterviewDate(), requestDTO.getInterviewTime());
         }
         if(requestDTO.getLocation() != null) {
             this.location = requestDTO.getLocation();

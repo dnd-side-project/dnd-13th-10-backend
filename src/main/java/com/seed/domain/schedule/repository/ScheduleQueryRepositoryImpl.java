@@ -11,15 +11,13 @@ import com.seed.domain.schedule.entity.QSchedule;
 import com.seed.domain.schedule.entity.Schedule;
 import com.seed.global.paging.CursorPage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class ScheduleQueryRepositoryImpl implements ScheduleQueryRepository {
 
     private final JPAQueryFactory queryFactory;
