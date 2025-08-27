@@ -99,7 +99,7 @@ public class MemoirController {
                                     value = """
                     {
                       "scheduleId" : 1,
-                      "type": "10",
+                      "type": "20",
                       "companyName": "토스",
                       "position": "20",
                       "interviewDate" : "2025-08-23",
@@ -195,7 +195,8 @@ public class MemoirController {
     @Operation(
             summary = "내가 작성한 회고 리스트 조회 API",
             description = "내가 작성한 회고 리스트 조회 API 입니다. <br>"
-                    + "- 해당 API 호출시 내가 작성한 퀵/일반 회고 리스트를 조회하지만, 임시저장된 건에 대해서는 가져오지 않습니다."
+                    + "- 해당 API 호출시 내가 작성한 퀵/일반 회고 리스트를 조회하지만, 임시저장된 건에 대해서는 가져오지 않습니다.<br>"
+                    + "- searchType(검색타입) : 10(퀵회고), 20(일반회고)"
     )
     @GetMapping("/mine")
     public ApiResponse<List<MineMemoirListResponse>> findMineMemoir(
