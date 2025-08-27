@@ -25,7 +25,8 @@ public class UserSearchHistController {
 
     @Operation(
             summary = "사용자의 검색 기록 조회 API",
-            description = "사용자의 검색 기록을 조회하는 API 입니다."
+            description = "사용자의 검색 기록을 조회하는 API 입니다. <br>"
+                    + "- 면접 질문 API 에 condition 값을 주고 조회를 할 경우에 해당 사용자의 검색기록이 생성됩니다. (이후 조회 가능!)"
     )
     @GetMapping
     public ApiResponse<List<UserSearchHistResponse>> findListUserSearchHist(@AuthenticationPrincipal User user) {
