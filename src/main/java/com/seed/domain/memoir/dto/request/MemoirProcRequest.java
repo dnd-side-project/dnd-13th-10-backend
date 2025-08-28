@@ -49,6 +49,15 @@ public class MemoirProcRequest {
         return isPublic;
     }
 
+    public void setTmp(boolean tmp) {
+        this.isTmp = tmp;
+    }
+
+    public void setPublic(boolean isPublic) {
+        this.isPublic = isPublic;
+    }
+
+
     // TODO : 일정을 통해 면접 회고 등록 시 양방향 연관관계 매핑!
     public static Memoir toEntity(Long userId, MemoirProcRequest req) {
         Memoir memoir = Memoir.builder()
