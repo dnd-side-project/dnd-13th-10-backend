@@ -1,6 +1,7 @@
 package com.seed.domain.user.converter;
 
 import com.seed.domain.user.dto.request.CreateUserSearchHistRequest;
+import com.seed.domain.user.dto.response.UserInfoResponse;
 import com.seed.domain.user.dto.response.UserSearchHistResponse;
 import com.seed.domain.user.entity.User;
 import com.seed.domain.user.entity.UserSearchHist;
@@ -18,6 +19,13 @@ public class UserConverter {
         return UserSearchHist.builder()
                 .user(User.ofId(createUserSearchHistRequest.getUserId()))
                 .content(createUserSearchHistRequest.getContent())
+                .build();
+    }
+
+    public static UserInfoResponse toUserInfoResponse(User user) {
+        return UserInfoResponse.builder()
+                .username(user.getName())
+                .profileImageUrl(user.getImageUrl())
                 .build();
     }
 }

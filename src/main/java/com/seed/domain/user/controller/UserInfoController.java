@@ -1,8 +1,10 @@
 package com.seed.domain.user.controller;
 
 import com.seed.domain.user.dto.request.UserInfoUpdateRequest;
+import com.seed.domain.user.dto.response.UserInfoResponse;
 import com.seed.domain.user.entity.User;
 import com.seed.domain.user.service.UserCommandService;
+import com.seed.domain.user.service.UserQueryService;
 import com.seed.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,6 +27,16 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserInfoController {
 
     private final UserCommandService userCommandService;
+    private final UserQueryService userQueryService;
+
+    @Operation(
+            summary = "회원 프로필 조회 API",
+            description = "현재 로그인한 회원의 프로필을 조회합니다."
+    )
+    @GetMapping("/profile")
+    public ApiResponse<UserInfoResponse> getProfile(@AuthenticationPrincipal User user) {
+        return ApiResponse.success(userQueryService.getUserInfo(user.getId()));
+    }
 
     @Operation(
             summary = "프로필 정보 수정 API",
@@ -60,7 +72,6 @@ public class UserInfoController {
             @Parameter(description = "프로필 이미지 파일")
             @RequestPart(value = "profileImage", required = false) MultipartFile profileImage
     ) {
-
         log.info("Content-Type: {}", httpRequest.getContentType());
         log.info("Request: {}", request);
         log.info("ProfileImage: {}", profileImage != null ? profileImage.getOriginalFilename() : "null");

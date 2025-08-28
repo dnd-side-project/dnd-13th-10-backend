@@ -74,7 +74,7 @@ public class OAuth2AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         log.info("Cookie created : {}", createCookie("refreshToken", refreshToken, 60 * 60 * 24 * 7));
 
         // 프론트엔드 페이지로 리다이렉트
-        redirectURL = UriComponentsBuilder.fromUriString(frontendUrl + "?token=" + accessToken)
+        redirectURL = UriComponentsBuilder.fromUriString(frontendUrl + "?token=" + accessToken + "&refresh=" + refreshToken)
                 .build()
                 .encode(StandardCharsets.UTF_8)
                 .toUriString();
