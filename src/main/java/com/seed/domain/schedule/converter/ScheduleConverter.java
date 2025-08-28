@@ -20,7 +20,7 @@ public class ScheduleConverter {
     public static Schedule toSchedule(ScheduleRequest.ScheduleCreateRequestDTO requestDTO, User user) {
         Schedule schedule = Schedule.builder()
                 .position(EnumCode.valueOfCode(Position.class, requestDTO.getPosition()))
-                .interviewDatetime(DateUtil.combine(requestDTO.getInterviewDate(), requestDTO.getInterviewTime()))
+                .interviewDatetime(requestDTO.getInterviewDateTime())
                 .interviewStep(EnumCode.valueOfCode(InterviewStep.class, requestDTO.getInterviewStep()))
                 .location(requestDTO.getLocation())
                 .companyName(requestDTO.getCompanyName())

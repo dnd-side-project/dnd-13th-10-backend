@@ -66,8 +66,8 @@ public class Schedule extends BaseEntity {
         if(requestDTO.getInterviewStep() != null) {
             this.interviewStep = EnumCode.valueOfCode(InterviewStep.class, requestDTO.getInterviewStep());
         }
-        if(requestDTO.getInterviewDate() != null && requestDTO.getInterviewTime() != null) {
-            this.interviewDatetime = DateUtil.combine(requestDTO.getInterviewDate(), requestDTO.getInterviewTime());
+        if(requestDTO.getInterviewDateTime() != null) {
+            this.interviewDatetime = requestDTO.getInterviewDateTime();
         }
         if(requestDTO.getLocation() != null) {
             this.location = requestDTO.getLocation();
