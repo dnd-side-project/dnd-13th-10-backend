@@ -29,7 +29,7 @@ public class QuestionServiceImpl implements QuestionService {
                     .userId(userId).content(searchReq.condition()).build());
         }
 
-        return questionRepository.searchQuestions(searchReq, cursor, size);
+        return questionRepository.searchQuestions(userId, searchReq, cursor, size);
     }
 
 }

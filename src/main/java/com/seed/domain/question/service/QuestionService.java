@@ -14,7 +14,7 @@ public interface QuestionService {
      * @param searchReq
      * @return
      */
-    CursorPage<List<QuestionResponse>> searchQuestions(
+    CursorPage<List<QuestionResponse>>  searchQuestions(
             Long userId, QuestionSearchRequest searchReq, String cursor, int size
     );
 
