@@ -1,5 +1,6 @@
 package com.seed.domain.memoir.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.seed.domain.attachment.entity.Attachment;
 import com.seed.domain.memoir.dto.request.MemoirProcRequest;
 import com.seed.domain.memoir.enums.*;
@@ -118,6 +119,16 @@ public class Memoir extends BaseEntity {
     @Column(columnDefinition = "TINYINT(1) DEFAULT 1")
     private boolean isUse = true;
 
+    @JsonProperty("isTmp")
+    public boolean isTmp() {
+        return isTmp;
+    }
+
+    @JsonProperty("isPublic")
+    public boolean isPublic() {
+        return isPublic;
+    }
+
     public void addQuestions(List<Question> qs) {
         if (qs == null) return;
         for (Question q : qs) {
@@ -157,14 +168,14 @@ public class Memoir extends BaseEntity {
         this.isUse = false;
     }
 
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+        schedule.getMemoirs().add(this);
+    }
+
     public static Memoir ofId(Long id) {
         return Memoir.builder()
                 .id(id)
                 .build();
-    }
-
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
-        schedule.getMemoirs().add(this);
     }
 }

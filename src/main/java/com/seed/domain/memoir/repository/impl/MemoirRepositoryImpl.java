@@ -80,7 +80,7 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
                 .on(qQuestion.memoir.eq(memoir)
                         .and(qQuestion.displayOrder.eq(1)))
                 .where(condition)
-                .orderBy(memoir.createdAt.desc())
+                .orderBy(memoir.id.desc())
                 .limit(size + 1)
                 .fetch();
 
