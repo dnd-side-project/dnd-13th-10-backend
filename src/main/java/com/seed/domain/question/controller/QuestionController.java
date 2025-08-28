@@ -32,7 +32,8 @@ public class QuestionController {
                     + "- 쿼리 파라미터를 통해 검색 조건을 설정합니다. *가 붙은건 필수 값입니다. <br>"
                     + "- * type(질문타입) : 10(인성), 20(직무), 30(경험), 40(회사), 50(꼬리) <br>"
                     + "- * memoirType(회고타입) : 10(퀵), 20(일반) <br>"
-                    + "- condition(검색어) : 입력된 검색어가 질문 혹은 질문에 대한 답변 like 검색"
+                    + "- condition(검색어) : 입력된 검색어가 질문 혹은 질문에 대한 답변 like 검색 <br>"
+                    + "- mine(자기가 작성한 건에 대한 여부) : 기본 false, 만약 ture 값으로 주면 내가 작성한 회고에 대해서만.."
     )
     @GetMapping
     public ApiResponse<CursorPage<List<QuestionResponse>>> getAllQuestions(

@@ -24,7 +24,7 @@ public class QuestionQueryRepositoryImpl implements QuestionQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public CursorPage<List<QuestionResponse>> searchQuestions(QuestionSearchRequest searchReq, String cursor, int size) {
+    public CursorPage<List<QuestionResponse>> searchQuestions(Long userId, QuestionSearchRequest searchReq, String cursor, int size) {
         QQuestion question = QQuestion.question;
         QMemoir memoir = QMemoir.memoir;
 
@@ -48,6 +48,10 @@ public class QuestionQueryRepositoryImpl implements QuestionQueryRepository {
             );
         }
 
+        if (searchReq.isMine()) {
+            builder.and(memoir.user.id.eq(userId));
+        }
+
         if(cursor != null) {
             Long cursorCondition = Long.parseLong(cursor);
             builder.and(question.id.lt(cursorCondition));
@@ -55,9 +59,9 @@ public class QuestionQueryRepositoryImpl implements QuestionQueryRepository {
 
         List<Question> listQuestion = queryFactory.selectFrom(question)
                 .join(memoir)
-                .on(question.id.eq(memoir.id))
+                .on(question.memoir.id.eq(memoir.id))
                 .where(builder)
-                .orderBy(question.createdAt.desc())
+                .orderBy(question.id.desc())
                 .limit(size + 1)
                 .fetch();
 
