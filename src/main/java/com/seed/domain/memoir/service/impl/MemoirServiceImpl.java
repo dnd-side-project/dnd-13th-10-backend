@@ -81,6 +81,7 @@ public class MemoirServiceImpl implements MemoirService {
         return memoirRes;
     }
 
+
     @Override
     @Transactional(readOnly = true)
     public List<MineMemoirListResponse> findListMineMemoir(Long userId, SearchMemoirRequest searchType) {
