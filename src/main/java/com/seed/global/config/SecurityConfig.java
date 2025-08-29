@@ -97,7 +97,8 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000",    // React 개발 서버
                 "http://localhost:8080",     // 같은 서버
-                "https://devseed.store"
+                "https://devseed.store",
+                "https://seedseed.site"
         ));
 
         // 허용할 HTTP 메서드
