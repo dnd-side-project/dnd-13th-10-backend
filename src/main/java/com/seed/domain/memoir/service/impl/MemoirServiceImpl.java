@@ -1,5 +1,8 @@
 package com.seed.domain.memoir.service.impl;
 
+import com.seed.domain.mapping.bookmark.repository.BookMarkRepository;
+import com.seed.domain.mapping.bookmark.service.BookMarkQueryService;
+import com.seed.domain.mapping.like.service.LikeQueryService;
 import com.seed.domain.memoir.dto.request.MemoirProcRequest;
 import com.seed.domain.memoir.dto.request.SearchMemoirRequest;
 import com.seed.domain.memoir.dto.response.HotMemoirListResponse;
@@ -29,6 +32,8 @@ import java.util.stream.Collectors;
 public class MemoirServiceImpl implements MemoirService {
 
     private final MemoirRepository memoirRepository;
+    private final LikeQueryService likeQueryService;
+    private final BookMarkQueryService bookMarkQueryService;
 
     @Override
     @Transactional
@@ -57,6 +62,10 @@ public class MemoirServiceImpl implements MemoirService {
         Memoir memoir = memoirRepository.findById(memoirId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "해당 회고 정보를 찾을 수 없습니다."));
 
+        /// 여기서 memoir id 를 가지고 viewerId 를 통해 Like 테이블 조회해서 여부 체크후 담기?
+        boolean liked = likeQueryService.isLiked(viewerId, memoirId);
+        boolean bookMark = bookMarkQueryService.isBookMark(viewerId, memoirId);
+
         // 읽으려고 하는 회고가 임시 저장 글인데 읽으려는 사용자가 해당 회고의 작성자가 아니라면 읽을 수 없다고 에러 반환
         // + 읽으려고 하는 회고가 공개된 글이 아닐때 읽으려는 사용자가 해당 회고의 작성자가 아니라면 읽을 수 없다고 에러 반환
         if (
@@ -66,7 +75,10 @@ public class MemoirServiceImpl implements MemoirService {
             throw new BusinessException(ErrorCode.FORBIDDEN);
         }
 
-        return MemoirResponse.fromEntity(memoir);
+        MemoirResponse memoirRes = MemoirResponse.fromEntity(memoir);
+        memoirRes.setLikedAndBookmarked(liked, bookMark);
+
+        return memoirRes;
     }
 
     @Override
