@@ -140,6 +140,7 @@ public class MemoirRepositoryImpl implements MemoirQueryRepository {
                         u.name,               // String userName
                         m.companyName,        // String companyName
                         m.position,           // Position enum (DTO에서 description 변환)
+                        m.interviewStatus,     // 인터뷰 상태 추가
                         q.title,              // String firstQuestion (displayOrder=1)
                         u.imageUrl,           // String imageUrl
                         m.createdAt,          // LocalDateTime createdAt
