@@ -26,4 +26,9 @@ public class BookMarkQueryService {
                 bookMark -> CommonMemoirConverter.fromEntity(bookMark.getMemoir())
         ).toList();
     }
+
+    public boolean isBookMark(Long viewerId, Long memoirId) {
+        if (viewerId == null) return false; // 비로그인 등
+        return bookMarkRepository.existsByUserIdAndMemoirId(viewerId, memoirId);
+    }
 }

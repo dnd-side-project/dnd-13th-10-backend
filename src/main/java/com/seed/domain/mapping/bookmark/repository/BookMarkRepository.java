@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BookMarkRepository extends JpaRepository<BookMark, Long> {
+    boolean existsByUserIdAndMemoirId(Long userId, Long memoirId);
 
     Optional<BookMark> findByUserIdAndMemoirId(Long userId, Long memoirId);
 

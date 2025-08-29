@@ -26,4 +26,9 @@ public class LikeQueryService {
                 .map(like -> CommonMemoirConverter.fromEntity(like.getMemoir())).toList();
     }
 
+    public boolean isLiked(Long viewerId, Long memoirId) {
+        if (viewerId == null) return false; // 비로그인 등
+        return likeRepository.existsByUserIdAndMemoirId(viewerId, memoirId);
+    }
+
 }

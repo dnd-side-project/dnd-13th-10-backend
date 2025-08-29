@@ -48,6 +48,10 @@ public class MemoirResponse {
     private boolean isTmp;
     @Getter(AccessLevel.NONE)        // Lombok이 isPublic() 안 만들게
     private boolean isPublic;
+    @Getter(AccessLevel.NONE)
+    private boolean isLiked;
+    @Getter(AccessLevel.NONE)
+    private boolean isBookmarked;
     private LocalDateTime createdAt;
 
     @JsonProperty("isTmp")        // JSON 키를 'isTmp'로 고정
@@ -58,6 +62,16 @@ public class MemoirResponse {
     @JsonProperty("isPublic")        // JSON 키를 'isPublic'로 고정
     public boolean getIsPublic() {
         return isPublic;
+    }
+
+    @JsonProperty("isLiked")
+    public boolean getIsLiked() {
+        return isLiked;
+    }
+
+    @JsonProperty("isBookmarked")
+    public boolean getIsBookmarked() {
+        return isBookmarked;
     }
 
     public static MemoirResponse fromEntity(Memoir memoir) {
@@ -86,5 +100,10 @@ public class MemoirResponse {
                 .isPublic(memoir.isPublic())
                 .createdAt(memoir.getCreatedAt())
                 .build();
+    }
+
+    public void setLikedAndBookmarked(boolean liked, boolean bookmarked) {
+        this.isLiked = liked;
+        this.isBookmarked = bookmarked;
     }
 }
