@@ -71,7 +71,7 @@ public class SecurityConfig {
                 // === OAuth2 로그인 설정 ===
                 .oauth2Login(oauth2 -> oauth2
                         // 로그인 페이지 URL
-                        .loginPage("https://www.seedseed.site/")
+                        .loginPage("https://www.seedseed.site")
 
                         // 카카오 사용자 정보 처리 서비스
                         .userInfoEndpoint(userInfo ->
