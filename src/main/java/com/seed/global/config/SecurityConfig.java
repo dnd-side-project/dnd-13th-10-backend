@@ -71,7 +71,7 @@ public class SecurityConfig {
                 // === OAuth2 로그인 설정 ===
                 .oauth2Login(oauth2 -> oauth2
                         // 로그인 페이지 URL
-                        .loginPage("https://devseed.store/login")
+                        .loginPage("https://devseed.click/login")
 
                         // 카카오 사용자 정보 처리 서비스
                         .userInfoEndpoint(userInfo ->
@@ -97,7 +97,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000",    // React 개발 서버
                 "http://localhost:8080",     // 같은 서버
-                "https://devseed.store",
+                "https://devseed.click",
                 "https://seedseed.site",
                 "https://www.seedseed.site"
         ));
