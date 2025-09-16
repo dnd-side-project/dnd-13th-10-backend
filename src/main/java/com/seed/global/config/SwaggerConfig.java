@@ -30,7 +30,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(info)
                 .addServersItem(new Server().url("http://localhost:8080").description("Local"))
-                .addServersItem(new Server().url("https://devseed.store").description("Production"))
+                .addServersItem(new Server().url("https://devseed.click").description("Production"))
                 .addSecurityItem(securityRequirement)
                 .components(components);
     }
